@@ -1,0 +1,25 @@
+criterion,delta,alt1,alt2,alt3,winner
+acc,-0.1,3.32,2.83,4.207,Alt3 Hybrid
+acc,-0.05,3.36,2.84,4.253,Alt3 Hybrid
+acc,0.05,3.44,2.86,4.347,Alt3 Hybrid
+acc,0.1,3.48,2.87,4.393,Alt3 Hybrid
+cost,-0.1,3.2,2.956,4.337,Alt3 Hybrid
+cost,-0.05,3.3,2.903,4.319,Alt3 Hybrid
+cost,0.05,3.5,2.797,4.281,Alt3 Hybrid
+cost,0.1,3.6,2.744,4.262,Alt3 Hybrid
+lat,-0.1,3.565,3.068,4.335,Alt3 Hybrid
+lat,-0.05,3.482,2.959,4.318,Alt3 Hybrid
+lat,0.05,3.318,2.741,4.282,Alt3 Hybrid
+lat,0.1,3.235,2.632,4.265,Alt3 Hybrid
+real,-0.1,3.682,2.597,4.218,Alt3 Hybrid
+real,-0.05,3.541,2.724,4.259,Alt3 Hybrid
+real,0.05,3.259,2.976,4.341,Alt3 Hybrid
+real,0.1,3.118,3.103,4.382,Alt3 Hybrid
+priv,-0.1,3.212,2.95,4.335,Alt3 Hybrid
+priv,-0.05,3.306,2.9,4.318,Alt3 Hybrid
+priv,0.05,3.494,2.8,4.282,Alt3 Hybrid
+priv,0.1,3.588,2.75,4.265,Alt3 Hybrid
+dev,-0.1,3.556,2.611,4.444,Alt3 Hybrid
+dev,-0.05,3.478,2.731,4.372,Alt3 Hybrid
+dev,0.05,3.322,2.969,4.228,Alt3 Hybrid
+dev,0.1,3.244,3.089,4.156,Alt3 Hybrid

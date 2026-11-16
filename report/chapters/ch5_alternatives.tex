@@ -1,0 +1,287 @@
+%% ============================================================================
+%% ch5_alternatives.tex -- Chapter 5: חלופות תכן, בחירת פתרון וחדשנות
+%% budget: body pages 23-30 (8 pages)
+%% Weights and integer scores were frozen in PRD.md BEFORE totals were computed;
+%% totals and sensitivity come from scripts/generate_beauty_benchmarks.py.
+%% ============================================================================
+\chapter{חלופות תכן, בחירת פתרון וחדשנות}
+\label{ch:design}
+
+\begin{managerbox}
+ההחלטה היקרה ביותר בפרויקט היא בחירת הארכיטקטורה: היא קובעת את העלות לכל משתמשת, את רמת הפרטיות ואת לוח הזמנים. הפרק מראה שנבחנו שלוש חלופות שונות במהותן, לפי קריטריונים ומשקלים שנקבעו לפני הניקוד, ושההחלטה נשארת יציבה גם כשמשנים את המשקלים. ההחלטה היא תוצאה של שיקול דעת ולא ברירת מחדל.
+\end{managerbox}
+
+הפרק מתעד תהליך תכן הנדסי שיטתי (\enlong{Engineering Design Process}) \cite{ulrich2020product} בארבעה שלבים: הצגת החלופות, מטריצת החלטה משוקללת וניתוח רגישות, ארכיטקטורת הפתרון שנבחר, והחדשנות שלו.
+
+\section{שלב ראשון: שלוש חלופות שונות עקרונית}
+\label{sec:alts}
+
+שלוש החלופות נבדלות בשאלה אחת: היכן מתבצע החישוב. חלופות \num{1} ו-\num{2} הן שני קצוות, וחלופה \num{3} מפצלת את המערכת לפי אופי כל רכיב: רכיבים רגישים לפרטיות וקלים נשארים במכשיר, רכיבים זולים ומהירים עוברים לענן, והרכיב היקר מופעל רק כשהוא ממומן. טבלה~\ref{tab:alts} מסכמת את היתרון ואת המחיר של כל אחת.
+
+\begin{reporttable}{שלוש חלופות התכן, עם היתרון והמחיר של כל אחת}{tab:alts}{P{3.4cm} R R}
+\headrow \hc{חלופה} & \hc{היתרון} & \hc{המחיר} \\ \midrule
+\num{1}: עיבוד מלא בקצה (\en{CoreML}, \en{MediaPipe}, דיפוזיה מכווצת) & אפס עלות ענן ופרטיות מרבית & התחממות, זיכרון \num{< 4 GB}, איכות הדמיה נמוכה \\
+\num{2}: ענן מונוליטי (מודל שפה רב-מודאלי ודיפוזיה כללית) & זמן פיתוח קצר והסקה עשירה & \num{\$0.12} לסשן, \num{> 9 s}, שליטה חלשה בגזרת ה-\en{SKU} \\
+\num{3}: חישוב מפוצל היברידי עם \en{RAG} ושער & דיוק, המלצה ב-\num{$\le 1.5$ s} ב-\num{\$0.002} & מורכבות אינטגרציה ותלות בשער \\
+\end{reporttable}
+
+\textbf{חלופה \num{1}, עיבוד מלא בקצה.} כל הצינור רץ על המכשיר: איתור נקודות ציון בעזרת \en{MediaPipe}, כיול צבע, מודל גוף מוקטן, מנוע המלצה מקומי ומודל דיפוזיה מכווץ. היתרונות ברורים: אין עלות שרת, והתמונה אינה עוזבת את המכשיר. המחיר טכני: מודל דיפוזיה שמתאים לזיכרון של פחות מ-\num{4 GB} מאבד חלק ניכר מהאיכות, במיוחד בקפלי בד מורכבים, והפעלה ממושכת שלו גורמת להתחממות ולהאטה (\en{Thermal Throttling}). בנוסף, קטלוג של עשרות אלפי פריטים ועדכון טרנדים כל \num{6} שעות אינם מתאימים לאחסון ולעדכון במכשיר.
+
+\textbf{חלופה \num{2}, ענן מונוליטי.} התמונה נשלחת למודל שפה רב-מודאלי מסחרי, שמנתח אותה ומחזיר המלצות בשפה טבעית, ומודל דיפוזיה כללי מייצר את ההדמיה. זו הדרך המהירה ביותר לאב-טיפוס. המחיר: עלות של כ-\num{\$0.12} לסשן (אומדן הצוות, טוקנים ודיפוזיה), זמן תגובה של יותר מ-\num{9 s}, והעברת תמונות פנים לספק חיצוני. החיסרון ההנדסי העמוק הוא היעדר שליטה דטרמיניסטית: מודל דיפוזיה כללי "מדמיין" בגד דומה ולא את הפריט המדויק מהקטלוג, ומודל השפה אינו מכייל צבע. הוא מקבל את התמונה המעוותת ומתאר אותה.
+
+\textbf{חלופה \num{3}, חישוב מפוצל היברידי.} במכשיר רצים רק הרכיבים הקלים והרגישים: איתור העין והפנים, כיול הצבע לפי עוגני העין, ואיתור נקודות ציון של הגוף והיד. לענן נשלחים רק וקטורים: צבע מכויל, נקודות ציון וגובה מדווח. בענן רצים התאמת מודל \en{SMPL-X}, אחזור וקטורי מהקטלוג ומגרף הטרנדים, ומנוע ההמלצה, בעלות של כ-\num{\$0.002} לשאילתה. מודל ההדמיה, המבוסס על מאמר הדגל לאחר זיקוק, מופעל רק אחרי שהשער נפתח. המחיר הוא מורכבות: שלושה ממשקים בין רכיבים, ותלות בכך שהשער אכן ממומן.
+
+\subsection{סינון ראשוני מול המפרט}
+לפני הניקוד המשוקלל נבדק אם כל חלופה מסוגלת, עקרונית, לעמוד בדרישות המפרט (טבלה~\ref{tab:feasible}). זהו סינון של "עובר או נכשל", שמבחין בין חולשה שאפשר לפצות עליה לבין מגבלה מבנית.
+
+\begin{reporttable}[\footnotesize]{היתכנות עקרונית של כל חלופה מול דרישות מפתח במפרט}{tab:feasible}{R Q{1.9cm} Q{1.9cm} Q{1.9cm}}
+\headrow \hc{דרישה} & \hc{\num{1}: קצה} & \hc{\num{2}: ענן} & \hc{\num{3}: היברידי} \\ \midrule
+\en{REQ-VIS-01} כיול צבע & \cellok & \cellpartial{} ללא עוגן & \cellok \\
+\en{REQ-BOD-03} היקפי גוף & \cellpartial{} מודל מוקטן & \cellpartial{} ללא מודל גוף & \cellok \\
+\en{REQ-LAT-05} המלצה \num{1.8 s} & \cellok & \cellno{} \num{> 9 s} & \cellok \\
+\en{REQ-GEN-06} הדמיה \num{4.5 s} & \cellno{} התחממות & \cellno{} \num{> 9 s} & \cellpartial{} על הגבול \\
+\en{REQ-GEN-07} שמירת זהות & \cellno{} איכות נמוכה & \cellok & \cellok \\
+\en{REQ-TRD-09} עדכניות \num{6} שעות & \cellno{} עדכון מכשירים & \cellok & \cellok \\
+\en{REQ-SEC-11} פרטיות & \cellok & \cellno{} תמונות לספק & \cellok \\
+\en{REQ-BIZ-12} מרווח \num{2.4×} & \cellok{} אין עלות & \cellno{} \num{\$0.12} & \cellpartial{} רק אחרי זיקוק \\
+\end{reporttable}
+
+הטבלה מראה שחלופה \num{2} נכשלת בארבע דרישות במבנה שלה, וחלופה \num{1} נכשלת בשלוש, בהן שתי דרישות של הדמיה. חלופה \num{3} אינה נכשלת באף דרישה, אך שתיים מסומנות כחלקיות: זמן ההדמיה והמרווח הכלכלי. שתיהן תלויות באותו גורם, זיקוק מודל ההדמיה, ולכן הוא מוגדר כמשימה בנתיב הסיכון. הסינון אינו מכריע לבדו: הוא מבטיח שהמטריצה המשוקללת תשווה בין חלופות שכולן מועמדות לגיטימיות.
+
+\section{שלב שני: מטריצת החלטה משוקללת}
+\label{sec:pugh}
+
+הבחירה נעשתה במטריצת החלטה משוקללת (\en{Pugh Matrix}) \cite{pugh1991total}. לכל קריטריון $i$ נקבע משקל $w_i$, כך שסכום המשקלים הוא \num{1.00}, וכל חלופה $j$ מקבלת ציון שלם $c_{ij}$ בסולם \num{1} (גרוע מאוד) עד \num{5} (מצוין). הציון הכולל הוא:
+\begin{equation}
+S_j = \sum_{i=1}^{n} w_i \cdot c_{ij}, \qquad \sum_{i=1}^{n} w_i = 1.00 .
+\label{eq:pugh}
+\end{equation}
+
+\begin{warningbox}[מלכודת: מטריצה שנכתבה אחורה]
+אם המשקלים נקבעים אחרי שכבר ידוע מי צריך לנצח, המטריצה היא קישוט. לכן המשקלים בטבלה~\ref{tab:weights} הוקפאו במסמך הדרישות (\en{PRD.md}, במאגר הציבורי של הפרויקט) לפני שחושבו הסכומים, והציונים ניתנים לפי סולמות מעוגנים (טבלה~\ref{tab:anchors}). בבדיקה חוזרת של הציונים מול הסולמות התברר ששניים מהם לא תאמו, והם תוקנו: הציון של חלופה \num{3} ירד מ-\num{4.45} ל-\num{4.30}, והדירוג לא השתנה. הסכומים וניתוח הרגישות חושבו בסקריפט, ולא הוקלדו ידנית.
+\end{warningbox}
+
+כל משקל נגזר מדרישה במפרט (טבלה~\ref{tab:weights}), כך שהמשקל משקף את חשיבות הדרישה ולא את העדפת הצוות.
+
+\begin{reporttable}{הקריטריונים, משקליהם והדרישות שמהן נגזרו}{tab:weights}{P{2.9cm} P{1.1cm} R}
+\headrow \hc{קריטריון} & \hc{משקל} & \hc{נימוק ודרישות מקושרות} \\ \midrule
+דיוק התאמה אישית & \num{0.25} & לב הבעיה: \en{REQ-VIS-01}, \en{REQ-BOD-03} \\
+עלות ליחידת שימוש & \num{0.20} & קיימות כלכלית: \en{REQ-BIZ-12} \\
+זמן תגובה & \num{0.15} & חוויית שימוש: \en{REQ-LAT-05}, \en{REQ-GEN-06} \\
+פוטו-ריאליזם & \num{0.15} & אמון בהדמיה: \en{REQ-GEN-07}, \en{REQ-GEN-08} \\
+פרטיות ביומטרית & \num{0.15} & רגולציה: \en{REQ-SEC-11} \\
+מאמץ פיתוח & \num{0.10} & \num{14} שבועות ושתי סטודנטיות \\
+\hlrow \textbf{סה"כ} & \textbf{\num{1.00}} & \\
+\end{reporttable}
+
+\begin{reporttable}{מטריצת החלטה משוקללת: ציון גולמי (ובסוגריים הציון המשוקלל)}{tab:pugh}{R C C C}
+\headrow \hc{קריטריון (משקל)} & \hc{\num{1}: קצה} & \hc{\num{2}: ענן מונוליטי} & \hc{\num{3}: היברידי} \\ \midrule
+דיוק התאמה אישית (\num{0.25}) & \num{4 (1.00)} & \num{3 (0.75)} & \num{5 (1.25)} \\
+עלות ליחידה (\num{0.20}) & \num{5 (1.00)} & \num{2 (0.40)} & \num{4 (0.80)} \\
+זמן תגובה (\num{0.15}) & \num{2 (0.30)} & \num{1 (0.15)} & \num{4 (0.60)} \\
+פוטו-ריאליזם (\num{0.15}) & \num{1 (0.15)} & \num{5 (0.75)} & \num{5 (0.75)} \\
+פרטיות ביומטרית (\num{0.15}) & \num{5 (0.75)} & \num{2 (0.30)} & \num{4 (0.60)} \\
+מאמץ פיתוח (\num{0.10}) & \num{2 (0.20)} & \num{5 (0.50)} & \num{3 (0.30)} \\
+\hlrow \textbf{ציון סופי $S_j$} & \textbf{\num{3.40}} & \textbf{\num{2.85}} & \textbf{\num{4.30}} \\
+\end{reporttable}
+
+\begin{reporttable}[\footnotesize]{סולמות מעוגנים לניקוד: מה מזכה בציון \num{5}, \num{3} ו-\num{1}}{tab:anchors}{P{1.9cm} R R R}
+\headrow \hc{קריטריון} & \hc{\num{5}} & \hc{\num{3}} & \hc{\num{1}} \\ \midrule
+דיוק & כיול עין וגוף מטרי מלא & כיול או גוף, לא שניהם & ללא כיול וללא מידות \\
+עלות & ללא עלות ענן משתנה & יחס הכנסה לעלות \num{1--2.4} & יחס מתחת ל-\num{1} \\
+זמן תגובה & שני המסלולים ביעד במרווח \num{$\ge 10\%$} & מסלול אחד ביעד & שניהם מעל היעד \\
+פוטו-ריאליזם & דיפוזיה מלאה בענן & דיפוזיה מוקטנת & שכבה דו-ממדית \\
+פרטיות & אין העברת תמונות כלל & תמונה ארעית בהסכמה & תמונות אצל ספק חיצוני \\
+מאמץ פיתוח & ממשקי \en{API} מוכנים & שילוב רכיבים פתוחים & אימון מודלים בקצה \\
+\end{reporttable}
+
+נימוקי הציונים נגזרים מהסולמות בטבלה~\ref{tab:anchors} ומהניתוח בסעיף~\ref{sec:alts}. חלופה \num{1} מקבלת \num{4} בדיוק, כי היא מריצה את כיול העין במכשיר אבל רק מודל גוף מוקטן, ו-\num{2} בזמן תגובה, כי ההדמיה במכשיר איטית ומאטה עוד יותר בהתחממות. חלופה \num{2} מקבלת \num{3} בדיוק, כי מודל שפה אינו מכייל צבע ואינו מודד. חלופה \num{3} מקבלת \num{5} בדיוק, ו-\num{4} בזמן תגובה, כי מסלול ההמלצה עומד ביעד במרווח אבל מסלול ההדמיה עומד בדיוק על הגבול (טבלה~\ref{tab:latency}). בעלות ובפרטיות היא מקבלת \num{4}: עלות משתנה קטנה, ותמונה ארעית רק בהדמיה ובהסכמה.
+
+\begin{reportfigure}{הציון הסופי של כל חלופה, מפורק לתרומת כל קריטריון}{fig:stacked}
+\begin{tikzpicture}
+\begin{axis}[xbar stacked, width=11.6cm, height=4.9cm, bar width=13pt, xmin=0, xmax=5,
+  ytick={0,1,2}, yticklabels={\en{Alt 1: Edge},\en{Alt 2: Cloud},\enlong{Alt 3: Hybrid}},
+  y dir=reverse, enlarge y limits=0.3, tick label style={font=\small},
+  xlabel={Weighted score $S_j$}, xmajorgrids, grid style={black!10},
+  legend style={at={(0.5,-0.42)},anchor=north,legend columns=6,font=\scriptsize,draw=none},
+  reverse legend=false]
+  \addplot[fill=brandsecondary,draw=white] table[x=acc,y=alt]{figures/data/pugh_stacked.csv};
+  \addplot[fill=brandaccent,draw=white] table[x=cost,y=alt]{figures/data/pugh_stacked.csv};
+  \addplot[fill=brandexample!80,draw=white] table[x=lat,y=alt]{figures/data/pugh_stacked.csv};
+  \addplot[fill=brandprimary!70,draw=white] table[x=real,y=alt]{figures/data/pugh_stacked.csv};
+  \addplot[fill=brandgreen!70,draw=white] table[x=priv,y=alt]{figures/data/pugh_stacked.csv};
+  \addplot[fill=brandgrey!70,draw=white] table[x=dev,y=alt]{figures/data/pugh_stacked.csv};
+  \node[font=\scriptsize\bfseries,anchor=west] at (axis cs:3.40,0) {3.40};
+  \node[font=\scriptsize\bfseries,anchor=west] at (axis cs:2.85,1) {2.85};
+  \node[font=\scriptsize\bfseries,anchor=west] at (axis cs:4.30,2) {4.30};
+  \legend{Accuracy, Cost, Latency, Realism, Privacy, Dev effort}
+\end{axis}
+\end{tikzpicture}
+\end{reportfigure}
+
+איור~\ref{fig:stacked} מפרק את הציון לתרומות. חלופה \num{3} מגיעה ל-\num{4.30} בעיקר בזכות הדיוק והפוטו-ריאליזם, ולא בזכות קריטריון יחיד. חלופה \num{1}, השנייה בדירוג, מקבלת את רוב ציונה מעלות ומפרטיות, ונכשלת בהדמיה. חלופה \num{2} נשענת על פוטו-ריאליזם ועל מהירות הפיתוח.
+
+\subsection{ניתוח רגישות: האם ההחלטה יציבה?}
+מטריצה טובה נבחנת בשאלה מה קורה כשהמשקלים משתנים. הניתוח נעשה בשלוש רמות. ברמה הראשונה, כל משקל שונה בנפרד ב-\num{$\pm 0.05$} וב-\num{$\pm 0.10$}, ושאר המשקלים נורמלו כך שסכומם יישאר \num{1.00}. בכל \num{24} התרחישים חלופה \num{3} נשארה ראשונה, והפער המינימלי היה \num{0.54} נקודות, כשמשקל הפוטו-ריאליזם ירד ל-\num{0.05}. ברמה השנייה נבחן תרחיש הקיצון של החוברת: משקל זמן התגובה הועלה ל-\num{0.45} ומשקל העלות הורד ל-\num{0.00}. חלופה \num{3} קיבלה \num{4.25}, וחלופות \num{1} ו-\num{2} ירדו ל-\num{2.68} ו-\num{2.40}. ברמה השלישית הוגרלו \num{20,000} וקטורי משקלים מהתפלגות דיריכלה סביב המשקלים שנקבעו. חלופה \num{3} ניצחה בכל ההגרלות, והאחוזון ה-\num{5} של מרווח הניצחון היה \num{0.47}. גם כשהמשקלים הוגרלו באופן אחיד לגמרי, בלי שום הנחה מוקדמת, חלופה \num{3} ניצחה ב-\num{89.2\%} מהמקרים. רגישות נבדקה גם לציונים עצמם: בכל \num{28} השינויים האפשריים של ציון יחיד ב-\num{$\pm 1$}, המנצחת לא התחלפה, והמרווח המינימלי היה \num{0.65}. גם בשינוי עוין כפול, הורדה של חלופה \num{3} בדיוק ובעלות והעלאה של חלופה \num{1} בזמן תגובה ובפוטו-ריאליזם, חלופה \num{3} נשארה מובילה (\num{3.85} מול \num{3.70}). איור~\ref{fig:sens} מציג את הניתוח לשני הקריטריונים הרגישים ביותר.
+
+\begin{reportfigure}{ניתוח רגישות: הציון של כל חלופה כפונקציה של משקל העלות ושל משקל זמן התגובה}{fig:sens}
+\begin{tikzpicture}
+\begin{groupplot}[group style={group size=2 by 1,horizontal sep=1.3cm},
+  width=6.2cm, height=4.6cm, xmin=0, xmax=0.6, ymin=1.5, ymax=5, grid=major, grid style={black!10},
+  tick label style={font=\scriptsize}, label style={font=\scriptsize}, ylabel={$S_j$}]
+\nextgroupplot[xlabel={weight of Cost}, legend style={at={(1.12,-0.38)},anchor=north,legend columns=3,font=\scriptsize,draw=none}]
+  \addplot[brandgrey,thick] table[x=w,y=alt1]{figures/data/sens_cost.csv};
+  \addplot[brandwarn,thick,dashed] table[x=w,y=alt2]{figures/data/sens_cost.csv};
+  \addplot[brandsecondary,very thick] table[x=w,y=alt3]{figures/data/sens_cost.csv};
+  \draw[black!50,dotted,thick] (axis cs:0.20,1.5) -- (axis cs:0.20,5);
+  \legend{Alt 1 Edge, Alt 2 Cloud, Alt 3 Hybrid}
+\nextgroupplot[xlabel={weight of Latency}]
+  \addplot[brandgrey,thick] table[x=w,y=alt1]{figures/data/sens_lat.csv};
+  \addplot[brandwarn,thick,dashed] table[x=w,y=alt2]{figures/data/sens_lat.csv};
+  \addplot[brandsecondary,very thick] table[x=w,y=alt3]{figures/data/sens_lat.csv};
+  \draw[black!50,dotted,thick] (axis cs:0.15,1.5) -- (axis cs:0.15,5);
+\end{groupplot}
+\end{tikzpicture}
+\end{reportfigure}
+
+מהאיור עולה גבול ההחלטה: רק כשמשקל העלות מגיע ל-\num{0.58}, כמעט פי שלושה מהמשקל שנקבע, חלופת הקצה עוקפת את החלופה ההיברידית. יש לומר גם את המגבלה: חלופה \num{3} נחותה בשלושה קריטריונים, עלות ופרטיות מול חלופה \num{1} ומאמץ פיתוח מול חלופה \num{2}. לכן ב-\num{10.8\%} מהמשקלים האקראיים, שבהם שלושת הקריטריונים האלה מקבלים יחד את רוב המשקל, היא מפסידה. ההחלטה רגישה, אם כן, לשאלה כמה הארגון מוכן לשלם בפרטיות ובמאמץ פיתוח תמורת דיוק. במשקלים שנגזרו מהמפרט, התשובה ברורה.
+
+\section{שלב שלישי: ארכיטקטורת המערכת וזרימת הנתונים}
+\label{sec:arch}
+
+איור~\ref{fig:arch} מציג את הארכיטקטורה של החלופה שנבחרה בשלוש רצועות: מכשיר, ענן ושותפים. החצים מציינים מה עובר בין הרצועות. במסלול ההמלצה אף חץ אינו מעביר תמונה אל הענן. במסלול ההדמיה התמונה עוברת רק בהסכמה פרטנית לכל הדמיה, מעובדת בזיכרון בלבד, ונמחקת בתוך \num{60} שניות (\en{REQ-SEC-11}).
+
+\begin{reportfigure}{ארכיטקטורת \en{AuraTwin AI} וזרימת הנתונים בין המכשיר, הענן והשותפים}{fig:arch}
+\begin{tikzpicture}[x=1cm,y=1cm,
+  m/.style={draw=#1,fill=#1!12,rounded corners=3pt,line width=0.8pt,minimum height=0.8cm,
+            text width=2.25cm,align=center,font=\scriptsize},
+  a/.style={-Stealth,thick,brandprimary}, lbl/.style={font=\tiny,text=black!70,fill=white,inner sep=1pt}]
+  % lanes
+  \fill[brandsecondary!6] (-0.3,0.9) rectangle (12.1,-1.25);
+  \fill[brandprimary!5] (-0.3,-1.45) rectangle (12.1,-5.35);
+  \fill[brandaccent!8] (-0.3,-5.55) rectangle (12.1,-6.85);
+  \node[font=\scriptsize\bfseries,text=brandsecondary,anchor=east] at (12.0,0.62) {\heb{מכשיר (קצה)}};
+  \node[font=\scriptsize\bfseries,text=brandprimary,anchor=east] at (12.0,-1.68) {\heb{ענן}};
+  \node[font=\scriptsize\bfseries,text=brandaccent!80!black,anchor=east] at (12.0,-5.75) {\heb{שותפים ופרסום}};
+  % edge
+  \node[m=brandsecondary] (cap) at (1.3,-0.3) {\enlong{Selfie + height}\\\enlong{+ eye-colour label}};
+  \node[m=brandsecondary] (eye) at (4.3,-0.3) {\en{Face/eye landmarks}\\\enlong{sclera, iris masks}};
+  \node[m=brandsecondary] (cal) at (7.3,-0.3) {\en{MAP calibration}\\$\hat{\mathbf{M}}$, \en{skin} $L^*a^*b^*$};
+  \node[m=brandsecondary] (kp) at (10.4,-0.3) {\enlong{Body + hand}\\\enlong{keypoints, nail masks}};
+  % cloud
+  \node[m=brandprimary] (gw) at (10.4,-2.4) {\en{API gateway}\\\en{vectors only}};
+  \node[m=brandprimary] (smpl) at (7.3,-2.4) {\en{SMPL-X fit}\\\en{circumferences}};
+  \node[m=brandexample] (rag) at (4.3,-2.4) {\en{Multimodal RAG}\\\enlong{CLIP + FAISS}};
+  \node[m=brandexample] (trend) at (1.3,-2.4) {\en{Trend miner}\\\en{velocity} $T(s)$};
+  \node[m=brandprimary] (rank) at (4.3,-4.3) {\enlong{Ranker + explainer}\\\en{recommendations}};
+  \node[m=brandwarn] (gate) at (7.3,-4.3) {\enlong{Ad-gate / affiliate}\\\en{router}};
+  \node[m=brandaccent] (vton) at (10.4,-4.3) {\en{Distilled VTON}\\\en{(flagship-based)}};
+  \node[m=brandprimary] (kg) at (1.3,-4.3) {\enlong{Catalogue + trend}\\\en{knowledge graph}};
+  % partners
+  \node[m=brandaccent] (ads) at (7.3,-6.3) {\en{Rewarded ads}\\\en{eCPM}};
+  \node[m=brandaccent] (aff) at (4.3,-6.3) {\en{Retailer affiliate}\\\enlong{SKU, stock, link}};
+  \node[m=brandaccent] (soc) at (1.3,-6.3) {\en{Social media}\\\en{public posts}};
+  % flows
+  \draw[a] (cap) -- (eye); \draw[a] (eye) -- (cal); \draw[a] (cal) -- (kp);
+  \draw[a] (kp) -- node[lbl,right] {\enlong{Lab, keypoints, H}} (gw);
+  \draw[a] (gw) -- (smpl); \draw[a] (smpl) -- (rag); \draw[a] (trend) -- (rag);
+  \draw[a] (rag) -- (rank); \draw[a] (kg) -- (rag); \draw[a] (rank) -- (gate);
+  \draw[a] (gate) -- node[lbl,above] {\en{funded}} (vton);
+  \draw[a] (vton.north) -- (gw.south);
+  \draw[a,brandaccent!80!black] (ads) -- (gate); \draw[a,brandaccent!80!black] (aff) -- (kg);
+  \draw[a,brandaccent!80!black] (soc) -- (trend);
+  \draw[a,brandaccent!80!black] (rank.south) -- node[lbl,left] {\en{links}} (aff.north);
+\end{tikzpicture}
+\end{reportfigure}
+
+מהאיור עולה שהמערכת בנויה משני מסלולים. המסלול הזול, המלצה, עובר מהמכשיר דרך שער \en{API} אל התאמת מודל הגוף, האחזור והדירוג, וחוזר אל המשתמשת עם קישורי שותפים. המסלול היקר, הדמיה, מתחיל רק כשנתב השער מאשר שההדמיה ממומנת. שלושת המודולים המרכזיים מתוארים להלן.
+
+\subsection{צינור הכיול הביומטרי במכשיר}
+הכיול מכליל את מודל פון קריס שבמשוואה~\eqref{eq:vonkries} למטריצה $\mathbf{M}$, שנאמדת כאומדן \en{MAP} (\enlong{Maximum a Posteriori}) מתוך קבוצת העוגנים $\mathcal{A}$ = \{לובן העין, הקשתית\}:
+\begin{equation}
+\hat{\mathbf{M}} = \arg\min_{\mathbf{M}} \sum_{k\in\mathcal{A}} \lambda_k\,\Delta E_{00}\!\big(\mathbf{M}^{-1}\mathbf{c}^{(k)}_{\text{obs}},\,\boldsymbol{\mu}^{(k)}\big) + \gamma\,\lVert \mathbf{M}-\mathbf{I}\rVert_F^2 ,
+\label{eq:map}
+\end{equation}
+כאשר $\boldsymbol{\mu}^{(k)}$ הוא ערך הייחוס של העוגן: ברישום הראשון הוא נמדד בהבזק מסך לבן, ובקשתית הוא משולב עם ההתפלגות הקודמת $\mathcal{N}(\boldsymbol{\mu}_\ell,\boldsymbol{\Sigma}_\ell)$ של קטגוריית צבע העיניים שהמשתמשת דיווחה. המשקל $\lambda_k$ קטן כשלובן העין חורג מערך הרישום, למשל באדמומיות, וכך הקשתית "לוקחת פיקוד" כשהעוגן הראשי אינו אמין.
+
+\textbf{בדיקת היתכנות סימולטיבית.} הגרסה האלכסונית של המשוואה נבחנה באותה סימולציה שתיארה את המצב המצוי בפרק~\ref{ch:problem}, מול ארבע שיטות ייחוס (איור~\ref{fig:calibfull}). בסימולציה לובן העין אינו ניטרלי לגמרי: יש לו שונות בין אנשים ואדמומיות משתנה בין צילומים. ההנחה שהוא קרוב לניטרלי, ושהרישום החד-פעמי לוכד את הסטייה האישית, היא הנחת עבודה שתיבדק בניסוי הבסיס.
+
+\begin{reportfigure}{בדיקת היתכנות סימולטיבית ($n=\num{4,000}$, נתונים סינתטיים): שגיאת העור לפי שיטת כיול}{fig:calibfull}
+\begin{tikzpicture}
+\begin{axis}[xbar, width=11.6cm, height=4.3cm, bar width=4.5pt,
+  xmin=0, xmax=15.5, xlabel={$\Delta E_{00}$ (skin, lower is better)},
+  ytick={0,1,2,3,4}, y dir=reverse,
+  yticklabels={\heb{מצלמה},\heb{איזון לבן גלובלי},\heb{עוגן לובן העין},\heb{לובן + קשתית},\heb{רישום + קשתית (מוצע)}},
+  yticklabel style={font=\scriptsize}, xticklabel style={font=\scriptsize}, label style={font=\scriptsize},
+  legend style={at={(0.98,0.04)},anchor=south east,font=\tiny},
+  enlarge y limits=0.14, xmajorgrids, grid style={black!10},
+  nodes near coords, nodes near coords style={font=\tiny}]
+  \addplot[fill=brandgrey!70,draw=brandgrey] table[x=mean,y=idx]{figures/data/calibration_bars.csv};
+  \addplot[fill=brandsecondary!70,draw=brandsecondary] table[x=p95,y=idx]{figures/data/calibration_bars.csv};
+  \draw[brandwarn,dashed,thick] (axis cs:1.8,-0.6) -- (axis cs:1.8,4.6);
+  \draw[brandwarn,dotted,thick] (axis cs:4.5,-0.6) -- (axis cs:4.5,4.6);
+  \legend{Mean, P95}
+\end{axis}
+\end{tikzpicture}
+\end{reportfigure}
+
+מהאיור עולה שעוגן לובן העין לבדו מוריד את השגיאה הממוצעת מ-\num{4.89} ל-\num{2.82}, ושהוספת הקשתית בלי רישום כמעט אינה משפרת (\num{2.74}). השיפור המהותי מגיע מהשילוב של רישום וקשתית: חציון \num{1.37}, ממוצע \num{1.82}, ו-\num{69.6\%} מהצילומים מתחת לסף ההבחנה. האחוזון ה-\num{95} עומד על \num{4.81}, ורווח הסמך שלו בתכנון של \num{120} משתתפות, \num{4.20--5.48}, חוצה את היעד של \num{4.5}. לכן דרישת הזנב אינה מובטחת, והיא מוגדרת כסיכון \en{RSK-ALG-07}. ניתוח לפי קבוצות גוון מראה שהשגיאה הגבוהה ביותר היא דווקא בעור הבהיר (\en{ITA} מעל \num{41}: חציון \num{1.61}, אחוזון \num{95} של \num{5.68}), ולא בעור הכהה (\num{1.26}, \num{4.04}). זו בדיוק הסיבה לדווח לפי תת-קבוצות. בניסוי האמיתי יתווספו שתי שיטות ייחוס לומדות, \en{FFCC} ו-\en{FC4} \cite{barron2017ffcc,hu2017fc4}, שלא נכללו בסימולציה כי הן דורשות אימון על תמונות אמיתיות.
+
+\subsection{אומדן מידות הגוף}
+מנקודות הציון ומהגובה המדווח $H$ מותאם מודל \en{SMPL-X} (משוואה~\eqref{eq:smplx}), ומהרשת המתקבלת מחושב וקטור יחסים חסר-ממד:
+\begin{equation}
+\mathbf{r} = \frac{1}{H}\,\big(C_{\text{chest}},\,C_{\text{waist}},\,C_{\text{hip}},\,L_{\text{inseam}}\big),
+\label{eq:ratio}
+\end{equation}
+שמוכפל בגובה כדי לקבל היקפים בסנטימטרים. הגובה פותר את עמימות קנה המידה, כפי שהראו רואיס ועמיתיו \cite{ruiz2022bodym}. ההיקפים מושווים לטבלת המידות של כל פריט, וכך המידה המומלצת נבחרת לפי מרחק ולא לפי ניחוש.
+
+\subsection{מנוע האחזור, הטרנדים והשער}
+כל פריט בקטלוג מיוצג בשיכון \en{CLIP} \cite{radford2021clip} ונשמר באינדקס \en{FAISS} \cite{johnson2021faiss}. ציון ההמלצה לפריט $s$ משלב שלושה גורמים:
+\begin{equation}
+\text{score}(s) = \cos\!\big(\mathbf{q},\mathbf{e}_s\big)\cdot \kappa(s \mid \mathbf{c}_{\text{skin}},\mathbf{r}) \cdot \big(1+\eta\,T(s)\big),
+\label{eq:score}
+\end{equation}
+\begin{equation}
+T(s) = \alpha\,\tilde v_t(s) + (1-\alpha)\,\tilde e_t(s), \qquad
+v_t(s) = \frac{d}{dt}\log\big(1+n_t(s)\big),
+\label{eq:trend}
+\end{equation}
+כאשר $\kappa$ היא התאמה של הפריט לגוון ולמידות, $T(s)$ ציון הטרנד, $\tilde v_t$ קצב הצמיחה המנורמל של אזכורי הסגנון, $\tilde e_t$ המעורבות המנורמלת, ו-$\eta$ קובע כמה הטרנד יכול להטות את ההמלצה. הטרנד מכפיל את הציון ואינו מחובר אליו, ולכן טרנד חזק אינו יכול להעלות פריט שאינו מתאים לגוון או למידה. שלב היצירה של \en{RAG} \cite{lewis2020rag} מנסח הסבר קצר לכל המלצה, על בסיס המאפיינים שאוחזרו בלבד. נתב השער מקבל את הבקשה להדמיה, בודק שמקור המימון אושר, ורק אז שולח אותה לתור של מודל ההדמיה.
+
+\subsection{ממשקים בין הרכיבים}
+לכל רכיב באיור~\ref{fig:arch} מוגדרים קלט, פלט ומיקום ריצה, כך שכל אחד ניתן לפיתוח ולבדיקה בנפרד, עם נתונים מדומים, לפני האינטגרציה. הגבול בין המכשיר לענן עובר בשער ה-\en{API}: מעליו יש תמונות, ומתחתיו רק וקטורים מוצפנים, כלומר צבע עור ב-\en{$L^*a^*b^*$}, נקודות ציון וגובה. החריג היחיד הוא מודל ההדמיה, שמקבל את תמונת המשתמשת. לכן הוא מופעל רק בהסכמה מפורשת לכל הדמיה, התמונה אינה נשמרת בדיסק, והיא נמחקת מהזיכרון בתוך \num{60} שניות, כפי שמחייבת \en{REQ-SEC-11}.
+
+\subsection{פרטיות כחלק מהתכן}
+הפרטיות אינה שכבה שמוסיפים בסוף, אלא תוצאה של מיקום הרכיבים (\enlong{Privacy by Design}). שלושה עקרונות מיושמים. ראשית, צמצום נתונים: במסלול ההמלצה לענן עוברים צבע מכויל, נקודות ציון וגובה, ולא תמונה; במסלול ההדמיה התמונה ארעית ואינה נשמרת. שנית, הפרדת זהות: הווקטורים נשמרים תחת מזהה אקראי, ללא שם וללא תמונה, כך שאי אפשר לזהות מהם את המשתמשת. שלישית, מחיקה לפי בקשה, בהתאם לזכות למחיקה בתקנת \en{GDPR} \cite{gdpr2016}. שלושת העקרונות נבדקים בדרישה \en{REQ-SEC-11}, והם שמאפשרים לסווג את הסיכון \en{RSK-SEC-05} כבינוני ולא כקריטי.
+
+טבלה~\ref{tab:latency} מראה ששני המסלולים עומדים בתקציב הזמן של המפרט.
+
+\begin{reporttable*}{תקציב זמן התגובה לפי רכיבים (אומדן תכן, אחוזון \num{90})}{tab:latency}{R P{2.0cm} R P{2.0cm}}
+\headrow \hc{מסלול ההמלצה} & \hc{זמן} & \hc{מסלול ההדמיה} & \hc{זמן} \\ \midrule
+איתור עין וכיול במכשיר & \num{220 ms} & בדיקת השער (מקבילי) & \num{0 ms} \\
+העלאת וקטורים (\en{4G}) & \num{150 ms} & תור ושליחה ל-\en{GPU} & \num{300 ms} \\
+התאמת \en{SMPL-X} (שמורה) & \num{300 ms} & דיפוזיה מזוקקת, \num{8} צעדים & \num{3,200 ms} \\
+אחזור \en{FAISS} & \num{40 ms} & הגדלת רזולוציה & \num{600 ms} \\
+דירוג והסבר & \num{600 ms} & החזרה למכשיר & \num{400 ms} \\
+החזרה והצגה & \num{150 ms} & & \\
+\hlrow \textbf{סה"כ} (יעד \num{1.8 s}) & \textbf{\num{1.46 s}} & \textbf{סה"כ} (יעד \num{4.5 s}) & \textbf{\num{4.50 s}} \\
+\end{reporttable*}
+
+מהטבלה עולה שבמסלול ההמלצה יש מרווח של כ-\num{20\%}, ואילו מסלול ההדמיה עומד על הגבול. מכאן ששמונה צעדי דגימה הם תקרה, ולא יעד. זו אותה מסקנה שעלתה מכלכלת היחידה בסעיף~\ref{sec:unit}, ולכן זיקוק מודל הדגל (משימה \en{TSK-3.1}) הוא משימה בנתיב הסיכון של הפרויקט.
+
+\section{שלב רביעי: החדשנות והערך המוסף}
+\label{sec:innovation}
+
+הפרויקט אינו שכפול של מוצר קיים. הוא תורם ארבע תרומות מקוריות, וכל אחת מהן נשענת על משבצת ריקה במטריצת הספרות (טבלה~\ref{tab:litmatrix}):
+
+\textbf{\num{1}. העין כלוח צבעים אישי.} השימוש בלובן העין ובצבע העיניים המדווח כעוגני כיול, ובמיוחד השימוש בדיווח עצמי כהתפלגות קודמת בייסיאנית, הופך נתון שהמשתמשת יודעת בלי מכשיר מדידה למקור מידע כמותי. זו התרומה המחקרית המרכזית, והיא נבחנת בהשערות $H_{1a}$ ו-$H_{1b}$.
+
+\textbf{\num{2}. היתוך של נתון טבלאי עם ראייה ממוחשבת.} הגובה המדווח וקטגוריית צבע העיניים הם נתונים טבלאיים זולים, שפותרים שתי עמימויות יקרות: קנה המידה של הגוף ומקור האור.
+
+\textbf{\num{3}. התניה של ההדמיה בכיול ובמידה.} מודל הדגל מקבל קלט מכויל, והמידה שנבחרה מוצגת לצד ההדמיה. כך ההדמיה עונה גם על השאלה "האם זה יתאים", ולא רק על השאלה "איך זה ייראה".
+
+\textbf{\num{4}. מודל עסקי כרכיב ארכיטקטוני.} שער הפרסום והשותפים אינו תוספת שיווקית: הוא רכיב בזרימת הנתונים, עם דרישה הנדסית משלו (\en{REQ-BIZ-12}), והוא שמאפשר לתת הדמיה ללא תשלום ישיר בלי הפסד.
+
+\begin{keymessagebox}[החידוש של הפרויקט]
+\en{AuraTwin AI} אינה משפרת את מודל ההדמיה. היא משפרת את מה שנכנס אליו (צבע מכויל ומידות מטריות) ואת מה שמממן אותו (שער), ולכן היא משתלבת עם כל מודל הדמיה עתידי.
+\end{keymessagebox}

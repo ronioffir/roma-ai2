@@ -1,0 +1,46 @@
+%% ============================================================================
+%% main.tex -- AuraTwin AI: Preparatory Report (דוח מכין), group roma-ai2
+%% Compile (4 passes, booklet 13.4):
+%%   lualatex -interaction=nonstopmode -jobname=report main.tex
+%%   biber report
+%%   lualatex -interaction=nonstopmode -jobname=report main.tex
+%%   lualatex -interaction=nonstopmode -jobname=report main.tex
+%% Page map: 4 preliminary pages (א׳–ד׳) + 40 body pages = 44 PDF pages.
+%% ============================================================================
+\documentclass[report]{auratwin-report}
+\addbibresource{references.bib}
+\graphicspath{{figures/}}
+\pgfplotsset{table/col sep=comma}
+
+%% ------------------------------------------------------------- document fields
+\doctitlehe{מערכת הפעלה רב-מודאלית מבוססת סוכני בינה מלאכותית להתאמה ביומטרית של אופנה וביוטי, כריית טרנדים חברתית והדמיה וירטואלית מותנית-מודל-עסקי}
+\doctitleen{AuraTwin AI: Multi-Modal Agentic Operating System for Self-Calibrated Biometric Beauty \& Fashion Styling, Social Trend Mining, and Ad-Gated Generative Virtual Try-On}
+\docshorttitle{AuraTwin AI}
+\docgroup{roma-ai2}
+\docinstitution{אוניברסיטת חיפה \textbar\ החוג לסטטיסטיקה}
+\doccourse{יישומי \en{AI} ו-\en{Vibe Coding} במדע וביום-יום \textbar\ סמינריון מחקרי בניהול טכנולוגיות, \num{2026}}
+\docauthors{{\headingfont\bfseries\large רוני אופיר \quad\textbar\quad מעיין שירי}\par\vspace{2pt}
+  {\small החוג לסטטיסטיקה, אוניברסיטת חיפה \quad\textbar\quad ת"ז: \num{000000000}, \num{000000000} (מוסווה בעותק הציבורי)}}
+\docauthorsshort{רוני אופיר ומעיין שירי}
+\docadvisor{ד"ר יורם סגל}
+\docpartner{שותף תעשייתי (מדומה לצורכי הדוח): מעבדת החדשנות \en{L'Oréal-ModiFace} ו-\en{Zara Inditex Tech Lab}}
+\docdate{\num{16.11.2026}}
+\docversion{1.0}
+\doccoverimage{cover_banner.png}
+
+\begin{document}
+\frontmatterpages
+\input{coverpage}
+
+\mainmatterpages
+\input{chapters/ch1_intro}
+\input{chapters/ch2_problem}
+\input{chapters/ch3_literature}
+\input{chapters/ch4_market}
+\input{chapters/ch5_alternatives}
+\input{chapters/ch6_workplan}
+\input{chapters/ch7_risks}
+\input{chapters/ch8_summary}
+\printreferences
+\bodyend
+\end{document}

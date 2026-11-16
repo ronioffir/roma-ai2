@@ -1,0 +1,276 @@
+%% ============================================================================
+%% ch3_literature.tex -- Chapter 3: סקירת הספרות ומאמר הדגל
+%% budget: body pages 8-16 (9 pages). Thematic & critical, NOT paper-by-paper.
+%% ============================================================================
+\chapter{סקירת הספרות ומאמר הדגל}
+\label{ch:lit}
+
+\begin{managerbox}
+מי שאינו קורא מה נעשה לפניו משלם על המצאת הגלגל. הפרק מראה שכל אחד מרכיבי \en{AuraTwin AI} נשען על שיטה שנבחנה בקהילה המדעית, ומאתר במדויק את הנקודה שבה הידע הקיים נעצר. הנקודה הזו היא פער הידע, והיא ההצדקה לפרויקט כולו.
+\end{managerbox}
+
+הסקירה בנויה באופן תמטי וביקורתי \cite{webster2002literature}: במקום לסכם מאמרים לפי סדר כרונולוגי, היא מחלקת את הספרות לארבעה תחומי ידע, ובכל תחום מנתחת את ההנחות המפשטות שעליהן נשענים הפתרונות. איור~\ref{fig:pillars} מציג את ארבעת התחומים ואת נקודות המפגש ביניהם, שבהן נמצא הפרויקט.
+
+\section{שיטת הסקירה ותחומי הידע}
+\label{sec:lit-method}
+
+המקורות נבחרו מכנסים וכתבי עת שפיטים מובילים בראייה ממוחשבת, בלמידת מכונה ובגרפיקה (\en{CVPR}, \en{ICCV}, \en{ECCV}, \en{NeurIPS}, \en{ICML}, \en{ACM MM}, \en{ACM TOG}, \en{IEEE TIP}), בדגש על השנים \num{2019--2024}. עבודות יסוד מוקדמות יותר נכללו רק כשהן מגדירות מדד או מודל שהפרויקט משתמש בו ישירות, כמו נוסחת \en{CIEDE2000} \cite{sharma2005ciede2000}. קריטריון ההכללה היה תרומה ישירה לאחד מארבעת התחומים, עם מדדי ביצוע כמותיים שפורסמו. כל מקור נבדק לפי שלושה צעדים: חיפוש הכותרת המדויקת, השוואת מחברים ושנה מול דף הפרסום, וקריאת התקציר כדי לוודא שהמקור אומר את מה שמיוחס לו \cite{segal2026booklet}.
+
+\begin{reportfigure}{ארבעת תחומי הידע של הסקירה: הפרויקט ממוקם בחיתוך של כולם}{fig:pillars}
+\begin{tikzpicture}[x=1cm,y=1cm,
+  p/.style={draw=#1,fill=#1!12,rounded corners=4pt,line width=1pt,minimum width=4.6cm,minimum height=1.35cm,align=center,font=\small}]
+  \node[p=brandprimary] (a) at (-3.2,1.25) {\heb{א. קביעות צבע ועוגנים ביומטריים}\\\scriptsize\enlong{Color Constancy, CIEDE2000, Eye Priors}};
+  \node[p=brandsecondary] (b) at (3.2,1.25) {\heb{ב. שחזור גוף ויד תלת-ממדי}\\\scriptsize\enlong{SMPL-X, HMR 2.0, Body Measurement}};
+  \node[p=brandaccent] (c) at (-3.2,-1.25) {\heb{ג. הדמיה גנרטיבית}\\\scriptsize\enlong{Diffusion VTON, ControlNet, Makeup}};
+  \node[p=brandexample] (d) at (3.2,-1.25) {\heb{ד. אחזור רב-מודאלי וטרנדים}\\\scriptsize\enlong{CLIP, RAG, Trend Forecasting}};
+  \node[draw=brandwarn,fill=white,circle,line width=1.4pt,minimum size=1.7cm,align=center,font=\scriptsize\bfseries] (x) at (0,0) {\en{AuraTwin}\\\en{AI}};
+  \foreach \n in {a,b,c,d} \draw[brandwarn,thick,dashed] (x) -- (\n);
+\end{tikzpicture}
+\end{reportfigure}
+
+מהאיור עולה שכל תחום לבדו מפותח, אך הקווים המקווקווים, כלומר החיבורים בין התחומים, כמעט אינם נחקרים. מטריצת הספרות בסעיף~\ref{sec:matrix} תכמת את הטענה הזו.
+
+\section{תחום א: קביעות צבע ועוגנים ביומטריים}
+\label{sec:lit-color}
+
+בעיית קביעות הצבע (\en{Color Constancy}) היא אמידת צבע מקור האור מתוך תמונה, כדי לשחזר את צבע המשטח "האמיתי". המודל הקלאסי הוא מודל פון קריס (\en{von Kries}), שבו כל ערוץ צבע מוכפל במקדם משלו:
+\begin{equation}
+\mathbf{c}_{\text{obs}} = \operatorname{diag}(\boldsymbol{\ell})\,\mathbf{c}_{\text{true}} + \boldsymbol{\epsilon},
+\qquad \boldsymbol{\ell} \in \mathbb{R}^{3}_{+},
+\label{eq:vonkries}
+\end{equation}
+כאשר $\boldsymbol{\ell}$ הוא וקטור צבע המאיר ו-$\boldsymbol{\epsilon}$ רעש החיישן. שתי גישות מרכזיות שלטו בעשור האחרון. הגישה הלומדת-סטטיסטית מסתמכת על התפלגות הצבעים בכל התמונה: \en{FFCC} של בארון וצאי מנסחת את הבעיה כלוקליזציה של שיא בהיסטוגרמה לוגריתמית-כרומטית, ופותרת אותה במהירות בעזרת התמרת פורייה \cite{barron2017ffcc}, ואילו \en{FC4} לומדת רשת קונבולוציה מלאה שמשקללת כל אזור בתמונה לפי מידת האמינות שלו לאמידת המאיר \cite{hu2017fc4}. הגישה השנייה מתקנת לאחר מעשה תמונה שאוזנה באופן שגוי: אפיפי ועמיתיו הראו שכשל של איזון הלבן במצלמה אינו ניתן לתיקון במכפלה אלכסונית פשוטה, כי הוא עובר דרך עיבוד לא-לינארי, והציעו תיקון מבוסס-דוגמאות \cite{afifi2019wb}. בצד המדידה, רגרסיה בפולינום-שורש של פינלייסון ועמיתיו מאפשרת מיפוי צבע מדויק ובלתי-תלוי בחשיפה, אך דורשת לוח צבעים ייחוס בתמונה \cite{finlayson2015rootpoly}.
+
+מדד ההצלחה בכל העבודות הללו הוא מרחק בין צבעים במרחב \en{CIELAB}. הנוסחה המקובלת, \en{CIEDE2000}, מתקנת את אי-האחידות התפיסתית של המרחב בעזרת פונקציות משקל לבהירות, לרוויה ולגוון \cite{sharma2005ciede2000}:
+\begin{equation}
+\Delta E_{00} = \sqrt{\Big(\frac{\Delta L'}{k_L S_L}\Big)^2 + \Big(\frac{\Delta C'}{k_C S_C}\Big)^2 + \Big(\frac{\Delta H'}{k_H S_H}\Big)^2 + R_T\,\frac{\Delta C'}{k_C S_C}\,\frac{\Delta H'}{k_H S_H}} ,
+\label{eq:de00}
+\end{equation}
+כאשר $\Delta L'$, $\Delta C'$ ו-$\Delta H'$ הם הפרשי הבהירות, הרוויה והגוון, $S_L$, $S_C$ ו-$S_H$ פונקציות משקל, ו-$R_T$ איבר סיבוב שמתקן את האזור הכחול. לגבי עור יש לכך משמעות מעשית: אותו הפרש מספרי בציר האדום-צהוב (\en{$a^*$}, \en{$b^*$}) נתפס כגדול יותר בגוונים בהירים מאשר בכהים. לכן מדד ממוצע אחד עלול להסתיר הטיה לפי גוון עור, ולכן ניסוי האימות מתוכנן לנתח תת-קבוצות.
+
+\textbf{ניתוח ביקורתי.} לכל השיטות הללו הנחה משותפת: ההתפלגות הסטטיסטית של צבעי הסצנה מייצגת את העולם שעליו אומן המודל, או שקיים בתמונה ייחוס חיצוני. בתמונת סלפי שתי ההנחות נשברות. העור תופס את רוב הפריים, ולכן אלגוריתם שמניח "עולם אפור" מנטרל דווקא את המידע שמבקשים למדוד. הסימולציה בפרק~\ref{ch:problem} הראתה את זה במספרים: השגיאה עלתה מ-\num{4.89} ל-\num{9.77}. מנגד, אי אפשר לבקש מכל משתמשת להחזיק לוח צבעים.
+
+\textbf{עוגנים ביומטריים.} נישינו ונאיאר הראו כבר ב-\num{2004} שהעין היא "גשש אור" טבעי: מהשתקפות הסביבה בקרנית אפשר לשחזר את תאורת הסצנה \cite{nishino2004eyes}. לובן העין (\en{Sclera}) הוא משטח כמעט ניטרלי שקיים בכל סלפי, והקשתית מספקת עוגן כרומטי נוסף שהמשתמשת יודעת לתאר. מנגד, תונג, יוניאק ושיאנג הראו שתיאור גוון עור בציר בהירות יחיד אינו מספיק, ושנדרש גם ציר של גוון (\en{Hue}) כדי לייצג הוגנות בין קבוצות \cite{thong2023skin}. שתי העבודות מצביעות על מקורות מידע שלא נוצלו לכיול צבע במסחר: העין כייחוס, ומרחב צבע רב-ממדי כמטרה.
+
+\begin{keymessagebox}
+הספרות פתרה את קביעות הצבע לתמונות כלליות ולתמונות עם ייחוס חיצוני. היא לא פתרה את המקרה שבו העור עצמו הוא רוב הסצנה ואין ייחוס חיצוני. במקרה הזה העין היא הייחוס היחיד שזמין תמיד.
+\end{keymessagebox}
+
+\section{תחום ב: שחזור גוף ויד תלת-ממדי}
+\label{sec:lit-body}
+
+מודל הגוף \en{SMPL-X} מייצג גוף אנושי, ידיים ופנים כרשת משולשים שנשלטת בשלושה וקטורים: צורה $\boldsymbol{\beta}$, תנוחה $\boldsymbol{\theta}$ והבעה $\boldsymbol{\psi}$ \cite{pavlakos2019smplx}:
+\begin{equation}
+M(\boldsymbol{\beta},\boldsymbol{\theta},\boldsymbol{\psi}) = W\big(T_P(\boldsymbol{\beta},\boldsymbol{\theta},\boldsymbol{\psi}),\,J(\boldsymbol{\beta}),\,\boldsymbol{\theta},\,\mathcal{W}\big),
+\label{eq:smplx}
+\end{equation}
+כאשר $T_P$ היא תבנית הגוף לאחר עיוותי צורה ותנוחה, $J$ מיקומי המפרקים ו-$W$ פונקציית עיוות לינארית לפי משקלי $\mathcal{W}$. מכיוון שווקטור הצורה $\boldsymbol{\beta}$ מוגדר במרחב מטרי, אפשר לחלץ ממנו היקפים ואורכים. עם זאת, השחזור מתמונה יחידה סובל מעמימות קנה מידה מובנית: גוף גבוה ורחוק נראה כמו גוף נמוך וקרוב.
+
+שיטות הרגרסיה העדכניות, כמו \en{HMR 2.0} שמבוססת על ארכיטקטורת טרנספורמר \cite{goel2023hmr2} ו-\en{FrankMocap} שמשלבת מודולים נפרדים לגוף ולידיים \cite{rong2021frankmocap}, משיגות דיוק גבוה בתנוחה ובמיקום מפרקים. המדד שהן מייעלות, שגיאת מיקום המפרקים, אינו מדד למידות. העבודה של רואיס ועמיתיו פונה ישירות לבעיית המדידה: היא אומדת היקפים מצלליות של תמונות, ומשתמשת בהעשרה עוינת (\en{Adversarial Augmentation}) כדי להתמודד עם מגוון צורות גוף \cite{ruiz2022bodym}. בעבודה זו גובה המשתמש משמש קלט, וזו בדיוק ההנחה ש-\en{AuraTwin AI} מאמצת: נתון טבלאי אחד, הגובה המדווח, פותר את עמימות קנה המידה.
+
+בתחום כף היד והציפורניים, \en{MediaPipe Hands} מאתרת \num{21} נקודות ציון בזמן אמת במכשיר נייד \cite{zhang2020mediapipe}, ו-\en{Segment Anything} מאפשרת פילוח של אובייקטים חדשים על בסיס הנחיה (\en{Prompt}) \cite{kirillov2023sam}. השילוב של איתור מהיר בקצה עם פילוח מדויק צפוי לאפשר את יעד \en{REQ-HND-04}, בתנאי שהפילוח מכוון לאזור קטן שהאיתור כבר מצא.
+
+\begin{warningbox}
+מדד הדיוק המקובל בתחום הוא שגיאת מיקום המפרקים במילימטרים. מודל שמצטיין בו עלול לטעות בהיקף המותן בכמה סנטימטרים, כי היקף תלוי בצורת הרשת ולא במיקום המפרקים. לכן \en{REQ-BOD-03} מוגדרת בהיקפים, ונבדקת מול מדידת סרט.
+\end{warningbox}
+
+\section{תחום ג: הדמיה גנרטיבית של לבוש, איפור וציפורניים}
+\label{sec:lit-gen}
+
+מודלי דיפוזיה לומדים להפוך תהליך הדרגתי של הוספת רעש לתמונה \cite{ho2020ddpm}. התהליך הקדמי מוגדר כ-
+\begin{equation}
+q(\mathbf{x}_t \mid \mathbf{x}_0) = \mathcal{N}\!\big(\sqrt{\bar\alpha_t}\,\mathbf{x}_0,\;(1-\bar\alpha_t)\mathbf{I}\big),
+\label{eq:ddpm}
+\end{equation}
+והרשת לומדת לחזות את הרעש $\boldsymbol{\epsilon}$ שהתווסף. מודלי דיפוזיה סמויה (\en{LDM}) מבצעים את התהליך במרחב דחוס של מקודד אוטומטי, ובכך מקטינים את עלות החישוב בסדר גודל \cite{rombach2022ldm}. \en{ControlNet} הוסיפה דרך יעילה להתנות את היצירה במבנה מרחבי, כמו שלד תנוחה או מפת קצוות, בלי לאמן מחדש את המודל הבסיסי \cite{zhang2023controlnet}.
+
+הדמיית לבוש וירטואלית (\en{Virtual Try-On}, \en{VTON}) עברה שני דורות. הדור הראשון היה מבוסס על עיוות (\en{Warping}) של תמונת הבגד אל גוף האדם ואחריו רשת סינתזה: \en{VITON-HD} הגיעה לרזולוציה גבוהה בעזרת נרמול שמודע לאי-התאמה \cite{choi2021vitonhd}, ו-\en{GP-VTON} שילבה זרימה מקומית עם פילוח גלובלי כדי לטפל בבגדים מורכבים \cite{xie2023gpvton}. הדור השני מבוסס על דיפוזיה: \en{LaDI-VTON} מקודדת את הבגד כמילת טקסט נלמדת \cite{morelli2023ladivton}, \en{StableVITON} לומדת התאמה סמנטית בין בגד לגוף בתוך מודל דיפוזיה סמויה \cite{kim2024stableviton}, \en{TryOnDiffusion} מאחדת עיוות ומיזוג בשתי רשתות \en{UNet} מקבילות \cite{zhu2023tryondiffusion}, ו-\en{IDM-VTON} משלבת מודל דיפוזיה גדול עם רשת ייעודית לפרטי הבגד ומשפרת נאמנות בתמונות "מהשטח" \cite{choi2024idmvton}. בתחום האיפור, \en{PSGAN} העבירה סגנון איפור בין פנים בתנוחות והבעות שונות \cite{jiang2020psgan}.
+
+ההערכה בתחום נשענת על שלושה מדדים: \en{FID} לאיכות התפלגותית \cite{heusel2017fid}, \en{LPIPS} לדמיון תפיסתי לתמונת ייחוס \cite{zhang2018lpips}, ודמיון \en{ArcFace} לשמירת זהות \cite{deng2019arcface}. אף אחד מהם אינו מודד אם צבע הבגד או צבע העור נשמרו באופן מכויל, ואף אחד אינו מודד אם הבגד מוצג במידה הנכונה.
+
+\begin{keymessagebox}
+מודלי ההדמיה של הדור השני מצטיינים בפוטו-ריאליזם, אך הם "מלבישים" את הבגד על הצללית שבתמונה. בגד במידה \en{S} ובגד במידה \en{L} ייראו אותו דבר, ושגיאת הצבע של תמונת הקלט עוברת כפי שהיא אל תמונת הפלט.
+\end{keymessagebox}
+
+\section{תחום ד: אחזור רב-מודאלי, \en{RAG} וכריית טרנדים}
+\label{sec:lit-rag}
+
+\en{CLIP} למד מרחב שיכון משותף לתמונות ולטקסט מתוך מאות מיליוני זוגות תמונה-כיתוב \cite{radford2021clip}, ו-\en{BLIP-2} חיבר מקודד תמונה קפוא למודל שפה גדול בעזרת שכבת גישור קלה \cite{li2023blip2}. יחד הם מאפשרים לתאר פריט אופנה במילים ולמצוא אותו בקטלוג, או להפך. יצירה מועשרת-אחזור (\en{RAG}) מוסיפה למודל שפה שלב אחזור ממאגר חיצוני, וכך מעגנת את התשובה במידע עדכני וניתן לבדיקה \cite{lewis2020rag}. בקנה מידה של מיליוני פריטים, ספריות כמו \en{FAISS} מבצעות חיפוש שכנים קרובים על מעבדים גרפיים במהירות של אלפיות שנייה \cite{johnson2021faiss}.
+
+בצד התוכן, סקירה מקיפה של מערכות המלצה לאופנה מראה שרובן נשענות על אינטראקציות עבר ועל מאפייני פריט, ומעט מהן משלבות מאפייני גוף של הלקוחה \cite{deldjoo2023fashionrec}. חיזוי טרנדים נחקר כבעיית סדרות עתיות: \en{Fashion Forward} חזתה את הפופולריות של סגנונות חזותיים מתוך תמונות \cite{alhalah2017fashionforward}, ומה ועמיתיו שילבו גרף ידע כדי לשפר את התחזית \cite{ma2020fashiontrend}. שתי העבודות חוזות טרנד ברמת האוכלוסייה, ואינן שואלות אם הטרנד מתאים לגוון העור או למבנה הגוף של לקוחה מסוימת.
+
+\section{שיטה, תרומה ומגבלה: סיכום ההשוואה}
+\label{sec:lit-summary}
+
+טבלה~\ref{tab:litsum} מרכזת, לכל אחד מהמקורות המרכזיים, את השיטה, את התרומה העיקרית ואת המגבלה ביחס לבעיה של \en{AuraTwin AI}. עמודת המגבלה היא החשובה: היא מתעדת את ההנחות המפשטות שהפרויקט נדרש להסיר.
+
+\begin{reporttable}[\footnotesize]{שיטה, תרומה עיקרית ומגבלה ביחס לבעיה, לפי מקור}{tab:litsum}{P{2.5cm} R R R}
+\headrow \hc{מקור} & \hc{שיטה} & \hc{תרומה עיקרית} & \hc{מגבלה ביחס לבעיה} \\ \midrule
+\en{FFCC} \cite{barron2017ffcc} & היסטוגרמה לוג-כרומטית ופורייה & אמידת מאיר מהירה ומדויקת & מניחה סצנה מגוונת, לא סלפי \\
+תיקון איזון לבן \cite{afifi2019wb} & תיקון לא-לינארי מבוסס דוגמאות & מתקן תמונות שאוזנו בשגיאה & אינו מנצל עוגן בגוף \\
+העין כגשש אור \cite{nishino2004eyes} & מודל גיאומטרי של הקרנית & שחזור תאורת הסביבה מהעין & לא יושם לכיול צבע עור \\
+גוון עור רב-ממדי \cite{thong2023skin} & מדד בהירות וגוון & הערכת הוגנות לפי גוון & מדד הערכה, לא שיטת כיול \\
+\en{SMPL-X} \cite{pavlakos2019smplx} & מודל גוף פרמטרי & גוף, ידיים ופנים במודל אחד & עמימות קנה מידה מתמונה \\
+מדידת גוף \cite{ruiz2022bodym} & רגרסיה מצלליות וגובה & היקפים מתמונות & מחייב צללית נקייה \\
+\en{MediaPipe Hands} \cite{zhang2020mediapipe} & רשת קלה לנקודות ציון & איתור יד בזמן אמת בנייד & ללא פילוח ציפורניים \\
+\en{ControlNet} \cite{zhang2023controlnet} & התניה מרחבית בדיפוזיה & שליטה במבנה בלי אימון מחדש & אינה מבטיחה נאמנות צבע \\
+\en{StableVITON} \cite{kim2024stableviton} & התאמה סמנטית בדיפוזיה סמויה & שימור פרטי בגד & סטודיו, ללא מידות \\
+\en{IDM-VTON} \cite{choi2024idmvton} & דיפוזיה עם רשת בגד מקבילה & נאמנות בתמונות מהשטח & ללא כיול, ללא מידות, יקרה \\
+\en{CLIP} \cite{radford2021clip} & שיכון משותף בלמידה ניגודית & אחזור תמונה-טקסט כללי & אינו מבחין בתת-גוון \\
+\en{RAG} \cite{lewis2020rag} & אחזור ויצירה משולבים & תשובות מעוגנות במקור & נבחן על טקסט, לא על אופנה \\
+\en{Fashion Forward} \cite{alhalah2017fashionforward} & סדרות עתיות של סגנונות & חיזוי פופולריות & ברמת אוכלוסייה בלבד \\
+\end{reporttable}
+
+הקריאה של עמודת המגבלה מלמדת שהמגבלות אינן אקראיות. הן חוזרות על שלושה דפוסים, שסעיף~\ref{sec:synthesis} ינתח.
+
+\section{מטריצת הספרות}
+\label{sec:matrix}
+
+טבלה~\ref{tab:litmatrix} מרכזת את הסקירה. השורות הן המקורות והעמודות הן שש יכולות שהפרויקט דורש. עיגול מלא מסמן יכולת שנבחנה במלואה, עיגול ריק יכולת חלקית, וקו יכולת שלא נבחנה.
+
+\begin{reporttable}[\footnotesize]{מטריצת הספרות: מקורות מול שש יכולות. המשבצות הריקות הן הפער}{tab:litmatrix}{R Q{1.2cm} Q{1.2cm} Q{1.2cm} Q{1.2cm} Q{1.2cm} Q{1.2cm}}
+\headrow \hc{מקור} & \hc{כיול צבע} & \hc{עוגן ביומטרי} & \hc{גוף מטרי} & \hc{הדמיה} & \hc{אחזור וטרנד} & \hc{עלות ונייד} \\ \midrule
+\en{FFCC} \cite{barron2017ffcc} & \cellok & \cellno & \cellno & \cellno & \cellno & \cellpartial \\
+\en{FC4} \cite{hu2017fc4} & \cellok & \cellno & \cellno & \cellno & \cellno & \cellno \\
+תיקון איזון לבן \cite{afifi2019wb} & \cellok & \cellno & \cellno & \cellno & \cellno & \cellno \\
+פולינום-שורש \cite{finlayson2015rootpoly} & \cellok & \cellno & \cellno & \cellno & \cellno & \cellpartial \\
+העין כגשש אור \cite{nishino2004eyes} & \cellpartial & \cellok & \cellno & \cellno & \cellno & \cellno \\
+גוון עור רב-ממדי \cite{thong2023skin} & \cellpartial & \cellpartial & \cellno & \cellno & \cellno & \cellno \\
+\en{SMPL-X} \cite{pavlakos2019smplx} & \cellno & \cellno & \cellpartial & \cellno & \cellno & \cellno \\
+\en{HMR 2.0} \cite{goel2023hmr2} & \cellno & \cellno & \cellpartial & \cellno & \cellno & \cellno \\
+מדידת גוף \cite{ruiz2022bodym} & \cellno & \cellno & \cellok & \cellno & \cellno & \cellpartial \\
+\en{MediaPipe Hands} \cite{zhang2020mediapipe} & \cellno & \cellno & \cellpartial & \cellno & \cellno & \cellok \\
+\en{PSGAN} \cite{jiang2020psgan} & \cellno & \cellno & \cellno & \cellpartial & \cellno & \cellno \\
+\en{GP-VTON} \cite{xie2023gpvton} & \cellno & \cellno & \cellno & \cellok & \cellno & \cellno \\
+\en{StableVITON} \cite{kim2024stableviton} & \cellno & \cellno & \cellno & \cellok & \cellno & \cellno \\
+\en{TryOnDiffusion} \cite{zhu2023tryondiffusion} & \cellno & \cellno & \cellpartial & \cellok & \cellno & \cellno \\
+\en{IDM-VTON} (דגל) \cite{choi2024idmvton} & \cellno & \cellno & \cellno & \cellok & \cellno & \cellpartial \\
+\en{CLIP} \cite{radford2021clip} & \cellno & \cellno & \cellno & \cellno & \cellok & \cellno \\
+\en{RAG} \cite{lewis2020rag} & \cellno & \cellno & \cellno & \cellno & \cellok & \cellno \\
+\en{Fashion Forward} \cite{alhalah2017fashionforward} & \cellno & \cellno & \cellno & \cellno & \cellok & \cellno \\
+סקירת המלצות אופנה \cite{deldjoo2023fashionrec} & \cellno & \cellno & \cellpartial & \cellno & \cellok & \cellno \\
+\hlrow \textbf{הפרויקט המוצע: \en{AuraTwin AI} -- זה הפער} & \cellok & \cellok & \cellok & \cellok & \cellok & \cellok \\
+\end{reporttable}
+
+הקריאה של הטבלה לאורך העמודות מלמדת יותר מהקריאה לאורך השורות. ארבע העמודות הראשונות מכוסות היטב, כל אחת בנפרד. אף מקור אינו מכסה יותר משתי יכולות במלואן, ואף מקור בתחום ההדמיה אינו מכסה את כיול הצבע או את העוגן הביומטרי. עמודת העלות והפריסה בנייד ריקה כמעט לגמרי בתחום ההדמיה: המאמרים מדווחים על איכות, ולא על עלות ליחידה. השורה האחרונה היא התחייבות ולא הישג: זו המשבצת שהפרויקט מתחייב למלא.
+
+\section{סינתזה ביקורתית: שלוש הנחות שחוזרות בספרות}
+\label{sec:synthesis}
+
+מעבר למשבצות הריקות, הסקירה חושפת שלוש הנחות מפשטות שחוזרות בכל התחומים. הן מסבירות למה המשבצות ריקות.
+
+\textbf{הנחה \num{1}: הקלט כבר מכויל.} מודלי ההדמיה, מנועי ההמלצה ומודלי הטרנדים מקבלים את צבעי התמונה כנתון. רק ספרות קביעות הצבע מטפלת בהם, והיא אינה מחוברת לשאר הצינור. בגלל ההנחה הזו, שגיאה של \num{$\Delta E_{00} \approx 5$} בקלט עוברת בלי מגע עד לפלט.
+
+\textbf{הנחה \num{2}: צורה במקום מידה.} מודלי הגוף מייעלים דיוק של תנוחה, ומודלי ההדמיה מייעלים התאמה לצללית. שניהם עובדים ביחידות של פיקסלים, ואף אחד אינו מחויב לסנטימטרים. לכן גם מודל מצוין אינו יכול לומר אם בגד במידה \en{M} יתאים.
+
+\textbf{הנחה \num{3}: עלות החישוב אינה חלק מהבעיה.} המאמרים בתחום ההדמיה מדווחים על איכות ולא על עלות ליחידה, ואינם מגדירים תקציב חישוב. זו הנחה סבירה במחקר, אך במוצר היא קובעת אם הרכיב יופעל בכלל.
+
+לצד שלוש ההנחות קיימת גם ביקורת מתודולוגית. רוב מאגרי ההדמיה צולמו בסטודיו, עם רקע אחיד ותאורה מבוקרת, ולכן אינם מייצגים את התנאים של משתמשת בביתה. בנוסף, עבודות על גוון עור הראו שמדדים שנשענים על בהירות בלבד מסתירים הבדלים בין קבוצות \cite{thong2023skin}. מכאן נגזרים שני עקרונות לתכנון הניסוי בפרויקט: איסוף בתנאי בית אמיתיים בארבע תאורות, ודיווח של תוצאות לפי תת-קבוצות גוון ולא רק בממוצע. כך הפרויקט לא יחזור על אותן הנחות שהוא מבקר.
+
+\section{בחירת מאמר הדגל}
+\label{sec:flagship}
+
+מאמר הדגל (\en{Flagship Paper}) הוא הפרסום שממנו הפרויקט שואב את הבסיס המתודולוגי הישיר ביותר. הוא נבחר בחיתוך של שלושה קריטריונים (איור~\ref{fig:venn}): במה שפיטה בדירוג גבוה, קרבה ישירה לבעיה, וחזרתיות (\en{Replicability}) שמאפשרת לשחזר את התוצאות \cite{segal2026booklet}.
+
+\begin{reportfigure}{מאמר הדגל נמצא בחיתוך של שלושת הקריטריונים}{fig:venn}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \fill[brandprimary,opacity=0.18] (0,0.55) circle (1.75);
+  \fill[brandsecondary,opacity=0.18] (-1.0,-1.1) circle (1.75);
+  \fill[brandaccent,opacity=0.22] (1.0,-1.1) circle (1.75);
+  \draw[brandprimary,thick] (0,0.55) circle (1.75);
+  \draw[brandsecondary,thick] (-1.0,-1.1) circle (1.75);
+  \draw[brandaccent!90!black,thick] (1.0,-1.1) circle (1.75);
+  \node[font=\small\bfseries,text=brandprimary] at (0,1.75) {\heb{במה שפיטה}};
+  \node[font=\small\bfseries,text=brandsecondary] at (-1.95,-1.85) {\heb{קרבה לבעיה}};
+  \node[font=\small\bfseries,text=brandaccent!80!black] at (1.95,-1.85) {\heb{חזרתיות}};
+  \node[font=\scriptsize\bfseries,fill=white,rounded corners=2pt,inner sep=2pt] at (0,-0.55) {\en{IDM-VTON}};
+  \node[font=\scriptsize,text=black!70] at (0,0.42) {\en{TryOnDiffusion}};
+  \node[font=\scriptsize,text=black!70] at (-1.55,-0.75) {\en{GP-VTON}};
+  \node[font=\scriptsize,text=black!70] at (1.6,0.2) {\en{ControlNet}};
+  \node[font=\scriptsize,text=black!70] at (0,-2.35) {\en{VITON-HD}};
+\end{tikzpicture}
+\end{reportfigure}
+
+טבלה~\ref{tab:flagcand} מראה כיצד הוכרעה הבחירה בין המועמדים. \en{TryOnDiffusion} עומדת בשני הקריטריונים הראשונים, אך המודל והנתונים שלה אינם זמינים לציבור, ולכן אי אפשר לשחזר את תוצאותיה. \en{IDM-VTON} עומדת בשלושתם: פורסמה בכנס \en{ECCV 2024}, עוסקת ישירות בהדמיה בתמונות "מהשטח", ופרסמה קוד ומשקלים.
+
+\begin{reporttable}{המועמדים למאמר הדגל מול שלושת הקריטריונים}{tab:flagcand}{R Q{2.0cm} Q{2.3cm} Q{2.3cm}}
+\headrow \hc{מועמד} & \hc{במה שפיטה} & \hc{קרבה לבעיה} & \hc{חזרתיות} \\ \midrule
+\en{TryOnDiffusion} \cite{zhu2023tryondiffusion} & \en{CVPR 2023} \cellok & גבוהה \cellok & קוד ונתונים סגורים \cellno \\
+\en{StableVITON} \cite{kim2024stableviton} & \en{CVPR 2024} \cellok & גבוהה \cellok & קוד פתוח \cellok \\
+\en{GP-VTON} \cite{xie2023gpvton} & \en{CVPR 2023} \cellok & בינונית, דור העיוות \cellpartial & קוד פתוח \cellok \\
+\hlrow \en{IDM-VTON} \cite{choi2024idmvton} & \en{ECCV 2024} \cellok & גבוהה, תמונות מהשטח \cellok & קוד ומשקלים \cellok \\
+\end{reporttable}
+
+ההכרעה בין \en{StableVITON} ל-\en{IDM-VTON} נשענת על הקרבה לבעיה: \en{IDM-VTON} מתמקדת במפורש בתמונות שצולמו מחוץ לסטודיו, וזה המצב של המשתמשת ב-\en{AuraTwin AI}. הבחירה אינה סופית: אם ניסוי השחזור בשבוע \num{3} ייכשל, \en{StableVITON} היא החלופה המוגדרת מראש.
+
+\section{ניתוח מאמר הדגל והגדרת פער הידע}
+\label{sec:flagship-analysis}
+
+\subsection{המודל והמשוואות השולטות}
+\en{IDM-VTON} בנויה על מודל דיפוזיה סמויה גדול לציור-מחדש (\en{Inpainting}), שמקבל כקלט את תמונת האדם שבה אזור הבגד ממוסך, מפת תנוחה, ואת תמונת הבגד \cite{choi2024idmvton}. האימון ממזער את שגיאת חיזוי הרעש במרחב הסמוי:
+\begin{equation}
+\mathcal{L} = \mathbb{E}_{\mathbf{z}_0,\boldsymbol{\epsilon},t}\Big[\big\lVert \boldsymbol{\epsilon} - \boldsymbol{\epsilon}_\theta(\mathbf{z}_t,\,t,\,\mathbf{x}_m,\,\mathbf{p},\,\mathbf{g}) \big\rVert_2^2\Big],
+\label{eq:ldmloss}
+\end{equation}
+כאשר $\mathbf{z}_t$ הוא הייצוג הסמוי הרועש, $\mathbf{x}_m$ תמונת האדם הממוסכת, $\mathbf{p}$ התנוחה ו-$\mathbf{g}$ הבגד. הבגד נכנס למודל בשני מסלולים. מסלול סמנטי ברמה גבוהה עובר דרך מתאם הנחיה חזותית, שמוסיף לתשומת הלב הצולבת של הטקסט רכיב מקביל של תמונה:
+\begin{equation}
+\mathbf{Z} = \operatorname{Attn}(\mathbf{Q},\mathbf{K}_{\text{txt}},\mathbf{V}_{\text{txt}}) + \lambda\,\operatorname{Attn}(\mathbf{Q},\mathbf{K}_{\text{img}},\mathbf{V}_{\text{img}}).
+\label{eq:ipadapter}
+\end{equation}
+מסלול שני, ברמה נמוכה, עובר דרך רשת \en{UNet} מקבילה (\en{GarmentNet}) שמחלצת מאפיינים מפורטים של הבגד, כמו לוגו, טקסטורה ותבנית. מאפיינים אלה מצורפים למאפייני האדם בתוך שכבות תשומת הלב העצמית, כך שכל פיקסל של הגוף יכול "להסתכל" על כל פיקסל של הבגד. בזמן ההסקה נעשה שימוש בהכוונה ללא מסווג (\en{Classifier-Free Guidance}):
+\begin{equation}
+\tilde{\boldsymbol{\epsilon}}_\theta = \boldsymbol{\epsilon}_\theta(\mathbf{z}_t,\varnothing) + w\,\big(\boldsymbol{\epsilon}_\theta(\mathbf{z}_t,\mathbf{c}) - \boldsymbol{\epsilon}_\theta(\mathbf{z}_t,\varnothing)\big),
+\label{eq:cfg}
+\end{equation}
+שמכפילה את מספר הערכות הרשת בכל צעד. איור~\ref{fig:flagship} מסכם את הצינור ומסמן את שלוש נקודות התורפה.
+
+\begin{reportfigure}{צינור מאמר הדגל \en{IDM-VTON} ושלוש מגבלותיו ביחס לבעיה}{fig:flagship}
+\begin{tikzpicture}[x=1cm,y=1cm,
+  m/.style={draw=brandprimary,fill=brandtint,rounded corners=3pt,minimum height=0.85cm,align=center,font=\scriptsize,text width=2.2cm},
+  l/.style={draw=brandwarn,fill=brandwarn!8,rounded corners=2pt,font=\scriptsize,align=center,text width=2.6cm}]
+  \node[m] (in) at (0,0) {\en{Person image}\\(\heb{צבע לא מכויל})};
+  \node[m] (g) at (0,-1.35) {\en{Garment image}};
+  \node[m] (gn) at (3.0,-1.35) {\en{GarmentNet}\\\en{+ IP-Adapter}};
+  \node[m] (un) at (3.0,0) {\en{SDXL Inpainting}\\\en{TryonNet}};
+  \node[m] (out) at (6.1,0) {\heb{תמונת הדמיה}};
+  \node[l] (l1) at (0,1.35) {\heb{1: אין כיול צבע}};
+  \node[l] (l2) at (6.1,1.35) {\heb{2: אין מידות מטריות}};
+  \node[l] (l3) at (6.1,-1.35) {\heb{3: עלות ושניות לתמונה}};
+  \draw[-Stealth,thick] (in) -- (un); \draw[-Stealth,thick] (g) -- (gn);
+  \draw[-Stealth,thick] (gn) -- (un); \draw[-Stealth,thick] (un) -- (out);
+  \draw[brandwarn,dashed] (l1) -- (in); \draw[brandwarn,dashed] (l2) -- (out); \draw[brandwarn,dashed] (l3) -- (un);
+\end{tikzpicture}
+\end{reportfigure}
+
+\subsection{סביבת הניסוי ומגבלות ההנחות}
+המאמר מעריך את המודל על מאגרי \en{VITON-HD} ו-\en{DressCode}, שבהם הדוגמניות מצולמות בסטודיו ברקע אחיד ובתאורה מבוקרת, ועל אוסף של תמונות "מהשטח" \cite{choi2024idmvton}. מהניתוח עולות שלוש מגבלות מהותיות ביחס לבעיה שהוגדרה בפרק~\ref{ch:problem}, והן מסומנות באיור~\ref{fig:flagship}:
+
+\textbf{מגבלה \num{1}, הנחת תאורה.} המודל לומד להעתיק את צבעי תמונת הקלט. אם תמונת האדם צולמה בתאורת להט, העור והבגד יוצגו בגוון חמים, והמשתמשת תשפוט את הבגד דרך העיוות הזה. המדדים שבהם המאמר נמדד (\en{FID}, \en{LPIPS}) אינם רגישים לסטייה כזו, כי גם תמונת הייחוס צולמה באותה תאורה.
+
+\textbf{מגבלה \num{2}, היעדר מידות.} הבגד מותאם לצללית הקיימת בתמונה. המודל אינו מקבל את מידת הבגד או את היקפי הגוף, ולכן אינו יכול להראות שבגד צר מדי ימתח, או שבגד רחב ייפול. מבחינת המשתמשת, ההדמיה עונה על השאלה "איך זה ייראה" ולא על השאלה "האם זה יתאים".
+
+\textbf{מגבלה \num{3}, משאבי חישוב.} מודל הבסיס הוא מודל גדול ברזולוציה גבוהה, עם רשת מקבילה לבגד ועם הכוונה שמכפילה את מספר הערכות הרשת. לפי אומדן הצוות, שיימדד בניסוי השחזור, זמן ההסקה הוא יותר מ-\num{8 s} לתמונה גם על מעבד גרפי מדרגת \en{A100}. זמן כזה רחוק מ-\en{REQ-GEN-06}, ועלותו אינה מתיישבת עם \en{REQ-BIZ-12}.
+
+\subsection{מה הפרויקט לוקח, משנה ומוסיף}
+הניתוח אינו מוביל לדחיית מאמר הדגל אלא לשימוש מבוקר בו. טבלה~\ref{tab:takeadd} מפרטת מה נלקח כמו שהוא, מה משתנה ומה מתווסף.
+
+\begin{reporttable}{היחס למאמר הדגל: מה נלקח, מה משתנה ומה מתווסף}{tab:takeadd}{P{1.7cm} R R}
+\headrow \hc{פעולה} & \hc{רכיב} & \hc{נימוק} \\ \midrule
+לוקחים & רשת הבגד המקבילה ומנגנון תשומת הלב & הנאמנות לפרטי הבגד היא החוזקה המוכחת \\
+לוקחים & הקוד והמשקלים שפורסמו & מאפשרים שחזור בשבוע \num{3} \\
+משנים & מספר צעדי הדגימה: זיקוק ל-\num{8} & עמידה ב-\en{REQ-GEN-06} וב-\en{REQ-BIZ-12} \\
+משנים & תמונת הקלט מכוילת לפני ההדמיה & סגירת מגבלה \num{1} \\
+מוסיפים & התניה במידה ובמפת היקפים & סגירת מגבלה \num{2} \\
+מוסיפים & מסיכת יד וציפורניים כהתניה & הפחתת \en{RSK-GEN-02} \\
+\end{reporttable}
+
+מהטבלה עולה שהפרויקט אינו מתחרה במאמר הדגל, אלא עוטף אותו. הנאמנות הגנרטיבית נשארת של המודל, והפרויקט מוסיף את מה שחסר לו כדי לשמש במוצר: קלט מכויל, מידה ומסגרת עלות.
+
+\subsection{פער הידע}
+שלוש המגבלות, יחד עם המשבצות הריקות במטריצה, מתנקזות למשפט אחד:
+
+\begin{keymessagebox}[פער הידע]
+הפתרונות הקיימים להדמיה ולהמלצה מניחים שצבעי תמונת הסלפי נכונים, ובמקורות שנסקרו לא נמצאה עבודה שבודקת אם העין, בעזרת לובן העין וצבע עיניים מדווח, יכולה לשמש עוגן לכיול גוון העור בתאורה לא מבוקרת.
+\end{keymessagebox}
+
+הפער נבנה בדרך של ערעור על הנחה (\en{Problematization}) ולא רק באיתור משבצת ריקה, במובן שהציעו סנדברג ואלבסון \cite{sandberg2011gap}: ההנחה שצבעי תמונת הקלט נכונים משותפת לכל הספרות של תחום ג, ולכן שיפור של מודל ההדמיה לבדו לא יסגור אותו. ההשערות בסעיף~\ref{sec:rq} בוחנות את הפער הזה ישירות. מידות הגוף והשער הכלכלי אינם חלק מטענת הפער: הם רכיבי אינטגרציה הנדסיים, שנמדדים בדרישות המפרט. היקף הטענה מוגבל למקורות שנסקרו: חיפוש שיטתי לפי פרוטוקול קבוע (מאגרי \en{IEEE Xplore}, \en{ACM DL} ו-\en{Google Scholar}, צירופי מילים של עין, לובן העין ואיזון לבן עם סלפי וגוון עור) מתוכנן כחלק ממשימה \en{TSK-1.1}, והניסוח יעודכן לפי תוצאותיו. הפרויקט מציע לסגור אותו לפני מודל ההדמיה, בשכבת הכיול, ולהעביר אל מודל הדגל קלט מכויל ומידות מטריות כהתניה נוספת. פרק~\ref{ch:market} יבחן אם פער זה קיים גם במוצרים המסחריים, ופרק~\ref{ch:design} יתרגם אותו לארכיטקטורה.

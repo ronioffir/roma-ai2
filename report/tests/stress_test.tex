@@ -1,0 +1,40 @@
+% Prompt B4 -- one-page BiDi stress test for base-report.cls + auratwin-report.cls
+\documentclass{auratwin-report}
+\addbibresource{stress.bib}\docgroup{roma-ai2}\docauthorsshort{רוני אופיר ומעיין שירי}
+\begin{document}
+\mainmatterpages
+\chapter{עמוד בדיקת עומס דו-כיווני}
+\begin{managerbox}
+תבנית שעוברת את עמוד הבדיקה הזה עם \en{LuaLaTeX} גרסה \num{1.0} לא תהפוך \num{1.0} ל-\num{0.1} באמצע הדוח.
+\end{managerbox}
+\section{טקסט מעורב}
+המערכת \en{AuraTwin AI} משתמשת במודל \en{GPT-4o Vision} ובמנוע \en{Latent Diffusion}, עם סף \num{$\Delta E_{00} \le 1.8$}, טווח \num{10--20}, שיעור \num{85\%}, עלות \num{\$1,500} לחודש וזמן תגובה של \num{35 ms}. ראשי תיבות: \en{RAG}, \en{SMPL-X}, \en{CIELAB}, \en{TAM/SAM/SOM}. ציטוט לדוגמה \cite{sharma2005ciede2000}.
+\begin{equation}
+  S_j = \sum_{i=1}^{n} w_i \, c_{ij}, \qquad \sum_{i} w_i = 1.00 \quad \hebmath{(ציון משוקלל)}
+\end{equation}
+\subsection{טבלה ותרשים}
+טבלה~\ref{tab:stress} ואיור~\ref{fig:stress} בודקים שהעמודה הראשונה מימין ושהתרשים אינו מתהפך.
+\begin{reporttable*}{טבלת בדיקה: העמודה הראשונה מימין}{tab:stress}{p{2.4cm} X p{2.6cm}}
+\headrow \hc{מזהה} & \hc{הדרישה} & \hc{ערך יעד} \\ \midrule
+\en{REQ-VIS-01} & כיול צבע בתנאי תאורה לא מבוקרים & \num{$\Delta E_{00} \le 1.8$} \\
+\en{REQ-BIZ-12} & מרווח יחידה בשער הפרסום & \num{$\mathrm{ARPU} > 2.4\,C_{\mathrm{GPU}}$} \\
+\en{REQ-LAT-04} & זמן תגובה מקצה לקצה & \num{$\le$ 1.8 s} \\
+\end{reporttable*}
+\begin{reportfigure*}{תרשים בדיקה: זרימה מימין לשמאל בסביבה אנגלית}{fig:stress}
+\begin{tikzpicture}[node distance=1.2cm, box/.style={draw=brandprimary,fill=brandtint,rounded corners,minimum width=2.6cm,minimum height=0.8cm,font=\small}]
+\node[box] (a) {\heb{צילום סלפי}};
+\node[box,left=of a] (b) {\heb{כיול} \en{CIELAB}};
+\node[box,left=of b,fill=brandsecondary!20] (c) {\en{RAG} \heb{המלצה}};
+\draw[-Stealth,thick] (a)--(b); \draw[-Stealth,thick] (b)--(c);
+\end{tikzpicture}
+\end{reportfigure*}
+\begin{keymessagebox}תיבת מסר עם \en{English words} ומספר \num{4.45}.\end{keymessagebox}
+\begin{warningbox}אזהרה: אין להקליד עברית הפוכה ידנית.\end{warningbox}
+\begin{examplebox}דוגמה: \en{ArcFace} \num{$\ge 0.88$}.\end{examplebox}
+\begin{english}
+\begin{codebox}
+lualatex -interaction=nonstopmode -jobname=report main.tex
+\end{codebox}
+\end{english}
+\bodyend
+\end{document}

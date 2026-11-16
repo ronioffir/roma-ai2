@@ -1,0 +1,38 @@
+# LaTeX build artefacts (report.pdf itself IS committed)
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.log
+*.out
+*.run.xml
+*.toc
+*.lof
+*.lot
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+report/work/build_*.txt
+report/tests/*.pdf
+report/tests/*.png
+!report/tests/stress_test_B4.png
+
+# scratch renders made during the visual QA pass
+report/work/_*.png
+report/work/_*.txt
+report/work/p-*.png
+report/work/g*.png
+report/work/pre*.png
+report/work/req-*.png
+report/work/sheet*.png
+report/work/heat*.png
+report/work/v[0-9]*.png
+report/work/prev_check.png
+report/tests/*.listing
+report/figures/previews/pages/
+
+# Python / OS
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db

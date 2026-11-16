@@ -1,0 +1,149 @@
+%% ============================================================================
+%% ch6_workplan.tex -- Chapter 6: תוכנית עבודה: WBS, תפקידים ולוחות זמנים
+%% budget: body pages 31-34 (4 pages)
+%% Critical path: TSK-1.1 -> 1.2 -> 4.1 -> buffer(8) -> 4.2 -> buffer(12) -> 5.2 = 14 weeks
+%% ============================================================================
+\chapter{תוכנית עבודה: \en{WBS}, תפקידים ולוחות זמנים}
+\label{ch:plan}
+
+\begin{managerbox}
+היכולת לפרק פרויקט גדול למרכיבים ישימים היא מדד מרכזי לבשלות מקצועית. תוכנית טובה עונה על שלוש שאלות: מה עושים, מי עושה, ומתי. הפרק עונה עליהן בשלושה כלים: מבנה פירוק עבודה, מטריצת אחריות ותרשים גאנט עם נתיב קריטי ושבועות רזרבה \cite{pmi2021pmbok,kerzner2017pm}.
+\end{managerbox}
+
+\section{מה עושים: מבנה פירוק העבודה}
+\label{sec:wbs}
+
+הפרויקט מפורק לחמש חבילות עבודה (\en{Work Packages}) במבנה היררכי (\enlong{Work Breakdown Structure}), כך שלכל חבילה יש תוצר מוגדר שאפשר לבדוק (איור~\ref{fig:wbs} וטבלה~\ref{tab:wbs}).
+
+\begin{reportfigure}{מבנה פירוק העבודה: חמש חבילות ושתים-עשרה משימות}{fig:wbs}
+\begin{tikzpicture}[x=1cm,y=1cm,
+  root/.style={draw=brandprimary,fill=brandprimary,text=white,rounded corners=3pt,font=\small\bfseries,minimum height=0.75cm,minimum width=3.4cm},
+  wp/.style={draw=#1,fill=#1!15,rounded corners=3pt,font=\scriptsize,text width=1.95cm,align=center,minimum height=1.0cm},
+  t/.style={font=\tiny,text width=1.95cm,align=center,draw=black!20,fill=white,rounded corners=1pt}]
+  \node[root] (r) at (0,0) {\en{AuraTwin AI}};
+  \foreach \i/\x/\c/\name in {1/-4.8/brandsecondary/{WP 1.0\\\heb{נתונים וכיול}},
+                              2/-2.4/brandexample/{WP 2.0\\\heb{טרנדים ו-}\en{RAG}},
+                              3/0/brandaccent/{WP 3.0\\\heb{הדמיה ושער}},
+                              4/2.4/brandprimary/{WP 4.0\\\heb{אינטגרציה ובדיקות}},
+                              5/4.8/brandgreen/{WP 5.0\\\heb{תיעוד ופיילוט}}} {
+    \node[wp=\c] (w\i) at (\x,-1.6) {\name};
+    \draw[thick,brandprimary!60] (r.south) -- ++(0,-0.35) -| (w\i.north);
+  }
+  \node[t] at (-4.8,-2.75) {TSK-1.1 \heb{ניסוי בסיס}\\TSK-1.2 \heb{כיול בקצה}};
+  \node[t] at (-2.4,-2.75) {TSK-2.1 \heb{קטלוג וגרף}\\TSK-2.2 \heb{טרנדים}};
+  \node[t] at (0,-2.75) {TSK-3.1 \heb{זיקוק הדגל}\\TSK-3.2 \heb{שער ושותפים}};
+  \node[t] at (2.4,-2.85) {TSK-4.1 \heb{אינטגרציה}\\TSK-4.2 \heb{ניסוי אימות}\\TSK-4.3 \heb{עומס ועלות}};
+  \node[t] at (4.8,-2.75) {TSK-5.1 \heb{ספר פרויקט}\\TSK-5.2 \heb{פיילוט והגנה}};
+\end{tikzpicture}
+\end{reportfigure}
+
+מהאיור עולה שהחבילות מקבילות למודולים של הארכיטקטורה באיור~\ref{fig:arch}. כך כל מודול ניתן לבדיקה בנפרד לפני האינטגרציה, וכשל באחד אינו עוצר את האחרים.
+
+\begin{reporttable}[\footnotesize]{חבילות העבודה, המשימות והתוצרים}{tab:wbs}{P{1.3cm} P{2.4cm} R R}
+\headrow \hc{מזהה} & \hc{החבילה} & \hc{תת-משימות} & \hc{תוצר} \\ \midrule
+\en{WP 1.0} & איסוף נתונים וכיול ביומטרי & גיוס ואתיקה; ניסוי בסיס, \num{30} משתתפות ב-\num{4} תאורות; תיוג \num{500} תמונות עין ו-\num{300} תמונות יד; צינור כיול \en{MAP} & מאגר פיתוח מכויל ומודול כיול \\
+\en{WP 2.0} & גרף ידע וכריית טרנדים & קליטת קטלוג; שיכון \en{CLIP}; אינדקס \en{FAISS}; ציון טרנד $T(s)$ & שירות המלצה עם \en{API} ויומן עדכניות \\
+\en{WP 3.0} & הדמיה וניתוב שותפים & שחזור \en{IDM-VTON}; זיקוק ל-\num{8} צעדים; נתב שער & שירות הדמיה ממומן ולוח עלויות \\
+\en{WP 4.0} & אינטגרציה, סימולציה ובדיקות & חיבור מקצה לקצה; ניסוי אימות של \num{120} משתתפות לצבע, ומתוכן \num{60} גם למידות; בדיקת עומס & דוח אימות מול \num{12} הדרישות \\
+\en{WP 5.0} & תיעוד, פיילוט והגנה & ספר פרויקט; פיילוט; מצגת & ספר, הדגמה והגנה בוועדה \\
+\end{reporttable}
+
+\section{מי עושה: מטריצת אחריות}
+\label{sec:raci}
+
+חלוקת התפקידים מוגדרת במטריצת \en{RACI} (טבלה~\ref{tab:raci}). לכל משימה יש בדיוק סטודנטית אחת באחריות ביצוע (\en{R}, \en{Responsible}), שותפה נועצת (\en{C}, \en{Consulted}), והמנחה כסמכות המאשרת (\en{A}, \en{Accountable}). כך נמנעות כפילויות, ותרומת כל אחת ניתנת להערכה. החלוקה נשענת על החוזקות: מעיין שירי מובילה את הניסויים והניתוח הסטטיסטי, ורוני אופיר מובילה את הפיתוח והאינטגרציה.
+
+\begin{reporttable}[\footnotesize]{מטריצת אחריות (\en{RACI}): בעלות יחידה לכל משימה}{tab:raci}{R Q{1.7cm} Q{1.7cm} Q{2.1cm}}
+\headrow \hc{משימה} & \hc{רוני אופיר} & \hc{מעיין שירי} & \hc{ד"ר יורם סגל (מנחה)} \\ \midrule
+\en{TSK-1.1} ניסוי בסיס ואיסוף נתוני כיול & \en{C} & \textbf{\en{R}} & \en{A} \\
+\en{TSK-1.2} צינור כיול ועוגני עין במכשיר & \textbf{\en{R}} & \en{C} & \en{A} \\
+\en{TSK-2.1} קליטת קטלוג וגרף ידע & \textbf{\en{R}} & \en{C} & \en{A} \\
+\en{TSK-2.2} כריית טרנדים ומנוע \en{RAG} & \en{C} & \textbf{\en{R}} & \en{A} \\
+\en{TSK-3.1} שחזור מאמר הדגל וזיקוק & \textbf{\en{R}} & \en{C} & \en{A} \\
+\en{TSK-3.2} שער פרסום וניתוב שותפים & \en{C} & \textbf{\en{R}} & \en{A} \\
+\en{TSK-4.1} אינטגרציה מקצה לקצה & \textbf{\en{R}} & \en{C} & \en{A} \\
+\en{TSK-4.2} ניסוי אימות וניתוח סטטיסטי & \en{C} & \textbf{\en{R}} & \en{A} \\
+\en{TSK-4.3} בדיקות עומס ועלות & \textbf{\en{R}} & \en{I} & \en{A} \\
+\en{TSK-5.1} ספר הפרויקט & \en{C} & \textbf{\en{R}} & \en{A} \\
+\en{TSK-5.2} פיילוט, הדגמה והגנה & \textbf{\en{R}} & \en{C} & \en{A} \\
+\end{reporttable}
+
+מהטבלה עולה שהעומס מאוזן: לכל סטודנטית חמש או שש משימות באחריות ביצוע. אף משימה אינה מוגדרת עם שני \en{R}, ואף משימה אינה נשארת בלי בעלים.
+
+\section{מתי: תרשים גאנט ונתיב קריטי}
+\label{sec:gantt}
+
+לוח הזמנים מתפרס על \num{14} שבועות של סמסטר ב' (איור~\ref{fig:gantt} וטבלה~\ref{tab:tasks}). הנתיב הקריטי (\en{Critical Path}), כלומר רצף המשימות שעיכוב באחת מהן מעכב את הפרויקט כולו, מסומן באדום. לפני כל אחת משתי אבני הדרך (\en{Milestones}) נקבע שבוע רזרבה, כי התוכנית אינה נשענת על הנחה שכל משימה תסתיים בזמן.
+
+\begin{reportfigure}{תרשים גאנט: \num{14} שבועות, הנתיב הקריטי באדום, שבועות רזרבה ושתי אבני דרך בירוק}{fig:gantt}
+\begin{tikzpicture}[x=0.68cm,y=0.42cm]
+  \def\task#1#2#3#4{\fill[#4,rounded corners=1pt] (#2-1,-#1+0.18) rectangle (#3,-#1-0.58);}
+  \foreach \w in {1,...,14} {\node[font=\tiny] at (\w-0.5,0.75) {\w};
+     \draw[black!10] (\w,0.4) -- (\w,-13.2);}
+  \draw[black!10] (0,0.4) -- (0,-13.2);
+  \node[font=\tiny\bfseries,anchor=east] at (-0.1,0.75) {week};
+  \foreach \i/\n in {1/TSK-1.1,2/TSK-1.2,3/TSK-2.1,4/TSK-2.2,5/TSK-3.1,6/TSK-3.2,7/TSK-4.1,8/Buffer A,9/TSK-4.2,10/TSK-4.3,11/Buffer B,12/TSK-5.1,13/TSK-5.2}
+     \node[font=\tiny,anchor=east] at (-0.1,-\i-0.2) {\n};
+  \task{1}{1}{2}{brandwarn}   \task{2}{3}{5}{brandwarn}
+  \task{3}{1}{2}{brandexample!70} \task{4}{3}{4}{brandexample!70}
+  \task{5}{3}{5}{brandexample!70} \task{6}{6}{7}{brandexample!70}
+  \task{7}{6}{7}{brandwarn}
+  \fill[pattern=north east lines,pattern color=brandmuted] (7,-8+0.18) rectangle (8,-8-0.58);
+  \task{9}{9}{11}{brandwarn} \task{10}{9}{10}{brandexample!70}
+  \fill[pattern=north east lines,pattern color=brandmuted] (11,-11+0.18) rectangle (12,-11-0.58);
+  \task{12}{11}{14}{brandexample!70} \task{13}{13}{14}{brandwarn}
+  \foreach \m/\l in {8/A,12/B} {
+    \draw[brandgreen,very thick,dashed] (\m,0.4) -- (\m,-13.2);
+    \node[brandgreen,diamond,fill=brandgreen,inner sep=2.2pt] at (\m,-13.55) {};
+    \node[font=\tiny\bfseries,text=brandgreen] at (\m,-14.25) {Milestone \l};}
+  \draw[-Stealth,brandwarn,thin] (2,-1.2) -- (2,-1.75); \draw[-Stealth,brandwarn,thin] (5,-2.2) -- (5.1,-6.75);
+  \draw[-Stealth,brandwarn,thin] (7,-7.2) -- (8.1,-8.75); \draw[-Stealth,brandwarn,thin] (11,-9.2) -- (12.1,-12.75);
+  \fill[brandwarn] (0.2,-15.2) rectangle (0.8,-14.85); \node[font=\tiny,anchor=west] at (0.85,-15.03) {critical path};
+  \fill[brandexample!70] (4.0,-15.2) rectangle (4.6,-14.85); \node[font=\tiny,anchor=west] at (4.65,-15.03) {other task};
+  \fill[pattern=north east lines,pattern color=brandmuted] (7.6,-15.2) rectangle (8.2,-14.85); \node[font=\tiny,anchor=west] at (8.25,-15.03) {reserve week};
+\end{tikzpicture}
+\end{reportfigure}
+
+מהתרשים עולה שהנתיב הקריטי, \en{TSK-1.1} $\leftarrow$ \en{TSK-1.2} $\leftarrow$ \en{TSK-4.1} $\leftarrow$ רזרבה $\leftarrow$ \en{TSK-4.2} $\leftarrow$ רזרבה $\leftarrow$ \en{TSK-5.2}, ממלא בדיוק \num{14} שבועות. המשמעות: כל עיכוב בנתיב שגדול משבוע הרזרבה שלפני אבן הדרך מזיז את ההגנה. לכן המשימה הראשונה, ניסוי הבסיס, מתחילה בשבוע הראשון ממש, בלי תלות בשותף. כדי שזה יתאפשר, הבקשה לוועדת האתיקה והגיוס של \num{30} משתתפות הראשונות מתבצעים מיד עם אישור הדוח, לפני תחילת הסמסטר (פרק~\ref{ch:summary}). המשימות הלא-קריטיות נהנות ממרווח (\en{Float}): מנוע הטרנדים מסתיים בשבוע \num{4} ונדרש לאינטגרציה רק בשבוע \num{6}, והשער מסתיים בשבוע \num{7} ונדרש לבדיקת העומס רק בשבוע \num{9}.
+
+\begin{reporttable}[\footnotesize]{משימות, תלויות ואבני דרך}{tab:tasks}{P{1.4cm} R P{1.25cm} P{2.0cm} R}
+\headrow \hc{מזהה} & \hc{המשימה} & \hc{שבועות} & \hc{קודמות} & \hc{תוצר או אבן דרך} \\ \midrule
+\en{TSK-1.1} & ניסוי בסיס (\num{30} משתתפות) ותיוג & \num{1--2} & אישור אתיקה & מאגר פיתוח, \num{4} תאורות \\
+\en{TSK-1.2} & צינור כיול ועוגני עין במכשיר & \num{3--5} & \en{TSK-1.1} & מודול כיול \\
+\en{TSK-2.1} & קליטת קטלוג וגרף ידע & \num{1--2} & -- & אינדקס וקטורי \\
+\en{TSK-2.2} & כריית טרנדים ומנוע \en{RAG} & \num{3--4} & \en{TSK-2.1} & שירות המלצה \\
+\en{TSK-3.1} & שחזור מאמר הדגל וזיקוק & \num{3--5} & -- & מודל \num{8} צעדים \\
+\en{TSK-3.2} & שער פרסום וניתוב שותפים & \num{6--7} & \en{TSK-3.1} & נתב ולוח עלויות \\
+\en{TSK-4.1} & אינטגרציה מקצה לקצה & \num{6--7} & \en{TSK-1.2}, \en{TSK-2.2} & מערכת משולבת \\
+\hlrow -- & \textbf{אבן דרך א': אב-טיפוס משולב} & סוף \num{8} & \en{TSK-4.1} & רזרבה בשבוע \num{8} \\
+\en{TSK-4.2} & ניסוי אימות (\num{120}): צבע ומידות & \num{9--11} & אבן דרך א' & $H_{1a}$, $H_{1b}$, \en{REQ-BOD-03} \\
+\en{TSK-4.3} & בדיקות עומס ועלות & \num{9--10} & \en{TSK-4.1}, \en{TSK-3.2} & \en{REQ-LAT}, \en{REQ-BIZ} \\
+\hlrow -- & \textbf{אבן דרך ב': אימות המפרט} & סוף \num{12} & \en{TSK-4.2} & רזרבה בשבוע \num{12} \\
+\en{TSK-5.1} & ספר הפרויקט & \num{11--14} & \en{TSK-4.2} (חלקי) & ספר \\
+\en{TSK-5.2} & פיילוט, הדגמה והגנה & \num{13--14} & אבן דרך ב' & הגנה בוועדה \\
+\end{reporttable}
+
+\begin{examplebox}[יישום במערכת: אבני הדרך כמפגשי מנחה]
+שתי אבני הדרך הן גם מפגשי בקרה עם המנחה. באבן דרך א' מוצג אב-טיפוס שבו משתמשת מצלמת, מקבלת שלוש המלצות ופותחת הדמיה ממומנת. באבן דרך ב' מוצגים \num{12} הדרישות עם תוצאת אימות לכל אחת, ותוצאת מבחן ההשערה. כל אבן דרך מתועדת בפרוטוקול ובתג גרסה במאגר \en{roma-ai2}.
+\end{examplebox}
+
+\section{בקרה, תקשורת וניהול תצורה}
+\label{sec:control}
+
+תוכנית טובה אינה מסתיימת בלוח זמנים: היא מגדירה איך יודעים, בכל שבוע, אם הפרויקט עדיין עליה. הבקרה נשענת על שלושה מנגנונים. הראשון הוא מפגש שבועי קצר בין שתי הסטודנטיות, ומפגש עם המנחה כל שבועיים ובכל אבן דרך, עם פרוטוקול קבוע: מה הושלם, מה נתקע ומה הסיכון החדש. השני הוא ניהול תצורה במאגר \en{Git}: ענף ראשי מוגן, ענף לכל משימה, ומיזוג רק אחרי שבדיקות אוטומטיות עברו. כך כל תוצאה בספר הפרויקט ניתנת לשחזור מגרסת קוד מסוימת. השלישי הוא מדדי בקרה, שמתעדכנים אוטומטית מתוך המאגר ומיומני הניסוי (טבלה~\ref{tab:kpi}).
+
+\begin{reporttable}{מדדי בקרה שבועיים, סף התרעה ופעולה}{tab:kpi}{R P{2.5cm} R}
+\headrow \hc{מדד} & \hc{סף התרעה} & \hc{פעולה כשהסף נחצה} \\ \midrule
+התקדמות בנתיב הקריטי & איחור של \num{3} ימים & שימוש בשבוע הרזרבה ודיווח למנחה \\
+חציון $\Delta E_{00}$ במדגם הפיתוח & מעל \num{2.2} בשבוע \num{5} & הפעלת תוכנית המגירה של \en{RSK-ALG-01} \\
+זמן הדמיה באחוזון \num{90} & מעל \num{5.0 s} בשבוע \num{7} & צמצום רזולוציה או צעדים \\
+עלות חישוב ליחידה & מעל \num{\$0.05} & מעבר למודל המזוקק בלבד \\
+גיוס משתתפות לניסוי & פחות מ-\num{60} בסוף שבוע \num{9} & הרחבת הגיוס לשני קמפוסים \\
+בדיקות אוטומטיות שנכשלות & יותר משבוע אחד & הקפאת מיזוגים עד תיקון \\
+\end{reporttable}
+
+מהטבלה עולה שכל מדד קשור לדרישה או לסיכון שכבר הוגדרו, וכל חציית סף מפעילה פעולה מוגדרת מראש. כך ההחלטות בזמן משבר אינן מאולתרות. המדד הקריטי ביותר הוא חציון שגיאת הכיול בשבוע \num{5}: אם הוא אינו מתקרב ליעד, יש עוד שלושה שבועות עד אבן דרך א' להפעיל את החלופה.
+
+\begin{warningbox}
+שבוע רזרבה שמנוצל לעבודה שוטפת אינו רזרבה. לכן שבועות \num{8} ו-\num{12} אינם משובצים לשום משימה בתוכנית, וכל שימוש בהם מתועד בפרוטוקול כחריגה.
+\end{warningbox}
