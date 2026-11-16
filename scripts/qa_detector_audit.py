@@ -388,8 +388,8 @@ class Detector:
                 self.add("מבנה קבצים", "TREE", "expected path missing", rel)
         skills = list((self.root / ".claude" / "skills").glob("*/SKILL.md"))
         mirror = list((self.root / "skills").glob("*/SKILL.md"))
-        if len(skills) != 9:
-            self.add("מבנה קבצים", "SKILLS", "expected 9 skills in .claude/skills", str(len(skills)))
+        if len(skills) != 12:
+            self.add("מבנה קבצים", "SKILLS", "expected 12 skills in .claude/skills", str(len(skills)))
         if len(mirror) != len(skills):
             self.add("מבנה קבצים", "SKILLS-MIRROR", "skills/ mirror differs from .claude/skills",
                      f"{len(mirror)} vs {len(skills)}")

@@ -211,3 +211,24 @@ labelled as simulated wherever it appears (cover page, ch. 1).
 | R14 | `ch8_summary.tex` | `fig:nextsteps` | 1 page |
 | R15 | `base-report.cls`, `auratwin-report.cls` | `tests/stress_test.tex` | log errors, final letters at word start, reversed acronyms, `??` |
 | R16 | repo root | — | file-structure family in detector |
+
+---
+
+## 10. PRD revision v1.2 (2026-11-16) — user "rejects" prompt: UX, identity, readability
+
+New committee members (skills 10–12) added binding requirements. The original rubric weights are unchanged;
+these items are acceptance criteria inside the existing rubric lines (chapters 1, 2, 4, 5; visual; template; QA).
+
+| ID | Requirement | Acceptance criterion | Owner skill | Evidence |
+|---|---|---|---|---|
+| PRD-UX-01 | Human & cultural need, cross-demographic audience | Ch.1 section naming teenage girls, women of all ages, grooming-aware men, the two decision moments, extension + app; no unsourced statistics | ux-entrepreneur-strategist | Ch.1 §1.2 |
+| PRD-UX-02 | Audience framed as users of the problem | Ch.2 names who pays the price without naming the solution | ux-entrepreneur-strategist | Ch.2 §2.1.3 |
+| PRD-UX-03 | Segments tied to revenue lines | each segment maps to a revenue line already in the unit economics | ux-entrepreneur-strategist | Table 4.4 |
+| PRD-UX-04 | 4-step user journey with time budgets and REQs | figure, right-to-left, ≤ 12.4 cm, each step with budget + REQ | ux-entrepreneur-strategist | Fig. 4.4 |
+| PRD-UX-05 | UI wireframe (extension + app) | TikZ/tcolorbox, palette only, analytical paragraph, values marked illustrative | ux-entrepreneur-strategist | Fig. 5.5 |
+| PRD-ID-01 | "Luxury, Vintage, Bold" palette only | six colours wired through semantic names; detector finds no raw colours or `\textcolor` in chapters | luxury-vintage-ui-designer | `auratwin-report.cls` v1.3.0 |
+| PRD-ID-02 | 3-arch + eye logo | TikZ macro on cover and headers; PNG for README; same geometry | luxury-vintage-ui-designer | `report/figures/auratwin_logo.png` |
+| PRD-ID-03 | Editorial chapter openings + cover | badge + Mustard/Dust rules; Egg Nog cover with double frame | luxury-vintage-ui-designer | previews |
+| PRD-RD-01 | Breathing room | 1.5 spacing, parskip ≥ 6 pt, arraystretch ≥ 1.25, box padding ≥ 8/6 pt; 40-page body kept | human-readability-math-auditor | `readability_math_audit.md` §1 |
+| PRD-RD-02 | Equation integrity | every numbered equation followed by Hebrew definitions of every symbol; no Hebrew in math outside `\hebmath` | human-readability-math-auditor | `readability_math_audit.md` §2–3 |
+| PRD-RD-03 | BiDi punctuation | no space before . , : ; ) next to Hebrew; mixed labels as one `\heb{}` unit | human-readability-math-auditor | `readability_math_audit.md` §4 |

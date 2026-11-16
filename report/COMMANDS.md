@@ -1,4 +1,13 @@
-# COMMANDS.md — AuraTwin AI template command list (v1.2.0)
+# COMMANDS.md — AuraTwin AI template command list (v1.3.0)
+
+## New in v1.3.0
+| Command | Purpose |
+|---|---|
+| `\accenttext{…}` | Highlight text in Copper (the proposed solution / key value). Use instead of `\textcolor`. |
+| `\mutedtext{…}` | Secondary text in Dust (requirement IDs, captions inside figures). |
+| `\auratwinlogo[scale]` | The 3-arch + eye logo mark (also in every header). |
+| `\auratwinwordmark[scale]` | Logo mark + "AuraTwin AI" word-mark (cover). |
+| Palette colours | `auraEggNog`, `auraMustard`, `auraDust`, `auraCopper`, `auraGarnet`, `auraVelvetForest`; semantic: `brandhighlight` (Copper, proposed solution in charts), `brandcream` (Egg Nog backgrounds). |
 
 One line per public command. Use only these commands (booklet Prompt C1). Do not invent new ones —
 if a pattern repeats three times, ask the template architect to add it (Prompt C3).

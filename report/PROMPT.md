@@ -28,6 +28,13 @@ A new model reads this file, `COMMANDS.md`, `../CHANGELOG.md` and `main.tex` bef
 9. No manual formatting (`\textcolor`, `\fontsize`, big `\vspace`) in chapter files. A repeated
    need becomes a template command (Prompt C3) with a version bump.
 10. Never type Hebrew in reverse to make it "look right" — mark the direction instead.
+11. (v1.3.0) Colours only through semantic names or `\accenttext`/`\mutedtext`; in charts the proposed
+    solution is `brandhighlight` (Copper), the flagship `brandaccent` (Mustard), competitors `brandsecondary`
+    (Dust) tints, critical items `brandwarn` (Garnet).
+12. (v1.3.0) Inside an LTR TikZ node, a mixed Hebrew/English label is ONE `\heb{…}` unit with `\en{}`/`\num{}`
+    inside — separate `\heb{}` and `\en{}` pieces are laid out left-to-right in the wrong order.
+13. (v1.3.0) Every numbered equation is followed by a Hebrew "כאשר …" sentence that defines every symbol
+    (checked by `scripts/readability_math_audit.py`).
 
 ## Compile (booklet §13.4)
 ```

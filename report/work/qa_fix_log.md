@@ -56,3 +56,21 @@ one-off → chapter file. After every round: `lualatex → biber → lualatex �
 44 pages (4 + 40), 0 `!` errors, 0 undefined references/citations, 0 Overfull boxes > 5 pt,
 all 8 chapters + references start on their budgeted pages (1, 4, 8, 17, 23, 31, 35, 37, 38),
 46/46 bibliography entries cited.
+
+---
+
+## Round 3 — rejects prompt: identity, UX and readability (template v1.3.0)
+
+| Finding (detector / auditor / visual) | Class | Fix | Where |
+|---|---|---|---|
+| Body grew 40 → 42 pages after parskip 6 pt / arraystretch 1.25 | TEMPLATE-LEVEL | body 11.5 pt (booklet range 11–12 pt), 1.5 spacing kept | base-report.cls |
+| Cover: wordmark overlapped the institution line | TEMPLATE-LEVEL | wordmark moved into the overlay; `\par` after the overlay so `\vspace*` applies first | auratwin-report.cls |
+| `\textcolor` in chapter figures ("manual formatting") | TEMPLATE-LEVEL (new commands) | `\accenttext` / `\mutedtext` in the base class; chapters converted | base-report.cls, ch4, ch5 |
+| Detector expected 9 skills | tooling | expects 12 | scripts/qa_detector_audit.py |
+| Mixed Hebrew/English labels in the mockup in the wrong order | ONE-OFF ×5 | one `\heb{}` unit with `\en`/`\num` inside | ch5 Fig. 5.5 |
+| Journey figure too small; REQ labels overflowing the boxes | ONE-OFF | boxes widened to 12.4 cm total; REQ labels `\tiny` | ch4 Fig. 4.4 |
+| 7 equations with undefined symbols (strict auditor) | ONE-OFF | Hebrew "כאשר …" definitions added | ch3, ch5, ch7 |
+| Ch.3 and Ch.5 one page over budget after the definitions and UX content | ONE-OFF | redundant sentences trimmed; feasibility table condensed to a paragraph | ch3, ch5 |
+| A build pass hung once; killing it truncated the aux files | tooling | per-pass `timeout 300` in build.sh; clean rebuild | report/build.sh |
+
+Final: QA detector **PASS** (0 findings), readability & math audit **PASS**, 44 pages, 0 errors.

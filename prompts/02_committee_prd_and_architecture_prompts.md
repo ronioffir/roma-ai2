@@ -39,3 +39,34 @@ Success: PRD.md exists; rubric sums to 100; every rubric row has a QA check.
   were computed afterwards by `scripts/generate_beauty_benchmarks.py`.
 - The calibration-simulation results were added to the PRD once computed, and REQ-VIS-01 was set to
   median ΔE00 ≤ 1.8 and P95 ≤ 4.5 (the simulation meets the median, not yet the P95 — stated as the research question).
+
+
+---
+
+## Domain-architect prompts (skill `beauty-ai-domain-architect`)
+
+### DA-1 — Canonical equations
+```text
+You are the domain architect of AuraTwin AI. Fix ONE notation for the whole report and write it into
+.claude/skills/beauty-ai-domain-architect/SKILL.md: CIEDE2000 ΔE00; von Kries diag(ℓ); the MAP calibration
+M̂ = argmin Σ λk ΔE00(M⁻¹c_obs, μ(k)) + γ‖M − I‖²_F with sclera + iris anchors; SMPL-X M(β,θ,ψ) and the
+ratio vector r = (C_chest, C_waist, C_hip, L_inseam)/H; trend score T(s); Pugh S_j = Σ w_i c_ij; R = P × I.
+Every chapter must reuse these symbols exactly. Define every symbol in Hebrew right below its equation.
+```
+
+### DA-2 — Simulation instead of invented numbers
+```text
+Do not type benchmark numbers by hand. Write scripts/generate_beauty_benchmarks.py: a CIEDE2000
+implementation checked against Sharma et al. test pairs, a Monte-Carlo of 4,000 synthetic selfies under
+2700-6500 K light, and five correction methods (camera, gray-world, sclera, sclera+iris, enrolment+iris prior).
+Also compute the Pugh totals, one-at-a-time and Dirichlet weight sensitivity, ±1 score sensitivity,
+the cluster-bootstrap power analysis, the gate unit economics and the bottom-up SAM/SOM.
+Write CSVs for every chart and a summary the chapters quote.
+```
+
+### DA-3 — Red-team corrections (round 2)
+```text
+Model the gate as ad OR affiliate (expected value with share q), separate the commercial try-on API
+(status quo) from the self-hosted distilled model, derive the 2.4x threshold from a gross-margin target,
+and re-anchor the Pugh scores to explicit 1/3/5 scales. Report every changed number in PRD revision v1.1.
+```

@@ -4,6 +4,30 @@ Template = `report/base-report.cls` (base layer) + `report/auratwin-report.cls` 
 Version source of truth: `VERSION`. Rule (booklet §15.6): a problem that repeats across the
 document is fixed **once** in the template, with a version bump and an entry here.
 
+## [1.3.0] — 2026-11-16 — "Luxury, Vintage, Bold" identity, logo, readability (skills 11 + 12)
+### Added (company layer `auratwin-report.cls`)
+- Palette colours `auraEggNog` #FBEDC3, `auraMustard` #CCB363, `auraDust` #6F7D7B, `auraCopper` #C27E35,
+  `auraGarnet` #76290B, `auraVelvetForest` #1E3226, mapped onto the semantic names (`brandprimary`=Velvet Forest,
+  `brandsecondary`=Dust, `brandaccent`=Mustard, `brandcream`/`brandtint`=Egg Nog, `brandwarn`=Garnet,
+  `brandexample`=`brandhighlight`=Copper). Every heading, box, table, header, TikZ and pgfplots colour follows.
+- Logo: `\auratwinlogo[scale]` (Egg Nog top-left arch + Mustard inverted dome + Dust top-right arch + Velvet
+  Forest eye and baseline) and `\auratwinwordmark[scale]`; the mark is in every page header.
+- Editorial chapter opening: number in a Velvet Forest badge with a Mustard ring, Mustard + Dust double rule,
+  Copper section numbers. New cover: Egg Nog field, Velvet Forest double frame with Mustard inner rule, wordmark.
+### Added (base `base-report.cls`)
+- `\accenttext{}` / `\mutedtext{}` semantic text colours; chapters no longer call `\textcolor`
+  (detector rule "manual formatting").
+- `brandcream`, `brandhighlight` default colour names.
+### Changed (readability, skill human-readability-math-auditor)
+- `\parskip` 4 → **6 pt**; `\arraystretch` 1.18 → **1.25**; box padding 8/5 → **9/6 pt**, 9 pt before/after boxes.
+- Body text **11.5 pt** (booklet Table 11.1 allows 11–12 pt), with `\onehalfspacing`. This keeps the 40-page body
+  budget with the new spacing and the UX content.
+- Manager / key-message / example boxes on Egg Nog backgrounds; header rule in Mustard.
+### Fixed
+- Cover: the overlay picture opened a paragraph, so `\vspace*` was applied after the first text line and the
+  wordmark overlapped the institution line → `\par` after the overlay.
+- `build.sh`: each pass has a 300 s timeout (a pass hung once; after killing it, the aux files must be deleted).
+
 ## [1.2.1] — 2026-11-16 — fixes from the QA detector/fixer loop on the full report
 ### Fixed (template-level — each finding repeated on ≥ 3 pages or originated in the class)
 - **Bibliography exceeded its 3-page budget** (5 pages, QA-034): `\printreferences` now sets the IEEE

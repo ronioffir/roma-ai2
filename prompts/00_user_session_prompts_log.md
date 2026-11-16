@@ -349,6 +349,10 @@ number labelled as a team estimate; a verification checklist for the students in
 
 ---
 
+## Prompt 3 — Rejects, UX & Luxury Vintage redesign (2026-11-16)
+
+Verbatim in [`01_user_rejects_ux_luxury_design_prompt.md`](01_user_rejects_ux_luxury_design_prompt.md), with the attached palette board (Egg Nog #FBEDC3, Mustard #CCB363, Dust #6F7D7B, Copper #C27E35, Garnet #76290B, Velvet Forest #1E3226).
+
 ## Later prompts
 
 <!-- Append every further user prompt here, verbatim, with date. -->

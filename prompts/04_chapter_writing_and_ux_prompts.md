@@ -84,3 +84,42 @@ a figure not mentioned in the text. List page numbers. Then hand the list to the
   so no plotted number is typed by hand; estimates and simulated data are labelled in captions.
 - Prompt 8 is automated by `scripts/qa_detector_audit.py` (renders pages to `report/figures/previews/pages/`)
   and complemented by visual inspection of key pages.
+
+
+---
+
+## Round 3 — UX prompts (skill `ux-entrepreneur-strategist`)
+
+### UX-1 — Human & cultural need (chapter 1)
+```text
+Write a section "הצורך האנושי: למה המראה היומיומי עדיין מנוחש" in third person: AI already assists writing,
+coding, navigation and shopping, yet daily appearance is still guesswork. Name the cross-demographic audience
+(teenage girls, women of all ages, men with high grooming awareness), the two decision moments (morning,
+online shopping) and the product form (browser extension + companion app). No unsourced statistics.
+Keep chapter 1 inside pages 1-3: compensate by removing text that the user journey now covers.
+```
+
+### UX-2 — Who pays the price (chapter 2)
+```text
+Add one sentence to 2.1.3 naming the groups who suffer from the uncalibrated photo. Describe users of the
+problem, not users of the solution (booklet: a problem statement must not name the solution).
+```
+
+### UX-3 — Audience segments and user journey (chapter 4)
+```text
+Replace the segments table with a cross-demographic one: segment, usage moment, value proposition, revenue
+line (each revenue line must already exist in the unit economics). Add a TikZ figure of the 4-step journey,
+right to left: (1) onboarding in 30 s with eye colour, height, weight, circumferences and 3 snapshots;
+(2) daily/shopping assistant; (3) optional value-exchange gate (15 s rewarded video or VIP);
+(4) 1-click shop-the-look. Each step shows its time budget and the REQ that measures it. Width <= 12.4 cm.
+```
+
+### UX-4 — UI mockup (chapter 5)
+```text
+Build a TikZ/tcolorbox wireframe: a browser window on a partner product page with the AuraTwin side panel
+(recommended size with ±1.2 cm, shade match %, trend match, gate button, "image stays on device") and the
+companion phone app (calibrated shade with ΔE00, trend badge, three shop-the-look cards, gate and VIP
+buttons). Use only palette colours and template commands; every mixed Hebrew/English label is ONE \heb{}
+unit with \en/\num inside. Caption says the values are illustrative. Add one analytical paragraph tying
+every on-screen number to a requirement, and state that there are no gendered defaults.
+```

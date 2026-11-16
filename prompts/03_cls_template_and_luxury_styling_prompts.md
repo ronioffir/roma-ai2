@@ -77,3 +77,47 @@ template-level fixes, released as **v1.2.0** (see `CHANGELOG.md`):
 5. **Footer "עמוד N מתוך M"** used `\ref` (gave a section number) — now `\pageref*` to the body-end label.
 
 Preview: `report/figures/previews/stress_test_B4.png`.
+
+
+---
+
+## Round 3 — luxury styling prompts (skill `luxury-vintage-ui-designer`, template v1.3.0)
+
+### L1 — Palette as semantic colours (C3-style: one change in the layer)
+```text
+Add the "Luxury, Vintage, Bold" palette to auratwin-report.cls as named colours (auraEggNog #FBEDC3,
+auraMustard #CCB363, auraDust #6F7D7B, auraCopper #C27E35, auraGarnet #76290B, auraVelvetForest #1E3226)
+and map the semantic names: brandprimary=Velvet Forest, brandsecondary=Dust, brandaccent=Mustard,
+brandcream=Egg Nog, brandtint=Egg Nog tint, brandwarn=Garnet, brandexample=brandhighlight=Copper.
+Do not edit chapter colours one by one: the semantic names must recolour headings, boxes, tables,
+headers, TikZ and pgfplots. Chapters may not use \textcolor; add \accenttext and \mutedtext to the base.
+Bump the version to 1.3.0 and write the CHANGELOG entry.
+```
+
+### L2 — Logo
+```text
+Create \auratwinlogo[scale] and \auratwinwordmark[scale]: three interlocking arches on one baseline —
+Egg Nog top-left quarter arch, Mustard inverted-U dome in the centre, Dust top-right quarter arch —
+crossed by a thin Velvet Forest eye (iris + highlight) and a Velvet Forest baseline. Use the identical
+geometry in scripts/render_hyperframes_cover.py to render report/figures/auratwin_logo.png (SVG in HTML,
+headless Edge) for the README, and use the mark in every page header.
+```
+
+### L3 — Editorial chapter openings and cover
+```text
+Restyle \chapter as a luxury tech-fashion journal opening: number in a Velvet Forest circle with a Mustard
+ring, title in Velvet Forest, a thick Mustard rule over a thin Dust rule; section numbers in Copper.
+Cover: Egg Nog field, Velvet Forest double frame with a Mustard inner rule, wordmark at the top,
+banner re-rendered in the palette. Compile and show me the cover and one chapter opening as images.
+```
+
+### L4 — Readability settings (with skill human-readability-math-auditor)
+```text
+Set \parskip to 6pt, \arraystretch to 1.25, box padding 9pt/6pt and 9pt before/after boxes.
+Keep \onehalfspacing. If the 40-page body budget overflows, set the body to 11.5pt (allowed range
+11-12pt in booklet Table 11.1) rather than cutting substance, and report the page map.
+```
+
+### Result of round 3
+- Template **v1.3.0** (see `CHANGELOG.md`): palette, logo, editorial openings, readability settings,
+  `\accenttext`/`\mutedtext`, 11.5 pt body, cover overlay `\par` fix.

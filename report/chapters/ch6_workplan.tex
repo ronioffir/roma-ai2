@@ -85,13 +85,13 @@
   \foreach \i/\n in {1/TSK-1.1,2/TSK-1.2,3/TSK-2.1,4/TSK-2.2,5/TSK-3.1,6/TSK-3.2,7/TSK-4.1,8/Buffer A,9/TSK-4.2,10/TSK-4.3,11/Buffer B,12/TSK-5.1,13/TSK-5.2}
      \node[font=\tiny,anchor=east] at (-0.1,-\i-0.2) {\n};
   \task{1}{1}{2}{brandwarn}   \task{2}{3}{5}{brandwarn}
-  \task{3}{1}{2}{brandexample!70} \task{4}{3}{4}{brandexample!70}
-  \task{5}{3}{5}{brandexample!70} \task{6}{6}{7}{brandexample!70}
+  \task{3}{1}{2}{brandsecondary!75} \task{4}{3}{4}{brandsecondary!75}
+  \task{5}{3}{5}{brandsecondary!75} \task{6}{6}{7}{brandsecondary!75}
   \task{7}{6}{7}{brandwarn}
   \fill[pattern=north east lines,pattern color=brandmuted] (7,-8+0.18) rectangle (8,-8-0.58);
-  \task{9}{9}{11}{brandwarn} \task{10}{9}{10}{brandexample!70}
+  \task{9}{9}{11}{brandwarn} \task{10}{9}{10}{brandsecondary!75}
   \fill[pattern=north east lines,pattern color=brandmuted] (11,-11+0.18) rectangle (12,-11-0.58);
-  \task{12}{11}{14}{brandexample!70} \task{13}{13}{14}{brandwarn}
+  \task{12}{11}{14}{brandsecondary!75} \task{13}{13}{14}{brandwarn}
   \foreach \m/\l in {8/A,12/B} {
     \draw[brandgreen,very thick,dashed] (\m,0.4) -- (\m,-13.2);
     \node[brandgreen,diamond,fill=brandgreen,inner sep=2.2pt] at (\m,-13.55) {};
@@ -99,7 +99,7 @@
   \draw[-Stealth,brandwarn,thin] (2,-1.2) -- (2,-1.75); \draw[-Stealth,brandwarn,thin] (5,-2.2) -- (5.1,-6.75);
   \draw[-Stealth,brandwarn,thin] (7,-7.2) -- (8.1,-8.75); \draw[-Stealth,brandwarn,thin] (11,-9.2) -- (12.1,-12.75);
   \fill[brandwarn] (0.2,-15.2) rectangle (0.8,-14.85); \node[font=\tiny,anchor=west] at (0.85,-15.03) {critical path};
-  \fill[brandexample!70] (4.0,-15.2) rectangle (4.6,-14.85); \node[font=\tiny,anchor=west] at (4.65,-15.03) {other task};
+  \fill[brandsecondary!75] (4.0,-15.2) rectangle (4.6,-14.85); \node[font=\tiny,anchor=west] at (4.65,-15.03) {other task};
   \fill[pattern=north east lines,pattern color=brandmuted] (7.6,-15.2) rectangle (8.2,-14.85); \node[font=\tiny,anchor=west] at (8.25,-15.03) {reserve week};
 \end{tikzpicture}
 \end{reportfigure}

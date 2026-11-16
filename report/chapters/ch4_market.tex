@@ -94,10 +94,10 @@
   legend style={at={(1.32,0.5)},anchor=west,font=\scriptsize,draw=black!20}]
   \addplot[brandgrey,thick,mark=none] table[x=angle,y=modiface]{figures/data/radar.csv};
   \addplot[brandgrey!60!black,thick,dashed,mark=none] table[x=angle,y=youcam]{figures/data/radar.csv};
-  \addplot[brandexample!70,thick,dotted,mark=none] table[x=angle,y=zeekit]{figures/data/radar.csv};
+  \addplot[brandsecondary,thick,dotted,mark=none] table[x=angle,y=zeekit]{figures/data/radar.csv};
   \addplot[brandprimary!50,thick,dashdotted,mark=none] table[x=angle,y=stitchfix]{figures/data/radar.csv};
   \addplot[brandaccent!90!black,very thick,mark=none] table[x=angle,y=flagship]{figures/data/radar.csv};
-  \addplot[brandsecondary,ultra thick,fill=brandsecondary,fill opacity=0.15,mark=*,mark size=1.2pt] table[x=angle,y=auratwin]{figures/data/radar.csv};
+  \addplot[brandhighlight,ultra thick,fill=brandhighlight,fill opacity=0.15,mark=*,mark size=1.2pt] table[x=angle,y=auratwin]{figures/data/radar.csv};
   \legend{ModiFace, YouCam, Zeekit, Stitch Fix, IDM-VTON (flagship), AuraTwin AI (target)}
 \end{polaraxis}
 \end{tikzpicture}
@@ -114,12 +114,12 @@
   label style={font=\small}, tick label style={font=\small}, grid=major, grid style={black!10},
   log ticks with fixed point, xtick={0.003,0.01,0.03,0.1,0.3,1,3,10}]
   \addplot[domain=0.002:20, samples=50, dashed, brandgrey, thick] {68.79 + 4.50*ln(x)/ln(10)};  % OLS on the 6 existing solutions
-  \addplot[only marks, mark=*, mark size=3pt, brandgrey,
+  \addplot[only marks, mark=*, mark size=3pt, brandsecondary,
     nodes near coords, point meta=explicit symbolic,
     every node near coord/.append style={font=\scriptsize,text=black!75,anchor=west,xshift=2pt}]
     table[x=cost,y=acc,meta=name,col sep=comma]{figures/data/scatter.csv};
-  \addplot[only marks, mark=star, mark size=6pt, brandsecondary, very thick] coordinates {(0.011,88)};
-  \node[font=\scriptsize,text=brandsecondary,anchor=north] at (axis cs:0.011,84) {\enlong{breaks the trade-off}};
+  \addplot[only marks, mark=star, mark size=6pt, brandhighlight, very thick] coordinates {(0.011,88)};
+  \node[font=\scriptsize,text=brandhighlight,anchor=north] at (axis cs:0.011,84) {\enlong{breaks the trade-off}};
 \end{semilogxaxis}
 \end{tikzpicture}
 \end{reportfigure}
@@ -164,14 +164,40 @@
 
 \textbf{מחסום כלכלי.} מתחרה שמציע הדמיה גנרטיבית חינמית בלי שער נושא בעלות שגדלה עם השימוש. השער הופך את ההדמיה ממרכז עלות למרכז רווח, ומאפשר להציע אותה למשתמשות שמתחרים יאלצו להגביל.
 
-טבלה~\ref{tab:segments} מפרטת את פלחי הלקוחות שה-\en{SOM} נבנה מהם, את הצעת הערך לכל פלח ואת מודל ההכנסה.
+\section{קהל היעד ומסע המשתמש}
+\label{sec:audience}
 
-\begin{reporttable*}{פלחי לקוחות, הצעת ערך ומודל הכנסה (אומדן הצוות)}{tab:segments}{P{2.6cm} R P{3.0cm}}
-\headrow \hc{פלח} & \hc{הצעת הערך} & \hc{מודל הכנסה} \\ \midrule
-קמעונאיות ביוטי & פחות החזרות של מוצרים שנפתחו, גוון נכון בפעם הראשונה & רישוי שנתי ועמלת שותפים \\
-קמעונאיות אופנה & המלצת מידה מבוססת היקפים והדמיה ממומנת & רישוי שנתי לפי נפח \\
-משתמשות קצה & המלצה מכוילת, טרנדים מותאמים, הדמיה ללא תשלום ישיר & פרסום מתגמל ושותפים \\
-מותגים קטנים & גישה לכלי שהיה זמין רק לקבוצות גדולות & תשלום לפי שימוש ב-\en{API} \\
+הקהל של \en{AuraTwin AI} רחב וחוצה גילים ומגדרים, אבל כל פלח מגיע מסיבה אחרת ומשלם בערוץ אחר (טבלה~\ref{tab:segments}). החלוקה מקשרת כל פלח לערוץ הכנסה שכבר נמצא בכלכלת היחידה, כך שהקהל אינו הנחה נפרדת מהמודל העסקי.
+
+\begin{reporttable*}[\footnotesize]{פלחי הקהל: רגע השימוש, הצעת הערך וערוץ ההכנסה (הערכת הצוות)}{tab:segments}{P{2.45cm} P{2.3cm} R P{2.35cm}}
+\headrow \hc{פלח} & \hc{רגע השימוש} & \hc{הצעת הערך} & \hc{ערוץ הכנסה} \\ \midrule
+נערות & גלילה ברשת, קנייה לפי טרנד & טרנד שמתאים לגוון ולמבנה הגוף שלי & פרסום מתגמל, שותפים \\
+נשים בכל גיל & בוקר מול הארון, קנייה מקוונת & לבוש, איפור וציפורניים במכלול אחד & שותפים, מנוי פרימיום \\
+גברים מודעי-טיפוח & קנייה מקוונת, אירוע מיוחד & מידה וגוון נכונים בלי מומחיות & שותפים, מנוי פרימיום \\
+קמעונאיות ביוטי ואופנה & דף המוצר באתר & פחות החזרות, יותר המרות & רישוי לפי הזמנה \\
+מותגים קטנים & קטלוג עונתי & כלי שהיה זמין רק לקבוצות גדולות & תשלום לפי \en{API} \\
 \end{reporttable*}
 
-הטבלה מראה שאותה תשתית טכנית נמכרת בארבעה מודלים שונים. כך התלות בערוץ הכנסה יחיד קטנה, וזו פעולת מנע ישירה לסיכון \en{RSK-BIZ-04}: אם הכנסות הפרסום יורדות, רישוי לקמעונאים ממשיך לממן את התשתית.
+הטבלה מראה שאותה תשתית נמכרת בכמה ערוצים, ולכן התלות בערוץ יחיד קטנה: זו פעולת מנע ישירה לסיכון \en{RSK-BIZ-04}. מסע המשתמש זהה לכל הפלחים, והוא מתואר באיור~\ref{fig:journey} בארבעה צעדים, כל אחד עם תקציב זמן והדרישה שמודדת אותו.
+
+\begin{reportfigure*}{מסע המשתמש בארבעה צעדים, מהרישום ועד הקנייה, עם תקציב הזמן והדרישה של כל צעד}{fig:journey}
+\begin{tikzpicture}[x=1cm,y=1cm,
+  st/.style={draw=#1,fill=brandcream!60!white,rounded corners=5pt,line width=1pt,text width=2.62cm,
+             minimum height=2.75cm,align=center,font=\scriptsize},
+  num/.style={circle,fill=#1,text=brandcream,font=\small\bfseries,inner sep=1.5pt,minimum size=0.55cm}]
+  \node[st=brandprimary] (s1) at (9.55,0) {\textbf{\heb{רישום ב-\num{30} שניות}}\\[2pt]\heb{צבע עיניים, גובה, משקל,}\\\heb{היקפים; \num{3} צילומים:}\\\heb{פנים, גוף, ידיים}\\[2pt]\mutedtext{\en{REQ-VIS-02}}};
+  \node[st=brandsecondary] (s2) at (6.37,0) {\textbf{\heb{עוזרת יומית וקנייה}}\\[2pt]\heb{לבוש, גוון איפור ולק}\\\heb{לפי טרנדים ותורת}\\\heb{הצבע העונתית}\\[2pt]{\tiny\mutedtext{\en{REQ-LAT-05, REC-10}}}};
+  \node[st=brandaccent!85!black] (s3) at (3.18,0) {\textbf{\heb{שער החלפת ערך}}\\[2pt]\heb{מודעה של \num{15} שניות}\\\heb{או מנוי \en{VIP} פותחים}\\\heb{הדמיה של המשתמשת}\\[2pt]{\tiny\mutedtext{\en{REQ-GEN-06, BIZ-12}}}};
+  \node[st=brandhighlight] (s4) at (0,0) {\textbf{\heb{קנייה בלחיצה}}\\[2pt]\heb{כרטיסי פריטים}\\\heb{ממומנים אצל}\\\heb{קמעונאי שותף}\\[2pt]\mutedtext{\en{REQ-REC-10}}};
+  \foreach \n/\c/\t in {s1/brandprimary/1,s2/brandsecondary/2,s3/brandaccent!85!black/3,s4/brandhighlight/4}
+    \node[num=\c] at (\n.north) {\t};
+  \draw[-Stealth,very thick,brandaccent] (s1) -- (s2); \draw[-Stealth,very thick,brandaccent] (s2) -- (s3);
+  \draw[-Stealth,very thick,brandaccent] (s3) -- (s4);
+  \node[font=\tiny,text=brandmuted] at (9.55,-1.68) {$\le$ 30 s};
+  \node[font=\tiny,text=brandmuted] at (6.37,-1.68) {$\le$ 1.8 s};
+  \node[font=\tiny,text=brandmuted] at (3.18,-1.68) {15 s + $\le$ 4.5 s};
+  \node[font=\tiny,text=brandmuted] at (0,-1.68) {1 click};
+\end{tikzpicture}
+\end{reportfigure*}
+
+מהאיור עולה שהחיכוך מרוכז בצעד הראשון, ולכן הוא מוגבל לחצי דקה ומתבצע פעם אחת בלבד. ההמלצה עצמה, בצעד השני, לעולם אינה נעולה מאחורי שער. השער בצעד השלישי הוא החלפת ערך גלויה ואופציונלית, ולא דפוס מטעה: המשתמשת יכולה לדלג עליו ולעבור ישר לקנייה.

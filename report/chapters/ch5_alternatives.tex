@@ -27,26 +27,11 @@
 
 \textbf{חלופה \num{1}, עיבוד מלא בקצה.} כל הצינור רץ על המכשיר: איתור נקודות ציון בעזרת \en{MediaPipe}, כיול צבע, מודל גוף מוקטן, מנוע המלצה מקומי ומודל דיפוזיה מכווץ. היתרונות ברורים: אין עלות שרת, והתמונה אינה עוזבת את המכשיר. המחיר טכני: מודל דיפוזיה שמתאים לזיכרון של פחות מ-\num{4 GB} מאבד חלק ניכר מהאיכות, במיוחד בקפלי בד מורכבים, והפעלה ממושכת שלו גורמת להתחממות ולהאטה (\en{Thermal Throttling}). בנוסף, קטלוג של עשרות אלפי פריטים ועדכון טרנדים כל \num{6} שעות אינם מתאימים לאחסון ולעדכון במכשיר.
 
-\textbf{חלופה \num{2}, ענן מונוליטי.} התמונה נשלחת למודל שפה רב-מודאלי מסחרי, שמנתח אותה ומחזיר המלצות בשפה טבעית, ומודל דיפוזיה כללי מייצר את ההדמיה. זו הדרך המהירה ביותר לאב-טיפוס. המחיר: עלות של כ-\num{\$0.12} לסשן (אומדן הצוות, טוקנים ודיפוזיה), זמן תגובה של יותר מ-\num{9 s}, והעברת תמונות פנים לספק חיצוני. החיסרון ההנדסי העמוק הוא היעדר שליטה דטרמיניסטית: מודל דיפוזיה כללי "מדמיין" בגד דומה ולא את הפריט המדויק מהקטלוג, ומודל השפה אינו מכייל צבע. הוא מקבל את התמונה המעוותת ומתאר אותה.
+\textbf{חלופה \num{2}, ענן מונוליטי.} התמונה נשלחת למודל שפה רב-מודאלי מסחרי, שמנתח אותה ומחזיר המלצות בשפה טבעית, ומודל דיפוזיה כללי מייצר את ההדמיה. זו הדרך המהירה ביותר לאב-טיפוס. המחיר: עלות של כ-\num{\$0.12} לסשן (אומדן הצוות, טוקנים ודיפוזיה), זמן תגובה של יותר מ-\num{9 s}, והעברת תמונות פנים לספק חיצוני. החיסרון ההנדסי העמוק הוא היעדר שליטה דטרמיניסטית: מודל דיפוזיה כללי "מדמיין" בגד דומה ולא את הפריט המדויק מהקטלוג, ומודל השפה אינו מכייל צבע.
 
 \textbf{חלופה \num{3}, חישוב מפוצל היברידי.} במכשיר רצים רק הרכיבים הקלים והרגישים: איתור העין והפנים, כיול הצבע לפי עוגני העין, ואיתור נקודות ציון של הגוף והיד. לענן נשלחים רק וקטורים: צבע מכויל, נקודות ציון וגובה מדווח. בענן רצים התאמת מודל \en{SMPL-X}, אחזור וקטורי מהקטלוג ומגרף הטרנדים, ומנוע ההמלצה, בעלות של כ-\num{\$0.002} לשאילתה. מודל ההדמיה, המבוסס על מאמר הדגל לאחר זיקוק, מופעל רק אחרי שהשער נפתח. המחיר הוא מורכבות: שלושה ממשקים בין רכיבים, ותלות בכך שהשער אכן ממומן.
 
-\subsection{סינון ראשוני מול המפרט}
-לפני הניקוד המשוקלל נבדק אם כל חלופה מסוגלת, עקרונית, לעמוד בדרישות המפרט (טבלה~\ref{tab:feasible}). זהו סינון של "עובר או נכשל", שמבחין בין חולשה שאפשר לפצות עליה לבין מגבלה מבנית.
-
-\begin{reporttable}[\footnotesize]{היתכנות עקרונית של כל חלופה מול דרישות מפתח במפרט}{tab:feasible}{R Q{1.9cm} Q{1.9cm} Q{1.9cm}}
-\headrow \hc{דרישה} & \hc{\num{1}: קצה} & \hc{\num{2}: ענן} & \hc{\num{3}: היברידי} \\ \midrule
-\en{REQ-VIS-01} כיול צבע & \cellok & \cellpartial{} ללא עוגן & \cellok \\
-\en{REQ-BOD-03} היקפי גוף & \cellpartial{} מודל מוקטן & \cellpartial{} ללא מודל גוף & \cellok \\
-\en{REQ-LAT-05} המלצה \num{1.8 s} & \cellok & \cellno{} \num{> 9 s} & \cellok \\
-\en{REQ-GEN-06} הדמיה \num{4.5 s} & \cellno{} התחממות & \cellno{} \num{> 9 s} & \cellpartial{} על הגבול \\
-\en{REQ-GEN-07} שמירת זהות & \cellno{} איכות נמוכה & \cellok & \cellok \\
-\en{REQ-TRD-09} עדכניות \num{6} שעות & \cellno{} עדכון מכשירים & \cellok & \cellok \\
-\en{REQ-SEC-11} פרטיות & \cellok & \cellno{} תמונות לספק & \cellok \\
-\en{REQ-BIZ-12} מרווח \num{2.4×} & \cellok{} אין עלות & \cellno{} \num{\$0.12} & \cellpartial{} רק אחרי זיקוק \\
-\end{reporttable}
-
-הטבלה מראה שחלופה \num{2} נכשלת בארבע דרישות במבנה שלה, וחלופה \num{1} נכשלת בשלוש, בהן שתי דרישות של הדמיה. חלופה \num{3} אינה נכשלת באף דרישה, אך שתיים מסומנות כחלקיות: זמן ההדמיה והמרווח הכלכלי. שתיהן תלויות באותו גורם, זיקוק מודל ההדמיה, ולכן הוא מוגדר כמשימה בנתיב הסיכון. הסינון אינו מכריע לבדו: הוא מבטיח שהמטריצה המשוקללת תשווה בין חלופות שכולן מועמדות לגיטימיות.
+\textbf{סינון ראשוני מול המפרט.} לפני הניקוד נבדק אם כל חלופה מסוגלת, עקרונית, לעמוד במפרט. חלופה \num{2} נכשלת במבנה שלה בארבע דרישות: זמני התגובה (\en{REQ-LAT-05}, \en{REQ-GEN-06}), הפרטיות (\en{REQ-SEC-11}) והמרווח הכלכלי (\en{REQ-BIZ-12}). חלופה \num{1} נכשלת בשלוש: זמן ההדמיה, שמירת הזהות ועדכניות הטרנדים. חלופה \num{3} אינה נכשלת באף דרישה, אך זמן ההדמיה והמרווח הכלכלי בה תלויים באותו גורם, זיקוק מודל ההדמיה, ולכן הוא מוגדר כמשימה בנתיב הסיכון.
 
 \section{שלב שני: מטריצת החלטה משוקללת}
 \label{sec:pugh}
@@ -56,6 +41,7 @@
 S_j = \sum_{i=1}^{n} w_i \cdot c_{ij}, \qquad \sum_{i=1}^{n} w_i = 1.00 .
 \label{eq:pugh}
 \end{equation}
+כאשר $S_j$ הוא הציון הכולל של חלופה $j$ ו-$n = 6$ הוא מספר הקריטריונים.
 
 \begin{warningbox}[מלכודת: מטריצה שנכתבה אחורה]
 אם המשקלים נקבעים אחרי שכבר ידוע מי צריך לנצח, המטריצה היא קישוט. לכן המשקלים בטבלה~\ref{tab:weights} הוקפאו במסמך הדרישות (\en{PRD.md}, במאגר הציבורי של הפרויקט) לפני שחושבו הסכומים, והציונים ניתנים לפי סולמות מעוגנים (טבלה~\ref{tab:anchors}). בבדיקה חוזרת של הציונים מול הסולמות התברר ששניים מהם לא תאמו, והם תוקנו: הציון של חלופה \num{3} ירד מ-\num{4.45} ל-\num{4.30}, והדירוג לא השתנה. הסכומים וניתוח הרגישות חושבו בסקריפט, ולא הוקלדו ידנית.
@@ -105,12 +91,12 @@ S_j = \sum_{i=1}^{n} w_i \cdot c_{ij}, \qquad \sum_{i=1}^{n} w_i = 1.00 .
   xlabel={Weighted score $S_j$}, xmajorgrids, grid style={black!10},
   legend style={at={(0.5,-0.42)},anchor=north,legend columns=6,font=\scriptsize,draw=none},
   reverse legend=false]
-  \addplot[fill=brandsecondary,draw=white] table[x=acc,y=alt]{figures/data/pugh_stacked.csv};
+  \addplot[fill=brandhighlight,draw=white] table[x=acc,y=alt]{figures/data/pugh_stacked.csv};
   \addplot[fill=brandaccent,draw=white] table[x=cost,y=alt]{figures/data/pugh_stacked.csv};
-  \addplot[fill=brandexample!80,draw=white] table[x=lat,y=alt]{figures/data/pugh_stacked.csv};
+  \addplot[fill=brandsecondary,draw=white] table[x=lat,y=alt]{figures/data/pugh_stacked.csv};
   \addplot[fill=brandprimary!70,draw=white] table[x=real,y=alt]{figures/data/pugh_stacked.csv};
-  \addplot[fill=brandgreen!70,draw=white] table[x=priv,y=alt]{figures/data/pugh_stacked.csv};
-  \addplot[fill=brandgrey!70,draw=white] table[x=dev,y=alt]{figures/data/pugh_stacked.csv};
+  \addplot[fill=brandwarn!75,draw=white] table[x=priv,y=alt]{figures/data/pugh_stacked.csv};
+  \addplot[fill=brandcream!80!brandaccent,draw=white] table[x=dev,y=alt]{figures/data/pugh_stacked.csv};
   \node[font=\scriptsize\bfseries,anchor=west] at (axis cs:3.40,0) {3.40};
   \node[font=\scriptsize\bfseries,anchor=west] at (axis cs:2.85,1) {2.85};
   \node[font=\scriptsize\bfseries,anchor=west] at (axis cs:4.30,2) {4.30};
@@ -130,15 +116,15 @@ S_j = \sum_{i=1}^{n} w_i \cdot c_{ij}, \qquad \sum_{i=1}^{n} w_i = 1.00 .
   width=6.2cm, height=4.6cm, xmin=0, xmax=0.6, ymin=1.5, ymax=5, grid=major, grid style={black!10},
   tick label style={font=\scriptsize}, label style={font=\scriptsize}, ylabel={$S_j$}]
 \nextgroupplot[xlabel={weight of Cost}, legend style={at={(1.12,-0.38)},anchor=north,legend columns=3,font=\scriptsize,draw=none}]
-  \addplot[brandgrey,thick] table[x=w,y=alt1]{figures/data/sens_cost.csv};
+  \addplot[brandsecondary,thick] table[x=w,y=alt1]{figures/data/sens_cost.csv};
   \addplot[brandwarn,thick,dashed] table[x=w,y=alt2]{figures/data/sens_cost.csv};
-  \addplot[brandsecondary,very thick] table[x=w,y=alt3]{figures/data/sens_cost.csv};
+  \addplot[brandhighlight,very thick] table[x=w,y=alt3]{figures/data/sens_cost.csv};
   \draw[black!50,dotted,thick] (axis cs:0.20,1.5) -- (axis cs:0.20,5);
   \legend{Alt 1 Edge, Alt 2 Cloud, Alt 3 Hybrid}
 \nextgroupplot[xlabel={weight of Latency}]
-  \addplot[brandgrey,thick] table[x=w,y=alt1]{figures/data/sens_lat.csv};
+  \addplot[brandsecondary,thick] table[x=w,y=alt1]{figures/data/sens_lat.csv};
   \addplot[brandwarn,thick,dashed] table[x=w,y=alt2]{figures/data/sens_lat.csv};
-  \addplot[brandsecondary,very thick] table[x=w,y=alt3]{figures/data/sens_lat.csv};
+  \addplot[brandhighlight,very thick] table[x=w,y=alt3]{figures/data/sens_lat.csv};
   \draw[black!50,dotted,thick] (axis cs:0.15,1.5) -- (axis cs:0.15,5);
 \end{groupplot}
 \end{tikzpicture}
@@ -202,7 +188,7 @@ S_j = \sum_{i=1}^{n} w_i \cdot c_{ij}, \qquad \sum_{i=1}^{n} w_i = 1.00 .
 \hat{\mathbf{M}} = \arg\min_{\mathbf{M}} \sum_{k\in\mathcal{A}} \lambda_k\,\Delta E_{00}\!\big(\mathbf{M}^{-1}\mathbf{c}^{(k)}_{\text{obs}},\,\boldsymbol{\mu}^{(k)}\big) + \gamma\,\lVert \mathbf{M}-\mathbf{I}\rVert_F^2 ,
 \label{eq:map}
 \end{equation}
-כאשר $\boldsymbol{\mu}^{(k)}$ הוא ערך הייחוס של העוגן: ברישום הראשון הוא נמדד בהבזק מסך לבן, ובקשתית הוא משולב עם ההתפלגות הקודמת $\mathcal{N}(\boldsymbol{\mu}_\ell,\boldsymbol{\Sigma}_\ell)$ של קטגוריית צבע העיניים שהמשתמשת דיווחה. המשקל $\lambda_k$ קטן כשלובן העין חורג מערך הרישום, למשל באדמומיות, וכך הקשתית "לוקחת פיקוד" כשהעוגן הראשי אינו אמין.
+כאשר $\mathbf{c}^{(k)}_{\text{obs}}$ הוא הצבע הנצפה של העוגן $k$, $\lambda_k$ משקלו, $\gamma$ משקל הרגולריזציה שמושך את $\mathbf{M}$ לעבר מטריצת היחידה $\mathbf{I}$ בנורמת פרובניוס, ו-$\boldsymbol{\mu}^{(k)}$ ערך הייחוס של העוגן: ברישום הראשון הוא נמדד בהבזק מסך לבן, ובקשתית הוא משולב עם ההתפלגות הקודמת $\mathcal{N}(\boldsymbol{\mu}_\ell,\boldsymbol{\Sigma}_\ell)$ של קטגוריית צבע העיניים שהמשתמשת דיווחה. המשקל $\lambda_k$ קטן כשלובן העין חורג מערך הרישום, למשל באדמומיות, וכך הקשתית "לוקחת פיקוד" כשהעוגן הראשי אינו אמין.
 
 \textbf{בדיקת היתכנות סימולטיבית.} הגרסה האלכסונית של המשוואה נבחנה באותה סימולציה שתיארה את המצב המצוי בפרק~\ref{ch:problem}, מול ארבע שיטות ייחוס (איור~\ref{fig:calibfull}). בסימולציה לובן העין אינו ניטרלי לגמרי: יש לו שונות בין אנשים ואדמומיות משתנה בין צילומים. ההנחה שהוא קרוב לניטרלי, ושהרישום החד-פעמי לוכד את הסטייה האישית, היא הנחת עבודה שתיבדק בניסוי הבסיס.
 
@@ -216,8 +202,8 @@ S_j = \sum_{i=1}^{n} w_i \cdot c_{ij}, \qquad \sum_{i=1}^{n} w_i = 1.00 .
   legend style={at={(0.98,0.04)},anchor=south east,font=\tiny},
   enlarge y limits=0.14, xmajorgrids, grid style={black!10},
   nodes near coords, nodes near coords style={font=\tiny}]
-  \addplot[fill=brandgrey!70,draw=brandgrey] table[x=mean,y=idx]{figures/data/calibration_bars.csv};
-  \addplot[fill=brandsecondary!70,draw=brandsecondary] table[x=p95,y=idx]{figures/data/calibration_bars.csv};
+  \addplot[fill=brandsecondary!75,draw=brandsecondary] table[x=mean,y=idx]{figures/data/calibration_bars.csv};
+  \addplot[fill=brandaccent!85,draw=brandaccent!80!black] table[x=p95,y=idx]{figures/data/calibration_bars.csv};
   \draw[brandwarn,dashed,thick] (axis cs:1.8,-0.6) -- (axis cs:1.8,4.6);
   \draw[brandwarn,dotted,thick] (axis cs:4.5,-0.6) -- (axis cs:4.5,4.6);
   \legend{Mean, P95}
@@ -233,7 +219,7 @@ S_j = \sum_{i=1}^{n} w_i \cdot c_{ij}, \qquad \sum_{i=1}^{n} w_i = 1.00 .
 \mathbf{r} = \frac{1}{H}\,\big(C_{\text{chest}},\,C_{\text{waist}},\,C_{\text{hip}},\,L_{\text{inseam}}\big),
 \label{eq:ratio}
 \end{equation}
-שמוכפל בגובה כדי לקבל היקפים בסנטימטרים. הגובה פותר את עמימות קנה המידה, כפי שהראו רואיס ועמיתיו \cite{ruiz2022bodym}. ההיקפים מושווים לטבלת המידות של כל פריט, וכך המידה המומלצת נבחרת לפי מרחק ולא לפי ניחוש.
+כאשר $C$ הם היקפי החזה, המותן והאגן, $L_{\text{inseam}}$ אורך הרגל הפנימי ו-$H$ הגובה המדווח. $\mathbf{r}$ מוכפל בגובה כדי לקבל היקפים בסנטימטרים. הגובה פותר את עמימות קנה המידה, כפי שהראו רואיס ועמיתיו \cite{ruiz2022bodym}. ההיקפים מושווים לטבלת המידות של כל פריט, וכך המידה המומלצת נבחרת לפי מרחק ולא לפי ניחוש.
 
 \subsection{מנוע האחזור, הטרנדים והשער}
 כל פריט בקטלוג מיוצג בשיכון \en{CLIP} \cite{radford2021clip} ונשמר באינדקס \en{FAISS} \cite{johnson2021faiss}. ציון ההמלצה לפריט $s$ משלב שלושה גורמים:
@@ -246,13 +232,13 @@ T(s) = \alpha\,\tilde v_t(s) + (1-\alpha)\,\tilde e_t(s), \qquad
 v_t(s) = \frac{d}{dt}\log\big(1+n_t(s)\big),
 \label{eq:trend}
 \end{equation}
-כאשר $\kappa$ היא התאמה של הפריט לגוון ולמידות, $T(s)$ ציון הטרנד, $\tilde v_t$ קצב הצמיחה המנורמל של אזכורי הסגנון, $\tilde e_t$ המעורבות המנורמלת, ו-$\eta$ קובע כמה הטרנד יכול להטות את ההמלצה. הטרנד מכפיל את הציון ואינו מחובר אליו, ולכן טרנד חזק אינו יכול להעלות פריט שאינו מתאים לגוון או למידה. שלב היצירה של \en{RAG} \cite{lewis2020rag} מנסח הסבר קצר לכל המלצה, על בסיס המאפיינים שאוחזרו בלבד. נתב השער מקבל את הבקשה להדמיה, בודק שמקור המימון אושר, ורק אז שולח אותה לתור של מודל ההדמיה.
+כאשר $\kappa$ היא התאמה של הפריט לגוון ולמידות, $T(s)$ ציון הטרנד, $\tilde v_t$ קצב הצמיחה המנורמל של אזכורי הסגנון, $\tilde e_t$ המעורבות המנורמלת, $n_t(s)$ מספר האזכורים של הסגנון $s$ בזמן $t$, $\alpha$ משקל קצב הצמיחה מול המעורבות, ו-$\eta$ קובע כמה הטרנד יכול להטות את ההמלצה. הטרנד מכפיל את הציון ואינו מחובר אליו, ולכן טרנד חזק אינו יכול להעלות פריט שאינו מתאים לגוון או למידה. שלב היצירה של \en{RAG} \cite{lewis2020rag} מנסח הסבר קצר לכל המלצה, על בסיס המאפיינים שאוחזרו בלבד. נתב השער מקבל את הבקשה להדמיה, בודק שמקור המימון אושר, ורק אז שולח אותה לתור של מודל ההדמיה.
 
 \subsection{ממשקים בין הרכיבים}
 לכל רכיב באיור~\ref{fig:arch} מוגדרים קלט, פלט ומיקום ריצה, כך שכל אחד ניתן לפיתוח ולבדיקה בנפרד, עם נתונים מדומים, לפני האינטגרציה. הגבול בין המכשיר לענן עובר בשער ה-\en{API}: מעליו יש תמונות, ומתחתיו רק וקטורים מוצפנים, כלומר צבע עור ב-\en{$L^*a^*b^*$}, נקודות ציון וגובה. החריג היחיד הוא מודל ההדמיה, שמקבל את תמונת המשתמשת. לכן הוא מופעל רק בהסכמה מפורשת לכל הדמיה, התמונה אינה נשמרת בדיסק, והיא נמחקת מהזיכרון בתוך \num{60} שניות, כפי שמחייבת \en{REQ-SEC-11}.
 
 \subsection{פרטיות כחלק מהתכן}
-הפרטיות אינה שכבה שמוסיפים בסוף, אלא תוצאה של מיקום הרכיבים (\enlong{Privacy by Design}). שלושה עקרונות מיושמים. ראשית, צמצום נתונים: במסלול ההמלצה לענן עוברים צבע מכויל, נקודות ציון וגובה, ולא תמונה; במסלול ההדמיה התמונה ארעית ואינה נשמרת. שנית, הפרדת זהות: הווקטורים נשמרים תחת מזהה אקראי, ללא שם וללא תמונה, כך שאי אפשר לזהות מהם את המשתמשת. שלישית, מחיקה לפי בקשה, בהתאם לזכות למחיקה בתקנת \en{GDPR} \cite{gdpr2016}. שלושת העקרונות נבדקים בדרישה \en{REQ-SEC-11}, והם שמאפשרים לסווג את הסיכון \en{RSK-SEC-05} כבינוני ולא כקריטי.
+הפרטיות אינה שכבה שמוסיפים בסוף, אלא תוצאה של מיקום הרכיבים (\enlong{Privacy by Design}). שלושה עקרונות מיושמים. ראשית, צמצום נתונים: במסלול ההמלצה לענן עוברים צבע מכויל, נקודות ציון וגובה, ולא תמונה; במסלול ההדמיה התמונה ארעית ואינה נשמרת. שנית, הפרדת זהות: הווקטורים נשמרים תחת מזהה אקראי, ללא שם וללא תמונה, כך שאי אפשר לזהות מהם את המשתמשת. שלישית, מחיקה לפי בקשה, בהתאם לזכות למחיקה בתקנת \en{GDPR} \cite{gdpr2016}. שלושתם נבדקים ב-\en{REQ-SEC-11}.
 
 טבלה~\ref{tab:latency} מראה ששני המסלולים עומדים בתקציב הזמן של המפרט.
 
@@ -268,6 +254,55 @@ v_t(s) = \frac{d}{dt}\log\big(1+n_t(s)\big),
 \end{reporttable*}
 
 מהטבלה עולה שבמסלול ההמלצה יש מרווח של כ-\num{20\%}, ואילו מסלול ההדמיה עומד על הגבול. מכאן ששמונה צעדי דגימה הם תקרה, ולא יעד. זו אותה מסקנה שעלתה מכלכלת היחידה בסעיף~\ref{sec:unit}, ולכן זיקוק מודל הדגל (משימה \en{TSK-3.1}) הוא משימה בנתיב הסיכון של הפרויקט.
+
+\subsection{ממשק המשתמש: תוסף הדפדפן והאפליקציה הנלווית}
+הארכיטקטורה פוגשת את המשתמשת בשני משטחים (איור~\ref{fig:mockup}). תוסף הדפדפן נפתח כחלונית צד בדף מוצר של קמעונאי שותף, ומציג את המידה המומלצת, את התאמת הגוון ואת כפתור ההדמיה. האפליקציה הנלווית משמשת לשגרת הבוקר: גוון העור המכויל, טרנד עולה, ושלושה כרטיסי "קנייה בלחיצה" ללבוש, לאיפור ולציפורניים. בשני המשטחים מוצג סימון קבוע שהתמונה נשארת במכשיר, כדי שהפרטיות שבתכן תהיה גלויה גם בממשק.
+
+\begin{reportfigure}{מוקאפ של ממשק \en{AuraTwin AI}: חלונית התוסף בדף מוצר (משמאל) והאפליקציה הנלווית (מימין). הערכים להמחשה}{fig:mockup}
+\begin{tikzpicture}[x=1cm,y=1cm,font=\scriptsize,
+  card/.style={draw=brandaccent,fill=white,rounded corners=2pt,line width=0.5pt,minimum height=0.62cm},
+  btn/.style={fill=#1,text=brandcream,rounded corners=3pt,font=\tiny\bfseries,inner sep=3pt}]
+  % ---------------- browser + extension panel
+  \draw[brandprimary,line width=1pt,rounded corners=4pt,fill=white] (0,0) rectangle (7.5,6.3);
+  \fill[brandprimary,rounded corners=4pt] (0,5.85) rectangle (7.5,6.3);
+  \fill[brandprimary] (0,5.85) rectangle (7.5,6.0);
+  \foreach \x/\c in {0.25/brandwarn,0.5/brandaccent,0.75/brandsecondary} \fill[\c] (\x,6.07) circle (0.07);
+  \node[fill=brandcream,rounded corners=2pt,font=\tiny,inner sep=2pt,anchor=west] at (1.0,6.07) {partner-store.com/halter-top-crimson};
+  \fill[brandsecondary!25] (0.3,1.3) rectangle (3.7,5.55);
+  \fill[brandwarn!85] (1.35,2.0) -- (2.65,2.0) -- (2.9,4.3) -- (2.35,4.75) -- (1.65,4.75) -- (1.1,4.3) -- cycle;
+  \node[font=\tiny,text=brandprimary] at (2.0,1.0) {Crimson halter top};
+  \node[font=\tiny\bfseries,text=brandprimary] at (2.0,0.6) {\$39.90};
+  \draw[brandaccent,line width=1pt,fill=brandcream!70!white,rounded corners=3pt] (4.0,0.25) rectangle (7.3,5.6);
+  \node[anchor=north west] at (4.12,5.5) {\auratwinlogo[0.24]};
+  \node[anchor=west,font=\scriptsize\bfseries,text=brandprimary] at (4.75,5.33) {AuraTwin};
+  \node[card,text width=2.9cm,align=center] at (5.65,4.55) {\heb{מידה מומלצת: \textbf{\en{M}}}\\\heb{מותן \num{74 $\pm$ 1.2 cm}}};
+  \node[card,text width=2.9cm,align=center] at (5.65,3.55) {\heb{התאמת גוון: \textbf{\num{92\%}}}\\\heb{גוון \en{N34} חם}};
+  \node[card,text width=2.9cm,align=center] at (5.65,2.55) {\heb{מתאים לטרנד העונה}\\\accenttext{\heb{אדום עמוק \num{+38\%}}}};
+  \node[btn=brandhighlight,text width=2.7cm,align=center] at (5.65,1.55) {\heb{הדמיה עליי: מודעה של \num{15} ש׳}};
+  \node[font=\tiny,text=brandsecondary] at (5.65,0.6) {\heb{התמונה נשארת במכשיר}};
+  % ---------------- phone app
+  \draw[brandprimary,line width=2pt,rounded corners=10pt,fill=brandcream!70!white] (8.3,-0.15) rectangle (12.3,6.45);
+  \fill[brandprimary] (9.85,6.25) rectangle (10.75,6.35);
+  \node[anchor=north west] at (8.5,6.1) {\auratwinlogo[0.24]};
+  \node[anchor=east,font=\scriptsize\bfseries,text=brandprimary] at (12.1,5.85) {\heb{בוקר טוב}};
+  \node[draw=brandaccent,fill=white,rounded corners=6pt,text width=3.4cm,align=center] at (10.3,5.05)
+       {\heb{הגוון המכויל שלך: \en{N34} חם}\\\mutedtext{\num{$\Delta E_{00} = 1.3$}}};
+  \node[btn=brandsecondary] at (10.3,4.3) {\heb{טרנד עולה: גוני יין וחרדל}};
+  \foreach \y/\c/\t/\s in {3.45/brandwarn/{חולצת הולטר}/{\en{partner-store}},
+                          2.6/auraGarnet!80!black/{שפתון גרנט}/{\en{beauty-partner}},
+                          1.75/brandhighlight/{לק נחושת}/{\en{beauty-partner}}} {
+    \node[card,minimum width=3.6cm] at (10.3,\y) {};
+    \fill[\c] (11.75,\y) circle (0.2);
+    \node[anchor=east,font=\scriptsize\bfseries,text=brandprimary] at (11.45,\y+0.1) {\heb{\t}};
+    \node[anchor=east,font=\tiny,text=brandsecondary] at (11.45,\y-0.15) {\s};
+    \node[btn=brandprimary] at (9.0,\y) {\heb{לקנייה}};}
+  \node[btn=brandhighlight,minimum width=2.1cm] at (10.85,0.8) {\heb{מודעה ואז הדמיה}};
+  \node[btn=brandaccent!85!black] at (9.15,0.8) {\en{VIP}};
+  \node[font=\tiny,text=brandsecondary] at (10.3,0.2) {\heb{התמונה נשארת במכשיר}};
+\end{tikzpicture}
+\end{reportfigure}
+
+מהמוקאפ עולים שלושה עקרונות תכן. ההמלצה, הגוון והמידה מוצגים תמיד בלי תנאי, והשער מופיע רק כשהמשתמשת מבקשת לראות את עצמה בפריט. כל מספר בממשק נשען על דרישה במפרט: \num{$\Delta E_{00}$} על \en{REQ-VIS-01}, הסטייה של \num{$\pm 1.2$ cm} על \en{REQ-BOD-03}, ותקציב הזמן של הכפתור על \en{REQ-GEN-06}. ולבסוף, אין בממשק ברירות מחדל מגדריות: אותם כרטיסים משרתים נערה, אישה או גבר, לפי הגוף והגוון ולא לפי הנחה.
 
 \section{שלב רביעי: החדשנות והערך המוסף}
 \label{sec:innovation}

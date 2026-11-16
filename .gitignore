@@ -36,3 +36,6 @@ __pycache__/
 *.pyc
 .DS_Store
 Thumbs.db
+report/work/d[0-9]*.png
+report/work/s[0-9]*.png
+report/work/j.png

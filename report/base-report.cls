@@ -10,9 +10,9 @@
 %% Version history: see ../CHANGELOG.md   Command list: COMMANDS.md
 %% ============================================================================
 \NeedsTeXFormat{LaTeX2e}
-\def\basereport@version{1.2.1}
+\def\basereport@version{1.3.0}
 \def\basereport@date{2026/11/16}
-\ProvidesClass{base-report}[2026/11/16 v1.2.1 Hebrew/English LuaLaTeX report base class]
+\ProvidesClass{base-report}[2026/11/16 v1.3.0 Hebrew/English LuaLaTeX report base class]
 
 \RequirePackage{iftex}
 \ifluatex\else
@@ -25,6 +25,17 @@
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{report}}
 \ProcessOptions\relax
 \LoadClass[12pt,a4paper,oneside]{report}
+%% v1.3.0: body text 11.5 pt (booklet Table 11.1 allows 11-12 pt). Together with
+%% \onehalfspacing and a 6 pt paragraph skip this keeps pages airy while the
+%% 40-page body budget absorbs the added UX chapters' content.
+\renewcommand\normalsize{%
+  \@setfontsize\normalsize{11.5pt}{14pt}%
+  \abovedisplayskip 11\p@ \@plus3\p@ \@minus6\p@
+  \abovedisplayshortskip \z@ \@plus3\p@
+  \belowdisplayshortskip 6.5\p@ \@plus3.5\p@ \@minus3\p@
+  \belowdisplayskip \abovedisplayskip
+  \let\@listi\@listI}
+\normalsize
 
 %% ======================================================= STAGE 1: skeleton --
 %% Page geometry (booklet Table 11.1): 2.5 cm on every side + 0.5 cm binding
@@ -79,6 +90,10 @@
 \definecolor{brandexample}{HTML}{3949AB}
 \definecolor{brandtext}{HTML}{1B1B1F}
 \definecolor{brandmuted}{HTML}{6B7280}
+\definecolor{brandcream}{HTML}{F7F3EA}      % v1.3.0: soft box background (layer overrides)
+\colorlet{brandhighlight}{brandsecondary}   % v1.3.0: proposed-solution series in charts
+\definecolor{brandgreen}{HTML}{2E8B57}
+\definecolor{brandgrey}{HTML}{8C8C99}
 
 %% ===================================================== STAGE 2: BiDi units --
 %% \en{...}     one LTR English unit (word, acronym, multi-word phrase).
@@ -98,6 +113,9 @@
 \newcommand{\heb}[1]{\texthebrew{#1}}
 \newcommand{\copyrightsign}{\textenglish{\textcopyright}}
 \newcommand{\hq}[1]{\char"0022#1\char"0022}   % Hebrew quotation marks (straight)
+%% v1.3.0: semantic text colours (chapters never call \textcolor directly)
+\newcommand{\accenttext}[1]{\textcolor{brandhighlight}{#1}}   % proposed solution / highlight
+\newcommand{\mutedtext}[1]{\textcolor{brandsecondary}{#1}}    % secondary labels, requirement IDs
 %% Numbers that LaTeX itself generates (section, figure, page) are forced LTR,
 %% so "1.2" never displays as "2.1" -- also inside the TOC and the lists.
 \newcommand{\basereport@LTRnum}[1]{\LR{#1}}
@@ -202,7 +220,7 @@
 %% Lists
 \setlist{itemsep=1pt,topsep=3pt,parsep=0pt,leftmargin=*}
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{4pt plus 1pt}
+\setlength{\parskip}{6pt plus 1pt}   % v1.3.0 readability: 6 pt between paragraphs
 \emergencystretch=2em
 \clubpenalty=10000 \widowpenalty=10000 \displaywidowpenalty=10000
 
@@ -215,7 +233,7 @@
 \newcolumntype{P}[1]{>{\raggedleft\arraybackslash}p{#1}}
 \newcolumntype{Q}[1]{>{\centering\arraybackslash}p{#1}}
 \setlength{\arrayrulewidth}{0.4pt}
-\renewcommand{\arraystretch}{1.18}
+\renewcommand{\arraystretch}{1.25}   % v1.3.0 readability: roomier rows
 
 %% \begin{reporttable}{<caption>}{<label>}{<tabularx colspec>}
 %%   \headrow \hc{A} & \hc{B} & \hc{C} \\ \midrule  rows...  \end{reporttable}
@@ -263,18 +281,18 @@
 
 %% Four box types (tcolorbox). breakable=false: a box never splits.
 \tcbset{basereport/.style={enhanced,breakable=false,arc=2pt,
-    left=8pt,right=8pt,top=5pt,bottom=5pt,boxsep=0pt,
+    left=9pt,right=9pt,top=6pt,bottom=6pt,boxsep=0pt,   % v1.3.0 padding
     fonttitle=\headingfont\bfseries\small,
-    before skip=7pt,after skip=7pt,
+    before skip=9pt,after skip=9pt,
     before upper={\setstretch{1.15}\setlength{\parskip}{3pt}}}}
 %% 1. managerbox -- "Why it matters to a manager" (gold/amber header)
 \newtcolorbox{managerbox}[1][למה זה חשוב למנהל]{basereport,
-  colback=brandaccent!8,colframe=brandaccent,coltitle=black,
+  colback=brandcream!70!white,colframe=brandaccent,coltitle=brandprimary,
   colbacktitle=brandaccent!55,title={#1},boxrule=0.8pt,toptitle=2pt,bottomtitle=2pt,
   before={\par\needspace{5\baselineskip}}}
 %% 2. keymessagebox -- teal bar on the right edge (RTL reading start)
 \newtcolorbox{keymessagebox}[1][המסר המרכזי]{basereport,
-  colback=brandsecondary!8,colframe=brandsecondary!8,boxrule=0pt,
+  colback=brandcream!45!white,colframe=brandcream!45!white,boxrule=0pt,
   borderline east={4pt}{0pt}{brandsecondary},
   fontupper=\small,
   before upper={\setstretch{1.15}{\headingfont\bfseries\color{brandsecondary}#1:}\ },
@@ -287,7 +305,7 @@
   before={\par\needspace{4\baselineskip}}}
 %% 4. examplebox -- application inside the system (royal blue / indigo)
 \newtcolorbox{examplebox}[1][יישום במערכת]{basereport,
-  colback=brandexample!6,colframe=brandexample,boxrule=0.6pt,
+  colback=brandcream!35!white,colframe=brandexample,boxrule=0.6pt,
   colbacktitle=brandexample,coltitle=white,title={#1},fontupper=\small,
   toptitle=2pt,bottomtitle=2pt,before={\par\needspace{5\baselineskip}}}
 %% Code box: always LTR (wrap the call in \begin{english} ... \end{english}).
@@ -311,7 +329,7 @@
   \fancyfoot[C]{\small\color{brandmuted}\basereport@pagelabel}%
   \fancyfoot[R]{\scriptsize\color{brandmuted}\basereport@headright}%
   \renewcommand{\headrulewidth}{0.4pt}%
-  \renewcommand{\headrule}{{\color{brandsecondary!60}\hrule height\headrulewidth}}%
+  \renewcommand{\headrule}{{\color{brandaccent}\hrule height\headrulewidth}}%
   \renewcommand{\footrulewidth}{0pt}}
 \fancypagestyle{plain}{%
   \fancyhf{}\fancyfoot[C]{\small\color{brandmuted}\basereport@pagelabel}%
