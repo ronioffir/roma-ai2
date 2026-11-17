@@ -34,3 +34,13 @@ order, how each skill was invoked, what it changed concretely, and where the evi
 - QA detector: **PASS**. Readability & math audit: **PASS** (14 equations, every symbol defined).
 - Not re-run in round 3: the red-team examiner (the content changes were UX, design and readability; the
   83/100 re-check covers the technical substance). A new red-team pass is recommended before submission.
+
+## Round 4 — design corrections (prompt 06)
+
+| # | Skill | Contribution |
+|---|---|---|
+| 11 | `luxury-vintage-ui-designer` | Shield-Eye logo (security, trust, aesthetics) in TikZ and PNG; banner swatches without labels; template v1.4.0 |
+| 6 | `visual-tikz-pgfplots-artist` | funnel, Venn (clearance search), TAM/SAM/SOM, mockup and heatmap redrawn without overlaps |
+| 10 | `ux-entrepreneur-strategist` | mockup modernised: secure chip, lock cues, match ring, capsule CTAs, phone status bar |
+| 12 | `human-readability-math-auditor` | heatmap readability (solid fills, larger type); audit re-run: PASS |
+| 7/8 | detector / fixer | build hang diagnosed (missing pgf-blur package) and removed; detector PASS |

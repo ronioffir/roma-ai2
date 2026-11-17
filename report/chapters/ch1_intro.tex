@@ -13,16 +13,18 @@
 
 \begin{reportfigure}{פרק המבוא כמשפך: מהמגמה העולמית אל מבנה הדוח}{fig:funnel}
 \begin{tikzpicture}[x=1cm,y=1cm]
-  \def\lay#1#2#3#4#5{%
-    \fill[#5] (-#1,#3) -- (#1,#3) -- (#2,#3-1.05) -- (-#2,#3-1.05) -- cycle;
-    \node[font=\small\bfseries,text=white] at (0,#3-0.52) {#4};}
-  \lay{5.8}{4.7}{0}{\heb{מגמות: מסחר מקוון, מודלי גוף תלת-ממדיים, דיפוזיה, רגולציה ביומטרית}}{brandprimary}
-  \lay{4.7}{3.6}{-1.15}{\heb{ההקשר: מעבדה סטטיסטית וקמעונאי ביוטי ואופנה גלובלי}}{brandprimary!78!brandsecondary}
-  \lay{3.6}{2.5}{-2.3}{\heb{המוטיבציה: למה הכלים הקיימים מוצו}}{brandsecondary}
-  \lay{2.5}{1.4}{-3.45}{\heb{מבנה הדוח}}{brandaccent!90!black}
-  \node[font=\scriptsize,text=brandmuted,anchor=west] at (4.9,-0.5) {\heb{רחב}};
-  \node[font=\scriptsize,text=brandmuted,anchor=west] at (2.6,-4.0) {\heb{ממוקד}};
-  \draw[-Stealth,brandmuted,thick] (5.3,-0.9) -- (3.1,-3.9);
+  % \lay{top half-width}{bottom half-width}{top y}{text}{fill}{text colour}
+  \def\lay#1#2#3#4#5#6{%
+    \fill[#5,rounded corners=1.5pt] (-#1,#3) -- (#1,#3) -- (#2,#3-0.82) -- (-#2,#3-0.82) -- cycle;
+    \node[font=\footnotesize\bfseries,text=#6] at (0,#3-0.41) {#4};}
+  \lay{4.9}{4.05}{0}{\heb{מגמות: מסחר מקוון, מודלי גוף, דיפוזיה ורגולציה}}{brandprimary}{brandcream}
+  \lay{3.95}{3.1}{-0.92}{\heb{ההקשר: מעבדה סטטיסטית וקמעונאי גלובלי}}{brandprimary!72!brandsecondary}{brandcream}
+  \lay{3.0}{2.15}{-1.84}{\heb{המוטיבציה: למה הקיים מוצה}}{brandsecondary}{brandcream}
+  \lay{2.05}{1.2}{-2.76}{\heb{מבנה הדוח}}{brandaccent}{brandprimary}
+  % direction arrow outside the funnel, labels above and below it (no overlap)
+  \draw[-Stealth,line width=1.2pt,brandaccent!80!black] (-5.75,-0.05) -- (-5.75,-3.53);
+  \node[font=\footnotesize\bfseries,text=brandmuted,anchor=south] at (-5.75,0.0) {\heb{רחב}};
+  \node[font=\footnotesize\bfseries,text=brandmuted,anchor=north] at (-5.75,-3.58) {\heb{ממוקד}};
 \end{tikzpicture}
 \end{reportfigure}
 

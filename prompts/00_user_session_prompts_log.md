@@ -353,6 +353,10 @@ number labelled as a team estimate; a verification checklist for the students in
 
 Verbatim in [`01_user_rejects_ux_luxury_design_prompt.md`](01_user_rejects_ux_luxury_design_prompt.md), with the attached palette board (Egg Nog #FBEDC3, Mustard #CCB363, Dust #6F7D7B, Copper #C27E35, Garnet #76290B, Velvet Forest #1E3226).
 
+## Prompt 4 — Design corrections + GitHub sync (2026-11-17)
+
+Verbatim in [`06_user_design_corrections_prompt.md`](06_user_design_corrections_prompt.md). The GitHub password in that message is **redacted** and was not used.
+
 ## Later prompts
 
 <!-- Append every further user prompt here, verbatim, with date. -->

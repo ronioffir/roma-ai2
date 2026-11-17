@@ -4,6 +4,31 @@ Template = `report/base-report.cls` (base layer) + `report/auratwin-report.cls` 
 Version source of truth: `VERSION`. Rule (booklet §15.6): a problem that repeats across the
 document is fixed **once** in the template, with a version bump and an entry here.
 
+## [1.4.0] — 2026-11-17 — design corrections (user prompt 02)
+### Changed (company layer)
+- **New "Shield-Eye" logo** (security, trust and aesthetics). It is a Velvet Forest heraldic shield with a Mustard
+  inner rim, holding an Egg Nog eye whose Mustard iris contains a keyhole pupil, with three small palette arches
+  at the base. The TikZ macro and the PNG (`scripts/render_hyperframes_cover.py`) use identical geometry; the header
+  mark is scaled to 0.14.
+- Cover course line: the seminar wording was removed (`\doccourse` in main.tex). Every other cover field is unchanged.
+- Cover banner: palette swatches without colour-name labels; the new logo is used.
+### Changed (figures, one-off)
+- p.5 funnel: the direction arrow and its labels moved outside the funnel (no overlap), the layer texts were shortened
+  to fit inside each trapezoid, and the layers were made more compact.
+- p.17 Venn: three distinct hues (Velvet Forest / Copper / Dust), criterion names as solid pills outside the circles,
+  and every paper label fully inside its region. The positions come from a clearance search
+  (`report/work/venn_layout.py`, minimum clearance 0.16 cm).
+- p.21 TAM/SAM/SOM: nested circles in three distinct solid colours with only short tags inside; values and
+  descriptions moved to a leader-line column (no text over circles).
+- p.34 UI mockup: modern product styling. It has a sans-serif UI font, soft card shadows (two low-opacity layers), a
+  lock icon in the URL bar, a "מאובטח" chip, a circular match ring, gradient capsule buttons, a phone bezel with a
+  status bar, a halter-top product illustration and the new logo.
+- p.39 risk heatmap: solid opaque fills (Garnet / Mustard / Dust), larger cells and numbers, risk IDs in white pills
+  placed below the scores.
+### Fixed
+- `shadows.blur` (package pgf-blur) is not installed, and MiKTeX's silent on-the-fly install froze every pass. The
+  dependency was removed and the soft shadows are drawn with standard TikZ.
+
 ## [1.3.0] — 2026-11-16 — "Luxury, Vintage, Bold" identity, logo, readability (skills 11 + 12)
 ### Added (company layer `auratwin-report.cls`)
 - Palette colours `auraEggNog` #FBEDC3, `auraMustard` #CCB363, `auraDust` #6F7D7B, `auraCopper` #C27E35,

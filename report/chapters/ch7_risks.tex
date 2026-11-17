@@ -19,21 +19,29 @@ R = P \times I, \qquad P, I \in \{1,\dots,5\}
 כאשר $R$ הוא ציון הסיכון, $P$ ההסתברות ו-$I$ חומרת ההשפעה.
 
 \begin{reportfigure}{מטריצת סיכונים \num{5×5}: הסתברות מול חומרה, באדום האזור הקריטי (\num{$R \ge 12$})}{fig:heat}
-\begin{tikzpicture}[x=0.95cm,y=0.6cm]
+\begin{tikzpicture}[x=1.42cm,y=1.22cm,
+  rid/.style={fill=white,text=brandprimary,font=\sffamily\scriptsize\bfseries,rounded corners=2pt,inner xsep=3pt,inner ysep=1.5pt}]
+  % solid, opaque fills only: Garnet = critical, Mustard = medium, Dust = low
   \foreach \p in {1,...,5} \foreach \i in {1,...,5} {
     \pgfmathtruncatemacro{\r}{\p*\i}
-    \ifnum\r>11 \def\col{brandwarn!70}\else\ifnum\r>5 \def\col{brandaccent!45}\else\def\col{brandgreen!30}\fi\fi
+    \ifnum\r>11 \def\col{auraGarnet}\def\tcol{brandcream}\else
+      \ifnum\r>5 \def\col{auraMustard}\def\tcol{brandprimary}\else\def\col{auraDust}\def\tcol{white}\fi\fi
     \fill[\col] (\i-1,\p-1) rectangle (\i,\p);
-    \draw[white,thick] (\i-1,\p-1) rectangle (\i,\p);
-    \node[font=\tiny,text=black!45,anchor=north east] at (\i-0.04,\p-0.02) {\r};}
-  \foreach \k in {1,...,5} {\node[font=\scriptsize] at (\k-0.5,-0.35) {\k}; \node[font=\scriptsize] at (-0.3,\k-0.5) {\k};}
-  \node[font=\scriptsize\bfseries] at (2.5,-0.95) {Impact $I$};
-  \node[font=\scriptsize\bfseries,rotate=90] at (-0.95,2.5) {Probability $P$};
-  \foreach \i/\p/\n/\dy in {4/4/ALG-01/0, 3/4/GEN-02/0.14, 3/4/OPS-08/-0.2, 4/3/DAT-03/0.14, 4/3/ALG-07/-0.2, 5/3/BIZ-04/0, 5/2/SEC-05/0, 3/3/OPS-06/0}
-    \node[font=\tiny\bfseries,fill=white,rounded corners=1pt,inner sep=0.8pt] at (\i-0.5,\p-0.55+\dy) {\n};
-  \fill[brandwarn!70] (5.6,4.2) rectangle (6.0,4.6); \node[font=\tiny,anchor=west] at (6.05,4.4) {critical, $R\ge12$};
-  \fill[brandaccent!45] (5.6,3.5) rectangle (6.0,3.9); \node[font=\tiny,anchor=west] at (6.05,3.7) {medium, $6\le R\le 11$};
-  \fill[brandgreen!30] (5.6,2.8) rectangle (6.0,3.2); \node[font=\tiny,anchor=west] at (6.05,3.0) {low, $R\le 5$};
+    \draw[white,line width=1.2pt] (\i-1,\p-1) rectangle (\i,\p);
+    \node[font=\sffamily\footnotesize\bfseries,text=\tcol,anchor=north east] at (\i-0.04,\p-0.04) {\r};}
+  \foreach \k in {1,...,5} {
+    \node[font=\sffamily\small\bfseries,text=brandprimary] at (\k-0.5,-0.32) {\k};
+    \node[font=\sffamily\small\bfseries,text=brandprimary] at (-0.25,\k-0.5) {\k};}
+  \node[font=\sffamily\small\bfseries,text=brandprimary] at (2.5,-0.9) {Impact $I$};
+  \node[font=\sffamily\small\bfseries,text=brandprimary,rotate=90] at (-0.8,2.5) {Probability $P$};
+  % risks (two per cell are stacked)
+  \foreach \i/\p/\n/\dy in {4/4/ALG-01/0, 3/4/GEN-02/0.08, 3/4/OPS-08/-0.21, 4/3/DAT-03/0.08,
+                            4/3/ALG-07/-0.21, 5/3/BIZ-04/0, 5/2/SEC-05/0, 3/3/OPS-06/0}
+    \node[rid] at (\i-0.6,\p-0.64+\dy) {\n};   % lower part of the cell; score stays top-right
+  % legend
+  \foreach \y/\c/\t in {4.3/auraGarnet/{critical, $R \ge 12$}, 3.5/auraMustard/{medium, $6 \le R \le 11$}, 2.7/auraDust/{low, $R \le 5$}} {
+    \fill[\c] (5.35,\y-0.22) rectangle (5.65,\y+0.22);
+    \node[anchor=west,font=\sffamily\footnotesize,text=brandprimary] at (5.72,\y) {\t};}
 \end{tikzpicture}
 \end{reportfigure}
 

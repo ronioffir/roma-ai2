@@ -9,7 +9,7 @@ Social Trend Mining, and Ad-Gated Generative Virtual Try-On**
 
 ![LuaLaTeX](https://img.shields.io/badge/LuaLaTeX-MiKTeX-1E3226)
 ![Pages](https://img.shields.io/badge/pages-44%20%3D%204%20%2B%2040-C27E35)
-![Template](https://img.shields.io/badge/template-v1.3.0-CCB363)
+![Template](https://img.shields.io/badge/template-v1.4.0-CCB363)
 ![QA](https://img.shields.io/badge/QA%20detector-PASS-1E3226)
 ![Readability](https://img.shields.io/badge/readability%20%26%20math-PASS-6F7D7B)
 ![Skills](https://img.shields.io/badge/agent%20skills-12-76290B)
@@ -66,10 +66,13 @@ every generation is paid for before the GPU starts.
 | ![](https://img.shields.io/badge/%20-%20-76290B?style=for-the-badge) | **Garnet** | `#76290B` | 118, 41, 11 | warnings, critical risks, critical path |
 | ![](https://img.shields.io/badge/%20-%20-1E3226?style=for-the-badge) | **Velvet Forest** | `#1E3226` | 30, 50, 38 | chapter titles, cover frame, table headers |
 
-The **logo** combines three interlocking arches from the palette card: an Egg Nog top-left arch, a Mustard
-inverted dome and a Dust top-right arch. A thin Velvet Forest eye crosses them, standing for biometric
-calibration. It is a TikZ macro (`\auratwinlogo`, used on the cover and in every page header) and a PNG
-generated from the same geometry (`scripts/render_hyperframes_cover.py`).
+The **Shield-Eye logo** (v1.4.0) is built around security, trust and aesthetics:
+- a Velvet Forest heraldic **shield** with a Mustard inner rim (security, trust);
+- an Egg Nog **eye** whose Mustard iris holds a **keyhole** pupil (biometric data stays locked on the device);
+- three small palette **arches** at the base (aesthetics, from the brand's palette card).
+
+It is a TikZ macro (`\auratwinlogo`, used on the cover, in every page header and in the app mockup) and a PNG
+generated from identical geometry (`scripts/render_hyperframes_cover.py`).
 
 ## Preview of the compiled report
 
@@ -77,6 +80,7 @@ generated from the same geometry (`scripts/render_hyperframes_cover.py`).
 |:-:|:-:|:-:|
 | <img src="report/figures/previews/01_cover.png" width="270"/><br>Cover (א׳) | <img src="report/figures/previews/04_ux_user_journey.png" width="270"/><br>Audience & user journey (Ch. 4) | <img src="report/figures/previews/05_ux_app_mockup.png" width="270"/><br>Extension + app mockup (Ch. 5) |
 | <img src="report/figures/previews/06_radar.png" width="270"/><br>Radar chart | <img src="report/figures/previews/07_scatter_log.png" width="270"/><br>Log-scale scatter | <img src="report/figures/previews/09_architecture.png" width="270"/><br>Architecture & data flow |
+| <img src="report/figures/previews/03b_intro_funnel.png" width="270"/><br>Introduction funnel (p.5) | <img src="report/figures/previews/03c_flagship_venn.png" width="270"/><br>Flagship Venn (p.17) | <img src="report/figures/previews/03d_market_layers.png" width="270"/><br>Market layers (p.21) |
 | <img src="report/figures/previews/10_gantt.png" width="270"/><br>RACI & 14-week Gantt | <img src="report/figures/previews/11_risk_heatmap.png" width="270"/><br>5×5 risk heatmap | <img src="report/figures/previews/08_pugh_stacked.png" width="270"/><br>Pugh matrix |
 
 ## Key numbers (all computed by `scripts/generate_beauty_benchmarks.py`)
@@ -104,7 +108,7 @@ generated from the same geometry (`scripts/render_hyperframes_cover.py`).
 | 8 | `bidi-qa-fixer` | fixes only | template-level vs one-off fixes, version bumps |
 | 9 | `red-team-examiner` | strict examiner | fresh-context review: 73 → 83/100, all new items fixed |
 | 10 | `ux-entrepreneur-strategist` | UX & product | human need, audience, journey (Fig. 4.4), UI mockup (Fig. 5.5) |
-| 11 | `luxury-vintage-ui-designer` | art director | palette, logo, editorial chapter openings, cover |
+| 11 | `luxury-vintage-ui-designer` | art director | palette, Shield-Eye logo, editorial chapter openings, cover |
 | 12 | `human-readability-math-auditor` | copy-editor & math | spacing, BiDi punctuation, every equation symbol defined |
 
 Execution record: [`report/work/skills_execution_log.md`](report/work/skills_execution_log.md).

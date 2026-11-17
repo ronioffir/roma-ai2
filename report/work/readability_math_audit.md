@@ -20,10 +20,10 @@
 | `eq:de00` | ch3_literature.tex:45 | C, H, L, R, S | yes | — | ✔ |
 | `eq:smplx` | ch3_literature.tex:63 | J, M, P, W, beta, psi, theta | yes | — | ✔ |
 | `eq:ddpm` | ch3_literature.tex:81 | I, N, alpha, q | yes | — | ✔ |
-| `eq:ldmloss` | ch3_literature.tex:211 | L, epsilon, g, m, p, theta, z | yes | — | ✔ |
-| `eq:ipadapter` | ch3_literature.tex:216 | K, Q, V, Z, lambda | yes | — | ✔ |
-| `eq:cfg` | ch3_literature.tex:221 | epsilon, theta, varnothing, w, z | yes | — | ✔ |
-| `eq:unit` | ch4_market.tex:133 | C, p, q, r | yes | — | ✔ |
+| `eq:ldmloss` | ch3_literature.tex:215 | L, epsilon, g, m, p, theta, z | yes | — | ✔ |
+| `eq:ipadapter` | ch3_literature.tex:220 | K, Q, V, Z, lambda | yes | — | ✔ |
+| `eq:cfg` | ch3_literature.tex:225 | epsilon, theta, varnothing, w, z | yes | — | ✔ |
+| `eq:unit` | ch4_market.tex:141 | C, p, q, r | yes | — | ✔ |
 | `eq:pugh` | ch5_alternatives.tex:40 | S, w | yes | — | ✔ |
 | `eq:map` | ch5_alternatives.tex:187 | A, I, M, gamma, lambda, mu | yes | — | ✔ |
 | `eq:ratio` | ch5_alternatives.tex:218 | C, H, L, r | yes | — | ✔ |

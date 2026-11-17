@@ -74,3 +74,20 @@ all 8 chapters + references start on their budgeted pages (1, 4, 8, 17, 23, 31, 
 | A build pass hung once; killing it truncated the aux files | tooling | per-pass `timeout 300` in build.sh; clean rebuild | report/build.sh |
 
 Final: QA detector **PASS** (0 findings), readability & math audit **PASS**, 44 pages, 0 errors.
+
+---
+
+## Round 4 — design corrections (user prompt 06, template v1.4.0)
+
+| Page | Finding (user + visual pass) | Fix | Verification |
+|---|---|---|---|
+| 1 | seminar wording in the course line | removed from `\doccourse` | cover render |
+| 1 | logo lacked a trust/security cue; colour names under swatches | Shield-Eye logo (TikZ + PNG); swatch labels removed | cover + banner renders |
+| 5 | arrow and its labels overlapped the funnel; layer texts too long | arrow outside the funnel, labels above and below it; shorter texts, compact layers | crop render |
+| 17 | Venn labels crossing circle lines; similar hues | distinct hues, outside pills; label positions from `venn_layout.py` (≥ 0.16 cm clearance) | crop render |
+| 21 | TAM/SAM/SOM text over circles | leader-line label column, short tags only inside | page render |
+| 34 | mockup looked raw | modern UI styling; header/CTA/shade-card overflows fixed; halter-top silhouette | crop renders (3 iterations) |
+| 39 | pale fills, small numbers, labels covering scores | solid fills, larger type, taller cells, labels below scores | crop renders (3 iterations) |
+| build | `shadows.blur` triggered a silent MiKTeX package install, so passes hung | library removed; shadows drawn with standard TikZ | clean 4-pass build |
+
+Final: QA detector **PASS**, readability & math audit **PASS**, 44 pages, 0 errors.

@@ -36,43 +36,58 @@ BROWSERS = [
 ]
 
 
-def logo_mark_svg(px: float = 100.0, stroke: str = PAL["forest"]) -> str:
-    """The three arches + eye, same coordinates as the TikZ mark (2.0 x 1.0 units)."""
-    H = 1.0  # flip y: svg_y = (H - y) * px
-    X = lambda x: x * px
-    Y = lambda y: (H - y) * px
-    r1, r2, r3 = 0.58 * px, 0.5 * px, 0.58 * px
-    egg = (f"M{X(0)},{Y(0)} L{X(0)},{Y(0.42)} A{r1},{r1} 0 0 1 {X(0.58)},{Y(1.0)} "
-           f"L{X(0.58)},{Y(0)} Z")
-    dust = (f"M{X(1.42)},{Y(0)} L{X(1.42)},{Y(1.0)} A{r3},{r3} 0 0 1 {X(2.0)},{Y(0.42)} "
-            f"L{X(2.0)},{Y(0)} Z")
-    must = (f"M{X(0.5)},{Y(1.0)} L{X(0.5)},{Y(0.5)} A{r2},{r2} 0 0 0 {X(1.5)},{Y(0.5)} "
-            f"L{X(1.5)},{Y(1.0)} Z")
-    eye = (f"M{X(0.42)},{Y(0.55)} C{X(0.75)},{Y(0.86)} {X(1.25)},{Y(0.86)} {X(1.58)},{Y(0.55)} "
-           f"C{X(1.25)},{Y(0.24)} {X(0.75)},{Y(0.24)} {X(0.42)},{Y(0.55)} Z")
-    return (f'<path d="{egg}" fill="{PAL["eggnog"]}" stroke="{PAL["mustard"]}" stroke-width="{0.012*px}"/>'
-            f'<path d="{dust}" fill="{PAL["dust"]}"/>'
-            f'<path d="{must}" fill="{PAL["mustard"]}" fill-opacity="0.95"/>'
-            f'<path d="{eye}" fill="none" stroke="{stroke}" stroke-width="{0.032*px}"/>'
-            f'<circle cx="{X(1.0)}" cy="{Y(0.55)}" r="{0.13*px}" fill="{stroke}"/>'
-            f'<circle cx="{X(1.04)}" cy="{Y(0.59)}" r="{0.035*px}" fill="{PAL["eggnog"]}"/>'
-            f'<line x1="{X(0)}" y1="{Y(-0.06)}" x2="{X(2.0)}" y2="{Y(-0.06)}" stroke="{stroke}" stroke-width="{0.018*px}"/>')
+SHIELD = [  # cubic/line segments of the shield, same control points as \auratwin@shieldpath (TikZ)
+    ("M", (0.02, 1.68)), ("C", (0.35, 1.68), (0.60, 1.78), (0.80, 1.92)),
+    ("C", (1.00, 1.78), (1.25, 1.68), (1.58, 1.68)), ("L", (1.58, 0.95)),
+    ("C", (1.58, 0.45), (1.15, 0.15), (0.80, 0.00)), ("C", (0.45, 0.15), (0.02, 0.45), (0.02, 0.95)),
+]
+
+
+def logo_mark_svg(px: float = 100.0, **_ignored) -> str:
+    """v1.4.0 Shield-Eye logo (security, trust, aesthetics); identical geometry to the TikZ \\auratwin@mark.
+    Units: 1.6 x 1.92 box; svg_y = (1.95 - y) * px."""
+    X = lambda x: round(x * px, 2)
+    Y = lambda y: round((1.95 - y) * px, 2)
+
+    def path(segs, cx=0.8, cy=0.96, s=1.0):
+        tr = lambda p: (cx + (p[0] - cx) * s, cy + (p[1] - cy) * s)
+        out = []
+        for seg in segs:
+            pts = " ".join(f"{X(tr(p)[0])},{Y(tr(p)[1])}" for p in seg[1:])
+            out.append(f"{seg[0]}{pts}")
+        return " ".join(out) + " Z"
+
+    eye = (f"M{X(0.30)},{Y(1.12)} C{X(0.55)},{Y(1.43)} {X(1.05)},{Y(1.43)} {X(1.30)},{Y(1.12)} "
+           f"C{X(1.05)},{Y(0.81)} {X(0.55)},{Y(0.81)} {X(0.30)},{Y(1.12)} Z")
+    keyhole = (f"M{X(0.772)},{Y(1.15)} L{X(0.828)},{Y(1.15)} L{X(0.846)},{Y(1.005)} L{X(0.754)},{Y(1.005)} Z")
+    a1 = f"M{X(0.40)},{Y(0.48)} L{X(0.40)},{Y(0.60)} A{0.14*px},{0.14*px} 0 0 1 {X(0.54)},{Y(0.74)} L{X(0.54)},{Y(0.48)} Z"
+    a2 = f"M{X(0.68)},{Y(0.74)} L{X(0.68)},{Y(0.62)} A{0.12*px},{0.12*px} 0 0 0 {X(0.92)},{Y(0.62)} L{X(0.92)},{Y(0.74)} Z"
+    a3 = f"M{X(1.06)},{Y(0.48)} L{X(1.06)},{Y(0.74)} A{0.14*px},{0.14*px} 0 0 1 {X(1.20)},{Y(0.60)} L{X(1.20)},{Y(0.48)} Z"
+    return (f'<path d="{path(SHIELD)}" fill="{PAL["forest"]}"/>'
+            f'<path d="{path(SHIELD, s=0.86)}" fill="none" stroke="{PAL["mustard"]}" stroke-width="{0.022*px}"/>'
+            f'<path d="{eye}" fill="{PAL["eggnog"]}"/>'
+            f'<circle cx="{X(0.8)}" cy="{Y(1.12)}" r="{0.205*px}" fill="{PAL["mustard"]}" stroke="{PAL["dust"]}" stroke-width="{0.016*px}"/>'
+            f'<circle cx="{X(0.8)}" cy="{Y(1.165)}" r="{0.058*px}" fill="{PAL["forest"]}"/>'
+            f'<path d="{keyhole}" fill="{PAL["forest"]}"/>'
+            f'<circle cx="{X(0.885)}" cy="{Y(1.215)}" r="{0.03*px}" fill="{PAL["eggnog"]}"/>'
+            f'<path d="{a1}" fill="{PAL["eggnog"]}"/><path d="{a2}" fill="{PAL["mustard"]}"/>'
+            f'<path d="{a3}" fill="{PAL["dust"]}"/>')
 
 
 def logo_html() -> str:
-    mark = logo_mark_svg(220)
+    mark = logo_mark_svg(150)
     return f"""<!doctype html><html><head><meta charset="utf-8"><style>
  html,body{{margin:0;width:1000px;height:640px;overflow:hidden;background:{PAL['eggnog']};
-   font-family:'Didot','Bodoni MT','Georgia',serif}}
+   font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif}}
  .card{{position:absolute;inset:28px;border:3px solid {PAL['forest']};outline:1.5px solid {PAL['mustard']};
    outline-offset:-12px;display:flex;flex-direction:column;align-items:center;justify-content:center}}
- svg{{width:440px;height:244px;overflow:visible}}
- h1{{margin:26px 0 0;font-weight:400;font-size:76px;letter-spacing:.04em;color:{PAL['forest']}}}
+ svg{{width:240px;height:293px;overflow:visible;filter:drop-shadow(0 10px 18px rgba(30,50,38,.25))}}
+ h1{{margin:18px 0 0;font-weight:300;font-size:70px;letter-spacing:.06em;color:{PAL['forest']}}}
  h1 b{{color:{PAL['copper']};font-weight:600}}
- p{{margin:6px 0 0;font:500 20px 'Segoe UI',Arial,sans-serif;letter-spacing:.32em;color:{PAL['dust']}}}
+ p{{margin:6px 0 0;font-size:18px;font-weight:600;letter-spacing:.34em;color:{PAL['dust']}}}
 </style></head><body><div class="card">
-<svg viewBox="0 -10 440 244">{mark}</svg>
-<h1>AuraTwin <b>AI</b></h1><p>CALIBRATED · BEAUTY · STYLE</p></div></body></html>"""
+<svg viewBox="0 0 240 293">{mark}</svg>
+<h1>AuraTwin <b>AI</b></h1><p>SECURE · CALIBRATED · BEAUTIFUL</p></div></body></html>"""
 
 
 def mesh_svg(w=1600, h=640, seed=8) -> str:
@@ -101,8 +116,9 @@ SWATCHES = [(PAL["eggnog"], "EGG NOG"), (PAL["mustard"], "MUSTARD"), (PAL["dust"
 
 
 def cover_html() -> str:
-    sw = "".join(f'<div class="sw"><span style="background:{c}"></span><em>{t}</em></div>' for c, t in SWATCHES)
-    mark = logo_mark_svg(90, stroke=PAL["eggnog"])
+    # v1.4.0: palette swatches only, without colour-name labels (user request: no clutter)
+    sw = "".join(f'<div class="sw"><span style="background:{c}"></span></div>' for c, _ in SWATCHES)
+    mark = logo_mark_svg(62)
     return f"""<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><style>
  html,body{{margin:0;width:1600px;height:640px;overflow:hidden;font-family:'Segoe UI',Arial,sans-serif}}
  .bg{{position:absolute;inset:0;background:
@@ -112,7 +128,8 @@ def cover_html() -> str:
  .frame{{position:absolute;inset:18px;border:2px solid {PAL['mustard']}}}
  .mesh{{position:absolute;inset:0;width:1600px;height:640px}}
  .txt{{position:absolute;right:80px;top:58px;width:780px;color:{PAL['eggnog']}}}
- .logo{{direction:ltr;text-align:right}} .logo svg{{width:200px;height:110px;overflow:visible}}
+ .logo{{direction:ltr;text-align:right}}
+ .logo svg{{width:100px;height:121px;overflow:visible;filter:drop-shadow(0 6px 14px rgba(0,0,0,.35))}}
  .kicker{{font-size:21px;letter-spacing:.28em;color:{PAL['mustard']};direction:ltr;text-align:right;margin-top:8px}}
  h1{{font-family:'Didot','Bodoni MT',Georgia,serif;font-weight:400;font-size:92px;margin:2px 0 0;
    direction:ltr;text-align:right;letter-spacing:.03em}}
@@ -121,9 +138,8 @@ def cover_html() -> str:
  .swatches{{position:absolute;right:80px;bottom:44px;display:flex;gap:16px;direction:ltr}}
  .sw{{display:flex;flex-direction:column;align-items:center;color:{PAL['eggnog']};font-size:12px;letter-spacing:.12em}}
  .sw span{{width:66px;height:66px;border-radius:33px 33px 4px 4px;border:1.5px solid {PAL['mustard']}}}
- .sw em{{font-style:normal;margin-top:7px}}
 </style></head><body><div class="bg"></div>{mesh_svg()}<div class="frame"></div>
-<div class="txt"><div class="logo"><svg viewBox="0 -8 180 100">{mark}</svg></div>
+<div class="txt"><div class="logo"><svg viewBox="0 0 100 121">{mark}</svg></div>
 <div class="kicker">PRELIMINARY DESIGN REPORT · ROMA-AI2</div>
 <h1>AuraTwin <b>AI</b></h1>
 <div class="he">התאמה ביומטרית מכוילת של אופנה וביוטי, כריית טרנדים והדמיה וירטואלית מותנית-מודל-עסקי</div></div>

@@ -1,6 +1,6 @@
 # QA audit report — bidi-qa-detector
 
-- Generated: 2026-11-16 15:45
+- Generated: 2026-11-17 11:04
 - PDF: `report\report.pdf` — 44 pages (expected 44 = 4 preliminary + 40 body)
 - Detector is read-only: no source file was modified.
 - **Verdict: PASS** (0 findings)
@@ -26,7 +26,6 @@ No findings.
 ## Notes
 
 - Bibliography: 46 entries, 46 distinct cited keys; 0 figure/table labels.
-- Rendered 44 pages at 50 dpi to report\figures\previews\pages.
 
 ## Visual pass (manual, booklet §14.5 / §19.4)
 

@@ -259,46 +259,99 @@ v_t(s) = \frac{d}{dt}\log\big(1+n_t(s)\big),
 הארכיטקטורה פוגשת את המשתמשת בשני משטחים (איור~\ref{fig:mockup}). תוסף הדפדפן נפתח כחלונית צד בדף מוצר של קמעונאי שותף, ומציג את המידה המומלצת, את התאמת הגוון ואת כפתור ההדמיה. האפליקציה הנלווית משמשת לשגרת הבוקר: גוון העור המכויל, טרנד עולה, ושלושה כרטיסי "קנייה בלחיצה" ללבוש, לאיפור ולציפורניים. בשני המשטחים מוצג סימון קבוע שהתמונה נשארת במכשיר, כדי שהפרטיות שבתכן תהיה גלויה גם בממשק.
 
 \begin{reportfigure}{מוקאפ של ממשק \en{AuraTwin AI}: חלונית התוסף בדף מוצר (משמאל) והאפליקציה הנלווית (מימין). הערכים להמחשה}{fig:mockup}
-\begin{tikzpicture}[x=1cm,y=1cm,font=\scriptsize,
-  card/.style={draw=brandaccent,fill=white,rounded corners=2pt,line width=0.5pt,minimum height=0.62cm},
-  btn/.style={fill=#1,text=brandcream,rounded corners=3pt,font=\tiny\bfseries,inner sep=3pt}]
-  % ---------------- browser + extension panel
-  \draw[brandprimary,line width=1pt,rounded corners=4pt,fill=white] (0,0) rectangle (7.5,6.3);
-  \fill[brandprimary,rounded corners=4pt] (0,5.85) rectangle (7.5,6.3);
-  \fill[brandprimary] (0,5.85) rectangle (7.5,6.0);
-  \foreach \x/\c in {0.25/brandwarn,0.5/brandaccent,0.75/brandsecondary} \fill[\c] (\x,6.07) circle (0.07);
-  \node[fill=brandcream,rounded corners=2pt,font=\tiny,inner sep=2pt,anchor=west] at (1.0,6.07) {partner-store.com/halter-top-crimson};
-  \fill[brandsecondary!25] (0.3,1.3) rectangle (3.7,5.55);
-  \fill[brandwarn!85] (1.35,2.0) -- (2.65,2.0) -- (2.9,4.3) -- (2.35,4.75) -- (1.65,4.75) -- (1.1,4.3) -- cycle;
-  \node[font=\tiny,text=brandprimary] at (2.0,1.0) {Crimson halter top};
-  \node[font=\tiny\bfseries,text=brandprimary] at (2.0,0.6) {\$39.90};
-  \draw[brandaccent,line width=1pt,fill=brandcream!70!white,rounded corners=3pt] (4.0,0.25) rectangle (7.3,5.6);
-  \node[anchor=north west] at (4.12,5.5) {\auratwinlogo[0.24]};
-  \node[anchor=west,font=\scriptsize\bfseries,text=brandprimary] at (4.75,5.33) {AuraTwin};
-  \node[card,text width=2.9cm,align=center] at (5.65,4.55) {\heb{מידה מומלצת: \textbf{\en{M}}}\\\heb{מותן \num{74 $\pm$ 1.2 cm}}};
-  \node[card,text width=2.9cm,align=center] at (5.65,3.55) {\heb{התאמת גוון: \textbf{\num{92\%}}}\\\heb{גוון \en{N34} חם}};
-  \node[card,text width=2.9cm,align=center] at (5.65,2.55) {\heb{מתאים לטרנד העונה}\\\accenttext{\heb{אדום עמוק \num{+38\%}}}};
-  \node[btn=brandhighlight,text width=2.7cm,align=center] at (5.65,1.55) {\heb{הדמיה עליי: מודעה של \num{15} ש׳}};
-  \node[font=\tiny,text=brandsecondary] at (5.65,0.6) {\heb{התמונה נשארת במכשיר}};
-  % ---------------- phone app
-  \draw[brandprimary,line width=2pt,rounded corners=10pt,fill=brandcream!70!white] (8.3,-0.15) rectangle (12.3,6.45);
-  \fill[brandprimary] (9.85,6.25) rectangle (10.75,6.35);
-  \node[anchor=north west] at (8.5,6.1) {\auratwinlogo[0.24]};
-  \node[anchor=east,font=\scriptsize\bfseries,text=brandprimary] at (12.1,5.85) {\heb{בוקר טוב}};
-  \node[draw=brandaccent,fill=white,rounded corners=6pt,text width=3.4cm,align=center] at (10.3,5.05)
-       {\heb{הגוון המכויל שלך: \en{N34} חם}\\\mutedtext{\num{$\Delta E_{00} = 1.3$}}};
-  \node[btn=brandsecondary] at (10.3,4.3) {\heb{טרנד עולה: גוני יין וחרדל}};
-  \foreach \y/\c/\t/\s in {3.45/brandwarn/{חולצת הולטר}/{\en{partner-store}},
-                          2.6/auraGarnet!80!black/{שפתון גרנט}/{\en{beauty-partner}},
-                          1.75/brandhighlight/{לק נחושת}/{\en{beauty-partner}}} {
-    \node[card,minimum width=3.6cm] at (10.3,\y) {};
-    \fill[\c] (11.75,\y) circle (0.2);
-    \node[anchor=east,font=\scriptsize\bfseries,text=brandprimary] at (11.45,\y+0.1) {\heb{\t}};
-    \node[anchor=east,font=\tiny,text=brandsecondary] at (11.45,\y-0.15) {\s};
-    \node[btn=brandprimary] at (9.0,\y) {\heb{לקנייה}};}
-  \node[btn=brandhighlight,minimum width=2.1cm] at (10.85,0.8) {\heb{מודעה ואז הדמיה}};
-  \node[btn=brandaccent!85!black] at (9.15,0.8) {\en{VIP}};
-  \node[font=\tiny,text=brandsecondary] at (10.3,0.2) {\heb{התמונה נשארת במכשיר}};
+\begin{tikzpicture}[x=1cm,y=1cm,font=\sffamily\scriptsize,
+  % soft shadow = two stacked low-opacity layers (standard TikZ only, no extra package)
+  softshadow/.style={preaction={fill=brandprimary,opacity=0.06,transform canvas={yshift=-2.4pt}},
+                     preaction={fill=brandprimary,opacity=0.10,transform canvas={yshift=-1.1pt}}},
+  card/.style={fill=white,rounded corners=5pt,softshadow},
+  pill/.style={rounded corners=3.2pt,font=\sffamily\tiny\bfseries,inner xsep=5pt,inner ysep=2.2pt},
+  lock/.pic={\fill (-0.055,-0.06) rectangle (0.055,0.025);
+             \draw[line width=0.55pt] (-0.032,0.025) -- (-0.032,0.06) arc (180:0:0.032) -- (0.032,0.025);}]
+  % ================= browser window with the extension side panel =================
+  \fill[white,rounded corners=8pt,softshadow] (0,0) rectangle (7.6,6.55);
+  \fill[brandcream!70!white,rounded corners=8pt] (0,6.0) rectangle (7.6,6.55);
+  \fill[brandcream!70!white] (0,6.0) rectangle (7.6,6.25);
+  \draw[brandsecondary!25] (0,6.0) -- (7.6,6.0);
+  \foreach \x/\c in {0.28/auraGarnet,0.5/auraMustard,0.72/auraDust} \fill[\c] (\x,6.27) circle (0.065);
+  \node[fill=white,draw=brandsecondary!35,rounded corners=6pt,minimum width=4.9cm,minimum height=0.32cm,
+        font=\sffamily\tiny,text=brandsecondary] at (3.85,6.27) {partner-store.com/halter-top};
+  \pic[fill=brandgreen,draw=brandgreen] at (1.57,6.27) {lock};
+  % product card
+  \shade[rounded corners=6pt,top color=brandcream!85!white,bottom color=white] (0.3,0.3) rectangle (3.7,5.75);
+  \fill[brandsecondary!22] (2.0,2.33) ellipse (0.8 and 0.07);
+  \shade[left color=auraGarnet!72,right color=auraGarnet,middle color=auraGarnet!86]
+     (1.22,3.75) .. controls (1.55,3.95) and (1.82,4.40) .. (1.92,4.80) -- (2.08,4.80)
+     .. controls (2.18,4.40) and (2.45,3.95) .. (2.78,3.75)
+     .. controls (2.72,3.20) and (2.66,2.80) .. (2.68,2.45) -- (1.32,2.45)
+     .. controls (1.34,2.80) and (1.28,3.20) .. (1.22,3.75) -- cycle;
+  \draw[auraGarnet!45,line width=0.5pt] (1.62,3.92) .. controls (1.85,3.62) .. (2.0,3.55) .. controls (2.15,3.62) .. (2.38,3.92);
+  \draw[auraGarnet!45,line width=0.45pt] (1.42,2.62) .. controls (2.0,2.68) .. (2.58,2.62);
+  \fill[auraGarnet] (1.86,4.76) rectangle (2.14,4.86);
+  \node[anchor=west,font=\sffamily\scriptsize\bfseries,text=brandprimary] at (0.5,1.3) {Crimson Halter Top};
+  \node[anchor=west,font=\sffamily\scriptsize,text=brandhighlight] at (0.5,0.85) {\$39.90};
+  \node[pill,fill=brandprimary,text=brandcream] at (3.05,0.85) {Add to bag};
+  % extension panel
+  \fill[white,rounded corners=7pt,softshadow] (3.95,0.3) rectangle (7.35,5.75);
+  \fill[brandprimary,rounded corners=7pt] (3.95,5.15) rectangle (7.35,5.75);
+  \fill[brandprimary] (3.95,5.15) rectangle (7.35,5.4);
+  \node[anchor=west,inner sep=0pt] at (4.12,5.45) {\auratwinlogo[0.22]};
+  \node[anchor=west,font=\sffamily\footnotesize\bfseries,text=brandcream] at (4.52,5.45) {AuraTwin};
+  \node[pill,fill=brandaccent,text=brandprimary] at (6.86,5.45) {\heb{מאובטח}};
+  % size
+  \fill[brandprimary] (6.82,4.5) circle (0.31);
+  \node[font=\sffamily\normalsize\bfseries,text=brandcream] at (6.82,4.5) {M};
+  \node[anchor=east,font=\sffamily\scriptsize\bfseries,text=brandprimary] at (6.38,4.63) {\heb{מידה מומלצת}};
+  \node[anchor=east,font=\sffamily\tiny,text=brandsecondary] at (6.38,4.36) {\heb{מותן \num{74 $\pm$ 1.2 cm}}};
+  % shade match ring
+  \draw[brandcream,line width=2.6pt] (6.82,3.5) circle (0.29);
+  \draw[brandhighlight,line width=2.6pt,line cap=round] (6.82,3.79) arc (90:-241:0.29);
+  \node[font=\sffamily\tiny\bfseries,text=brandprimary] at (6.82,3.5) {92\%};
+  \node[anchor=east,font=\sffamily\scriptsize\bfseries,text=brandprimary] at (6.38,3.63) {\heb{התאמת גוון}};
+  \node[anchor=east,font=\sffamily\tiny,text=brandsecondary] at (6.38,3.36) {\heb{גוון \en{N34} חם}};
+  \fill[brandcream!35!brandhighlight] (4.42,3.5) circle (0.2); \draw[white,line width=1pt] (4.42,3.5) circle (0.2);
+  % trend chip
+  \node[pill,fill=brandcream,text=brandprimary] at (5.65,2.6) {\heb{טרנד העונה: אדום עמוק \num{+38\%}}};
+  \draw[brandsecondary!25] (4.15,2.12) -- (7.15,2.12);
+  % call to action
+  \shade[rounded corners=7pt,left color=brandaccent,right color=brandhighlight] (4.2,1.28) rectangle (7.1,1.8);
+  \node[font=\sffamily\tiny\bfseries,text=white] at (5.65,1.54) {\heb{הדמיה עליי: מודעה של \num{15} ש׳}};
+  \node[font=\sffamily\tiny,text=brandsecondary] at (5.55,0.72) {\heb{התמונה נשארת במכשיר}};
+  \pic[fill=brandsecondary,draw=brandsecondary] at (6.62,0.73) {lock};
+  % ========================= companion phone app =========================
+  \fill[brandprimary,rounded corners=16pt,softshadow] (8.3,-0.15) rectangle (12.3,6.75);
+  \fill[brandcream!55!white,rounded corners=12pt] (8.45,0.0) rectangle (12.15,6.6);
+  \fill[brandprimary,rounded corners=3pt] (9.9,6.4) rectangle (10.7,6.54);
+  \node[anchor=west,font=\sffamily\tiny\bfseries,text=brandprimary] at (8.65,6.47) {9:41};
+  \fill[brandprimary,rounded corners=0.8pt] (11.6,6.42) rectangle (11.92,6.52);
+  \node[anchor=west,inner sep=0pt] at (8.7,5.85) {\auratwinlogo[0.24]};
+  \node[anchor=east,font=\sffamily\small\bfseries,text=brandprimary] at (11.95,6.0) {\heb{בוקר טוב}};
+  \node[anchor=east,font=\sffamily\tiny,text=brandsecondary] at (11.95,5.72) {\heb{ההמלצות שלך להיום}};
+  % calibrated shade card
+  \fill[card] (8.65,4.62) rectangle (11.95,5.38);
+  \fill[brandcream!35!brandhighlight] (9.08,5.0) circle (0.24); \draw[white,line width=1.2pt] (9.08,5.0) circle (0.24);
+  \node[anchor=east,font=\sffamily\scriptsize\bfseries,text=brandprimary] at (11.8,5.12) {\heb{הגוון שלך: \en{N34} חם}};
+  \node[anchor=east,font=\sffamily\tiny,text=brandsecondary] at (11.8,4.85) {\num{$\Delta E_{00} = 1.3$}};
+  % trend chips
+  \node[pill,fill=brandprimary,text=brandcream] at (11.4,4.2) {\heb{גוני יין}};
+  \node[pill,fill=brandaccent,text=brandprimary] at (10.42,4.2) {\heb{חרדל}};
+  \node[pill,fill=brandhighlight,text=white] at (9.45,4.2) {\heb{נחושת}};
+  % shop-the-look cards
+  \foreach \y/\c/\t/\s in {3.5/auraGarnet/{חולצת הולטר}/{partner-store},
+                          2.7/auraGarnet!80!black/{שפתון גרנט}/{beauty-partner},
+                          1.9/auraCopper/{לק נחושת}/{beauty-partner}} {
+    \fill[card] (8.65,\y-0.32) rectangle (11.95,\y+0.32);
+    \fill[\c] (11.6,\y) circle (0.22); \draw[white,line width=1pt] (11.6,\y) circle (0.22);
+    \node[anchor=east,font=\sffamily\scriptsize\bfseries,text=brandprimary] at (11.25,\y+0.1) {\heb{\t}};
+    \node[anchor=east,font=\sffamily\tiny,text=brandsecondary] at (11.25,\y-0.15) {\s};
+    \node[pill,fill=brandprimary,text=brandcream] at (9.12,\y) {\heb{לקנייה}};}
+  % gate + VIP
+  \shade[rounded corners=7pt,left color=brandaccent,right color=brandhighlight] (8.65,0.82) rectangle (11.0,1.3);
+  \node[font=\sffamily\tiny\bfseries,text=white] at (9.82,1.06) {\heb{מודעה ואז הדמיה}};
+  \fill[brandprimary,rounded corners=7pt] (11.1,0.82) rectangle (11.95,1.3);
+  \node[font=\sffamily\tiny\bfseries,text=brandaccent] at (11.52,1.06) {VIP};
+  \node[font=\sffamily\tiny,text=brandsecondary] at (10.2,0.47) {\heb{התמונה נשארת במכשיר}};
+  \pic[fill=brandsecondary,draw=brandsecondary] at (11.22,0.48) {lock};
+  \fill[brandprimary!55,rounded corners=1pt] (9.8,0.1) rectangle (10.8,0.16);
 \end{tikzpicture}
 \end{reportfigure}
 

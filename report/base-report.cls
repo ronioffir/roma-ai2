@@ -10,9 +10,9 @@
 %% Version history: see ../CHANGELOG.md   Command list: COMMANDS.md
 %% ============================================================================
 \NeedsTeXFormat{LaTeX2e}
-\def\basereport@version{1.3.0}
+\def\basereport@version{1.4.0}
 \def\basereport@date{2026/11/16}
-\ProvidesClass{base-report}[2026/11/16 v1.3.0 Hebrew/English LuaLaTeX report base class]
+\ProvidesClass{base-report}[2026/11/16 v1.4.0 Hebrew/English LuaLaTeX report base class]
 
 \RequirePackage{iftex}
 \ifluatex\else

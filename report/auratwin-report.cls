@@ -6,8 +6,8 @@
 %% Document types (class options): report (default) | proposal | spec
 %% ============================================================================
 \NeedsTeXFormat{LaTeX2e}
-\def\auratwin@version{1.3.0}
-\ProvidesClass{auratwin-report}[2026/11/16 v1.3.0 AuraTwin AI company layer]
+\def\auratwin@version{1.4.0}
+\ProvidesClass{auratwin-report}[2026/11/16 v1.4.0 AuraTwin AI company layer]
 
 \def\auratwin@doctype{report}
 \DeclareOption{report}{\def\auratwin@doctype{report}}
@@ -41,25 +41,38 @@
 \colorlet{brandgrey}{auraDust!60!white}
 
 %% ------------------------------------------------------------------- logo --
-%% Three interlocking arches from the palette card: Egg Nog top-left arch,
-%% Mustard inverted-U dome (centre), Dust top-right arch; a Velvet Forest
-%% eye/prism line across them symbolises biometric calibration.
+%% v1.4.0 "Shield-Eye" logo -- security, trust and aesthetics:
+%%  * a Velvet Forest heraldic shield with a Mustard inner rim   (security, trust)
+%%  * an Egg Nog eye whose Mustard iris holds a keyhole pupil      (biometric data stays locked)
+%%  * three small palette arches at the base (Egg Nog, Mustard, Dust) (aesthetics, brand heritage)
+%% Geometry box: 1.6 x 1.92 units. scripts/render_hyperframes_cover.py draws the identical SVG.
+\newcommand{\auratwin@shieldpath}{%
+  (0.02,1.68) .. controls (0.35,1.68) and (0.60,1.78) .. (0.80,1.92)
+  .. controls (1.00,1.78) and (1.25,1.68) .. (1.58,1.68) -- (1.58,0.95)
+  .. controls (1.58,0.45) and (1.15,0.15) .. (0.80,0.00)
+  .. controls (0.45,0.15) and (0.02,0.45) .. (0.02,0.95) -- cycle}
 \newcommand{\auratwin@mark}{%
-    \fill[auraEggNog] (0,0) -- (0,0.42) arc[start angle=180,end angle=90,radius=0.58] -- (0.58,0) -- cycle;
-    \fill[auraDust] (1.42,0) -- (1.42,1.0) arc[start angle=90,end angle=0,radius=0.58] -- (2.0,0) -- cycle;
-    \fill[auraMustard,opacity=0.95] (0.5,1.0) -- (0.5,0.5) arc[start angle=180,end angle=360,radius=0.5] -- (1.5,1.0) -- cycle;
-    \draw[auraVelvetForest,line width=0.9pt] (0.42,0.55) .. controls (0.75,0.86) and (1.25,0.86) .. (1.58,0.55)
-          .. controls (1.25,0.24) and (0.75,0.24) .. (0.42,0.55) -- cycle;
-    \fill[auraVelvetForest] (1.0,0.55) circle (0.13);
-    \fill[auraEggNog] (1.04,0.59) circle (0.035);
-    \draw[auraVelvetForest,line width=0.5pt] (0.0,-0.06) -- (2.0,-0.06);}
+  \fill[auraVelvetForest] \auratwin@shieldpath;
+  \begin{scope}[shift={(0.8,0.96)},scale=0.86,shift={(-0.8,-0.96)}]
+    \draw[auraMustard,line width=0.7pt] \auratwin@shieldpath;
+  \end{scope}
+  \fill[auraEggNog] (0.30,1.12) .. controls (0.55,1.43) and (1.05,1.43) .. (1.30,1.12)
+                    .. controls (1.05,0.81) and (0.55,0.81) .. (0.30,1.12) -- cycle;
+  \fill[auraMustard] (0.80,1.12) circle (0.205);
+  \draw[auraDust,line width=0.5pt] (0.80,1.12) circle (0.205);
+  \fill[auraVelvetForest] (0.80,1.165) circle (0.058);
+  \fill[auraVelvetForest] (0.772,1.15) -- (0.828,1.15) -- (0.846,1.005) -- (0.754,1.005) -- cycle;
+  \fill[auraEggNog] (0.885,1.215) circle (0.03);
+  \fill[auraEggNog] (0.40,0.48) -- (0.40,0.60) arc[start angle=180,end angle=90,radius=0.14] -- (0.54,0.48) -- cycle;
+  \fill[auraMustard] (0.68,0.74) -- (0.68,0.62) arc[start angle=180,end angle=360,radius=0.12] -- (0.92,0.74) -- cycle;
+  \fill[auraDust] (1.06,0.48) -- (1.06,0.74) arc[start angle=90,end angle=0,radius=0.14] -- (1.20,0.48) -- cycle;}
 \newcommand{\auratwinlogo}[1][1]{%
   \begin{tikzpicture}[scale=#1,baseline=0pt]\auratwin@mark\end{tikzpicture}}
 \newcommand{\auratwinwordmark}[1][1]{%
   \begin{tikzpicture}[scale=#1,baseline=(current bounding box.south)]
     \auratwin@mark
-    \node[anchor=north,font=\fontsize{13}{15}\selectfont\headingfont,text=auraVelvetForest] at (1.0,-0.14)
-      {\textenglish{AuraTwin\,\textcolor{auraCopper}{AI}}};
+    \node[anchor=north,font=\fontsize{13}{15}\selectfont\sffamily,text=auraVelvetForest] at (0.8,-0.12)
+      {\textenglish{\sffamily AuraTwin\,\textcolor{auraCopper}{AI}}};
   \end{tikzpicture}}
 
 %% ------------------------------------------------------- document fields --
@@ -92,7 +105,7 @@
 
 %% Header / footer texts (directions are fixed inside every slot).
 \AtBeginDocument{%
-  \setheadleft{\raisebox{-1pt}{\auratwinlogo[0.17]}\ \en{\docfield{short}}\ \textbar\ \texthebrew{\auratwin@typename}\ \textbar\ \en{\docfield{group}}}%
+  \setheadleft{\raisebox{-1pt}{\auratwinlogo[0.14]}\ \en{\docfield{short}}\ \textbar\ \texthebrew{\auratwin@typename}\ \textbar\ \en{\docfield{group}}}%
   \setheadright{\copyrightsign\ \num{\the\year}\ \texthebrew{\docfield{authorsshort}}}}
 
 %% ------------------------------------------------- editorial chapter opening --

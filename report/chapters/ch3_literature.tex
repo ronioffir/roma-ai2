@@ -173,21 +173,25 @@ q(\mathbf{x}_t \mid \mathbf{x}_0) = \mathcal{N}\!\big(\sqrt{\bar\alpha_t}\,\math
 מאמר הדגל (\en{Flagship Paper}) הוא הפרסום שממנו הפרויקט שואב את הבסיס המתודולוגי הישיר ביותר. הוא נבחר בחיתוך של שלושה קריטריונים (איור~\ref{fig:venn}): במה שפיטה בדירוג גבוה, קרבה ישירה לבעיה, וחזרתיות (\en{Replicability}) שמאפשרת לשחזר את התוצאות \cite{segal2026booklet}.
 
 \begin{reportfigure}{מאמר הדגל נמצא בחיתוך של שלושת הקריטריונים}{fig:venn}
-\begin{tikzpicture}[x=1cm,y=1cm]
-  \fill[brandprimary,opacity=0.18] (0,0.55) circle (1.75);
-  \fill[brandsecondary,opacity=0.18] (-1.0,-1.1) circle (1.75);
-  \fill[brandaccent,opacity=0.22] (1.0,-1.1) circle (1.75);
-  \draw[brandprimary,thick] (0,0.55) circle (1.75);
-  \draw[brandsecondary,thick] (-1.0,-1.1) circle (1.75);
-  \draw[brandaccent!90!black,thick] (1.0,-1.1) circle (1.75);
-  \node[font=\small\bfseries,text=brandprimary] at (0,1.75) {\heb{במה שפיטה}};
-  \node[font=\small\bfseries,text=brandsecondary] at (-1.95,-1.85) {\heb{קרבה לבעיה}};
-  \node[font=\small\bfseries,text=brandaccent!80!black] at (1.95,-1.85) {\heb{חזרתיות}};
-  \node[font=\scriptsize\bfseries,fill=white,rounded corners=2pt,inner sep=2pt] at (0,-0.55) {\en{IDM-VTON}};
-  \node[font=\scriptsize,text=black!70] at (0,0.42) {\en{TryOnDiffusion}};
-  \node[font=\scriptsize,text=black!70] at (-1.55,-0.75) {\en{GP-VTON}};
-  \node[font=\scriptsize,text=black!70] at (1.6,0.2) {\en{ControlNet}};
-  \node[font=\scriptsize,text=black!70] at (0,-2.35) {\en{VITON-HD}};
+\begin{tikzpicture}[x=1cm,y=1cm,
+  cat/.style={fill=#1,text=brandcream,font=\small\bfseries,rounded corners=7pt,inner xsep=7pt,inner ysep=3pt},
+  pap/.style={fill=white,draw=#1,line width=0.6pt,font=\scriptsize,rounded corners=2pt,inner sep=2pt,align=center}]
+  % three distinct hues: Velvet Forest (venue), Copper (closeness), Dust (replicability)
+  \fill[brandprimary,fill opacity=0.16] (0,1.1) circle (2.6);
+  \fill[brandhighlight,fill opacity=0.20] (-1.4,-1.0) circle (2.6);
+  \fill[brandsecondary,fill opacity=0.22] (1.4,-1.0) circle (2.6);
+  \draw[brandprimary,line width=1.4pt] (0,1.1) circle (2.6);
+  \draw[brandhighlight,line width=1.4pt] (-1.4,-1.0) circle (2.6);
+  \draw[brandsecondary,line width=1.4pt] (1.4,-1.0) circle (2.6);
+  % criterion names outside the circles
+  \node[cat=brandprimary,anchor=south] at (0,3.78) {\heb{במה שפיטה}};
+  \node[cat=brandhighlight,anchor=north] at (-2.9,-3.68) {\heb{קרבה לבעיה}};
+  \node[cat=brandsecondary,anchor=north] at (2.9,-3.68) {\heb{חזרתיות}};
+  % papers, each label fully inside its own region
+  \node[pap=brandprimary] at (-1.65,0.8) {\en{TryOn}\\\en{Diffusion}};
+  \node[pap=brandsecondary] at (1.6,0.9) {\en{ControlNet}\\\en{GP-VTON}};
+  \node[pap=brandsecondary] at (0,-1.95) {\en{VITON-HD}};
+  \node[fill=brandhighlight,text=white,font=\footnotesize\bfseries,rounded corners=3pt,inner sep=2.5pt] at (0,-0.8) {\en{IDM-VTON}};
 \end{tikzpicture}
 \end{reportfigure}
 
