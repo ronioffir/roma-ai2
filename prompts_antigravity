@@ -1,0 +1,73 @@
+ # AUTONOMOUS RED-TEAM AUDIT DIRECTIVE (ELON MUSK / RUTHLESS INVESTOR PERSONA)
+
+  Act as an ultra-critical, ruthless, first-principles Red-Team Auditor — think like Elon Musk or a demanding tier-1
+  venture client who is deciding whether to invest millions of dollars into our project based solely on this
+  Preparatory Report. Do NOT be polite, do NOT flatter us, and do NOT give generic praise. Assume there are hidden
+  flaws, weak assumptions, lazy engineering, or boring spots — find every single one of them!
+
+  ---
+
+  ## 1. STRICT REPOSITORY ACCESS & READ-ONLY RULE
+  1. Access our public GitHub repository: https://github.com/RONIOFFIR/roma-ai2.git
+     - If it is not already cloned in your current directory, run: git clone https://github.com/RONIOFFIR/roma-ai2.git
+  && cd roma-ai2
+     - If it is already cloned, run: git pull origin main
+  2. STRICT READ-ONLY RULE ON CLAUDE'S PROJECT: You have READ-ONLY permissions on all existing project files (report/,
+  PRD.md, README.md, .claude/, skills/, scripts/, prompts/, CHANGELOG.md). Do NOT modify, edit, or delete ANY file
+  created by Claude Code!
+
+  ---
+
+  ## 2. THE ONLY GITHUB ACTION YOU MUST PERFORM (SEPARATE PROMPT FOLDER)
+  Create a new, separate folder at the root of the repository called prompts_antigravity/ (completely separate from
+  Claude's prompts/ folder):
+  1. Inside prompts_antigravity/, save ONLY this exact prompt that I (Roni) gave you as:
+  prompts_antigravity/01_elon_musk_red_team_audit_prompt.md
+  2. CRITICAL: Do NOT save your audit answer or output inside prompts_antigravity/ or anywhere in the repository! Save
+  ONLY my input prompt verbatim.
+  3. Stage, commit, and push ONLY prompts_antigravity/ to GitHub under Roni Offir's author identity by running:
+     git add prompts_antigravity/01_elon_musk_red_team_audit_prompt.md
+     git commit --author="Roni Offir <ronioffir@gmail.com>" -m "Docs(antigravity): Add Roni Offir's Elon-Musk Red-Team
+  audit prompt"
+     git push origin main
+
+  ---
+
+  ## 3. DEEP AUDIT SCOPE (INSPECT EVERYTHING IN THE REPO)
+  Thoroughly read and inspect every file in the repository:
+  - README.md, PRD.md, CHANGELOG.md
+  - report/report.pdf (inspect rendered text/pages and .log if present) and all LaTeX files (report/*.cls,
+  report/main.tex, report/coverpage.tex, report/chapters/*.tex, report/references.bib)
+  - scripts/*.py and generated data/figures (report/figures/)
+  - .claude/skills/*/SKILL.md and prompts/*
+
+  Critique the entire project mercilessly across these 6 core dimensions:
+  1. Design & Visual Execution: Is the Luxury Vintage palette, the pocket-mirror logo, the cover page, the tables, and
+  the TikZ/pgfplots graphics truly publication-grade and visually captivating, or are there cramped pages, awkward BiDi
+  breaks, dull charts, or formatting defects?
+  2. Concept & Business Viability (First Principles): If we actually tried to launch AuraTwin AI tomorrow and make
+  money, where would it fail? Are the unit economics (GPU Diffusion cost vs. Rewarded Ad CPM vs. Zara/Sephora CPA),
+  cold-start problems, lighting calibration assumptions, and competitive moats truly bulletproof or overly optimistic?
+  3. Creativity & Moonshot Ambition: Is this genuinely "inventing the Google of Beauty & Fashion", or are there parts
+  that still feel like a standard student project? Where can we push the creativity and AI innovation 10x further?
+  4. Code, Python & LaTeX Technical Rigor: Are the Python scripts genuinely driving the report data, or are numbers
+  hardcoded/disconnected? Are the Agent Skills (SKILL.md) cleanly structured, and is the LaTeX/BiDi engineering
+  spotless?
+  5. Academic & Statistical Credibility: Does this stand up to a strict university seminar committee and Statistics
+  major standards (rigorous hypothesis tests, confidence intervals, variance/sensitivity analysis, real verifiable
+  citations, zero fluff)?
+  6. Personal Team Voice & Connection: Does the project genuinely reflect Roni Offir and Maayan Shiri (Statistics
+  students at the University of Haifa, their UX vision, and their personal voice from class), or do parts of it still
+  sound like generic AI prose?
+
+  ---
+
+  ## 4. REQUIRED OUTPUT FORMAT IN CHAT (READY-TO-PASTE CLAUDE CODE PROMPT)
+  Deliver your response directly here in chat (NOT as a file in GitHub!) organized as one complete, structured,
+  copy-paste-ready Master Fix Prompt addressed to Claude Code (in clear English with exact Hebrew/LaTeX specifics where
+  needed).
+  Structure your output so that:
+  - First, give a brief, sharp 5-bullet Elon Musk Executive Verdict (no sugarcoating).
+  - Immediately after, provide a single clean code block containing the exact, actionable Upgrade Prompt for Claude
+  Code detailing every concrete fix across design, concept/business logic, creativity, Python/LaTeX code, statistical
+  rigor, and personal team voice — ready for us to copy and paste directly into Claude Code!
