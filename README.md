@@ -1,24 +1,26 @@
 <div align="center">
 
-<img src="report/figures/auratwin_logo.png" alt="AuraTwin AI logo" width="360"/>
+<img src="report/figures/auratwin_logo.png" alt="AURAM logo" width="360"/>
 
-# AuraTwin AI — דוח מכין · Preliminary Design Report
+# AURAM — דוח מכין · Preliminary Design Report
+
+**AURAM = Aura (personal presence, aesthetic harmony) + RAM (real-time memory of your calibration, body profile and trends)**
 
 **Multi-Modal Agentic Operating System for Self-Calibrated Biometric Beauty & Fashion Styling,
-Social Trend Mining, and Ad-Gated Generative Virtual Try-On**
+Social Trend Mining, and Value-Exchange Generative Virtual Try-On**
 
 ![LuaLaTeX](https://img.shields.io/badge/LuaLaTeX-MiKTeX-1E3226)
 ![Pages](https://img.shields.io/badge/pages-44%20%3D%204%20%2B%2040-C27E35)
-![Template](https://img.shields.io/badge/template-v2.0-CCB363)
+![Template](https://img.shields.io/badge/template-v3.0-CCB363)
 ![QA](https://img.shields.io/badge/QA%20detector-PASS-1E3226)
 ![Readability](https://img.shields.io/badge/readability%20%26%20math-PASS-6F7D7B)
 ![Skills](https://img.shields.io/badge/agent%20skills-12-76290B)
-![References](https://img.shields.io/badge/references-46%20IEEE-C27E35)
+![References](https://img.shields.io/badge/references-50%20IEEE-C27E35)
 
-<img src="report/figures/readme_hero.png" alt="AuraTwin AI cover banner" width="900"/>
+<img src="report/figures/readme_hero.png" alt="AURAM cover banner" width="900"/>
 
 **רוני אופיר · מעיין שירי**, החוג לסטטיסטיקה, אוניברסיטת חיפה · מנחה: ד"ר יורם סגל
-יישומי AI ו-Vibe Coding במדע וביום-יום / סמינריון מחקרי בניהול טכנולוגיות, 2026 · קוד קבוצה `roma-ai2`
+יישומי AI ו-Vibe Coding במדע וביום-יום, 2026 · קוד קבוצה `roma-ai2`
 
 📄 **[report/report.pdf](report/report.pdf)** · 📋 [PRD.md](PRD.md) · 🧠 [prompts/](prompts/) · 📝 [CHANGELOG.md](CHANGELOG.md) · 🧩 [skills/](skills/)
 
@@ -30,7 +32,7 @@ Social Trend Mining, and Ad-Gated Generative Virtual Try-On**
 
 **למה העולם צריך את זה עכשיו.** הבינה המלאכותית כבר כותבת, מתכנתת, מנווטת ומשווה מחירים בשבילנו. אבל ההחלטה
 שחוזרת אצל רוב האנשים מדי בוקר, איך להיראות היום, עדיין מתקבלת מול מראה בתאורת חדר, בניחוש של גוון, מידה
-ושילוב. **AuraTwin AI** הוא תוסף דפדפן ואפליקציה נלווית שהופכים את הניחוש להחלטה מכוילת, בשני הרגעים
+ושילוב. **AURAM** הוא תוסף דפדפן ואפליקציה נלווית שהופכים את הניחוש להחלטה מכוילת, בשני הרגעים
 שבהם היא נדרשת: בבוקר מול הארון, ובזמן קנייה מקוונת.
 
 **למי.** הקהל רחב וחוצה גילים ומגדרים:
@@ -62,7 +64,7 @@ every generation is paid for before the GPU starts.
 | ![](https://img.shields.io/badge/%20-%20-FBEDC3?style=for-the-badge) | **Egg Nog** | `#FBEDC3` | 251, 237, 195 | soft backgrounds of boxes, cards, cover, logo |
 | ![](https://img.shields.io/badge/%20-%20-CCB363?style=for-the-badge) | **Mustard** | `#CCB363` | 204, 179, 99 | antique-gold rules and frames, flagship series |
 | ![](https://img.shields.io/badge/%20-%20-6F7D7B?style=for-the-badge) | **Dust** | `#6F7D7B` | 111, 125, 123 | sub-headings, system boxes, axes, competitors |
-| ![](https://img.shields.io/badge/%20-%20-C27E35?style=for-the-badge) | **Copper** | `#C27E35` | 194, 126, 53 | examples, **AuraTwin / proposed solution**, section numbers |
+| ![](https://img.shields.io/badge/%20-%20-C27E35?style=for-the-badge) | **Copper** | `#C27E35` | 194, 126, 53 | examples, **AURAM / proposed solution**, section numbers |
 | ![](https://img.shields.io/badge/%20-%20-76290B?style=for-the-badge) | **Garnet** | `#76290B` | 118, 41, 11 | warnings, critical risks, critical path |
 | ![](https://img.shields.io/badge/%20-%20-1E3226?style=for-the-badge) | **Velvet Forest** | `#1E3226` | 30, 50, 38 | chapter titles, cover frame, table headers |
 
@@ -84,19 +86,20 @@ generated from identical geometry (`scripts/render_hyperframes_cover.py`).
 | <img src="report/figures/previews/06_radar.png" width="270"/><br>Radar chart | <img src="report/figures/previews/07_scatter_log.png" width="270"/><br>Log-scale scatter | <img src="report/figures/previews/09_architecture.png" width="270"/><br>Architecture & data flow |
 | <img src="report/figures/previews/03b_intro_funnel.png" width="270"/><br>Introduction funnel (p.1) | <img src="report/figures/previews/03c_flagship_venn.png" width="270"/><br>Flagship Venn (p.14) | <img src="report/figures/previews/03d_market_layers.png" width="270"/><br>Market layers (p.17) |
 | <img src="report/figures/previews/13_stats_hypotheses.png" width="270"/><br>H₀ vs H₁, eq. 2.1 (Ch. 2) | <img src="report/figures/previews/14_stats_pilot_test.png" width="270"/><br>Simulated pilot test (Ch. 3) | <img src="report/figures/previews/15_stats_circumference_fusion.png" width="270"/><br>Bayesian circumference fusion (Ch. 5) |
+| <img src="report/figures/previews/17_spectral_formation.png" width="270"/><br>Spectral image formation, eq. 2.1 (Ch. 2) | <img src="report/figures/previews/18_metamerism_table.png" width="270"/><br>Metameric failure by illuminant (Ch. 5) | <img src="report/figures/previews/19_ltv_cac_economics.png" width="270"/><br>Three-tier economics, LTV/CAC grid (Ch. 4) |
 | <img src="report/figures/previews/10_gantt.png" width="270"/><br>RACI & 14-week Gantt | <img src="report/figures/previews/11_risk_heatmap.png" width="270"/><br>5×5 risk heatmap | <img src="report/figures/previews/08_pugh_stacked.png" width="270"/><br>Pugh matrix |
 
 ## Key numbers (all computed by the Python pipeline below)
 
 | What | Value | Where |
 |---|---|---|
-| Skin colour error, phone camera, uncontrolled light (simulation, n = 4,000) | mean ΔE₀₀ = 4.89, P95 = 8.89 | Ch. 2 |
-| Gray-world white balance on selfies | worse: mean 9.77 | Ch. 2 |
-| Proposed eye-anchored calibration | median 1.37, mean 1.82, P95 4.81 (CI 4.20–5.48: an open research question) | Ch. 5 |
+| Skin colour error, phone camera, spectral simulation (D65 / A / F11 / LED, n = 4,000) | mean ΔE₀₀ = 6.58, P95 = 12.40 | Ch. 2 |
+| Gray-world white balance on selfies | worse: mean 16.03 | Ch. 2 |
+| AURAM: flash delta + eye anchor, Bayesian fusion | median 1.86, mean 2.08, P95 4.25 (meets 4.5); diagonal anchor alone degrades from 1.18 (D65) to 3.30 (LED): metameric failure | Ch. 5 |
 | Decision matrix (weights frozen before scoring, anchored scales) | Hybrid **4.30** · Edge 3.40 · Cloud 2.85; 0 flips in 28 ±1 score changes | Ch. 5 |
-| Gate unit economics (q = 0.5) | $0.054 per try-on vs commercial API $0.045–0.090 (0.6–1.2×) vs self-hosted distilled $0.0053 (**10.2×**) | Ch. 4 |
-| Market (team estimates, bottom-up) | SAM ≈ $3.0B, SOM ≈ $27.4M (year 3) | Ch. 4 |
-| Simulated pilot of the planned test (n = 120 × 4 lights) | paired mean Δ = 2.99, 95% CI [2.79, 3.18], t(119) = 30.9, Wilcoxon p < 0.001; median upper bound 1.54 < 1.8; both H₀ rejected after Holm | Ch. 2–3 |
+| Three-tier value-exchange engine (team assumptions) | revenue $1.59 / user / month, contribution $1.45, **LTV/CAC 6.0**; > 3.8 at every GPU cost $0.008–0.025 while churn ≤ 12 %, fails at 20 % | Ch. 4 |
+| Market (team estimates, bottom-up) | SAM ≈ $4.7B, SOM ≈ $45.0M (year 3) | Ch. 4 |
+| Simulated pilot, crossed mixed-effects model (120 × 4 illuminants) | β₁ = -4.43 [-4.68, -4.18], ICC 0.12; H₀a rejected; **H₀b not rejected** (median 1.94, upper bound 2.06 > 1.8) | Ch. 2–3 |
 | Waist circumference, 30% hold-out (n = 634) | keypoints MAE 1.47 cm · OLS regression 3.08 · **Bayesian fusion 0.90** (RMSE 1.13, R² 0.98, σ²res 1.28) | Ch. 5 |
 | Monte-Carlo weight perturbation of the Pugh matrix | 20,000 Dirichlet draws: Alt 3 wins 100%, 5th-pct margin 0.47; uniform weights 89.2% | Ch. 5 |
 
@@ -117,8 +120,8 @@ flowchart LR
 
 | Script | What it computes | Outputs | Used in |
 |---|---|---|---|
-| `scripts/generate_beauty_benchmarks.py` | CIEDE2000 (self-tested), 4,000-selfie calibration simulation, Pugh matrix and sensitivity, power, unit economics, market build-up | `report/figures/data/*.csv`, `report/work/benchmarks_summary.md` | Figs 2.2, 4.2, 4.3, 5.2–5.4; Tables 4.3, 5.3 |
-| `scripts/statistical_validation.py` | paired *t* / Wilcoxon / Holm / cluster bootstrap; OLS + Bayesian precision-weighted fusion (MAE, RMSE, R², σ²res); Monte-Carlo Pugh replay | `report/figures/data/stats_summary.json`, `paired_differences.csv`, `circumference_metrics.csv`, `pugh_montecarlo.csv`, `report/figures/stats/*.png` | eq. 2.1, Sec. 3.10.5, Table 5.5, Sec. 5.2.4 |
+| `scripts/generate_beauty_benchmarks.py` + `scripts/spectral_optics.py` | CIEDE2000 (self-tested), spectral image formation (illuminants D65/A/F11/LED, sclera redness/yellowing/tear-film specular, screen-flash delta), 4,000-selfie calibration simulation, tier economics and LTV/CAC grid, Pugh matrix and sensitivity, power, unit economics, market build-up | `report/figures/data/*.csv`, `report/work/benchmarks_summary.md` | Figs 2.2, 4.2, 4.3, 5.2–5.4; Tables 4.3, 5.3 |
+| `scripts/statistical_validation.py` | crossed mixed-effects model (statsmodels), Wilcoxon, Holm, cluster bootstrap; power grid N × d × ICC; OLS + Bayesian circumference fusion; Monte-Carlo Pugh replay | `report/figures/data/stats_summary.json`, `power_grid.csv`, `pilot_participant_differences.csv`, `circumference_metrics.csv`, `pugh_montecarlo.csv`, `report/figures/stats/*.png` | eq. 2.2, Sec. 3.10.5, Tables 5.6, Sec. 5.2.4 |
 | `scripts/qa_detector_audit.py` | 9 QA families on the compiled PDF and log (page budget, BiDi, overflows, versions) | `report/work/qa_audit_report.md` | release gate |
 | `scripts/readability_math_audit.py` | spacing, punctuation, every equation symbol defined in a "כאשר" sentence | `report/work/readability_math_audit.md` | release gate |
 
@@ -129,7 +132,7 @@ python scripts/statistical_validation.py --check       # writes JSON/CSV/PNG and
 
 | | | |
 |:-:|:-:|:-:|
-| <img src="report/figures/stats/paired_test.png" width="270"/><br>Paired differences + 95% CI | <img src="report/figures/stats/circumference_fusion.png" width="270"/><br>Keypoints vs Bayesian fusion | <img src="report/figures/stats/pugh_montecarlo.png" width="270"/><br>Pugh winning margin, 20,000 draws |
+| <img src="report/figures/stats/power_grid.png" width="270"/><br>Power grid (N × d, ICC = 0.5) | <img src="report/figures/stats/circumference_fusion.png" width="270"/><br>Keypoints vs Bayesian fusion | <img src="report/figures/stats/pugh_montecarlo.png" width="270"/><br>Pugh winning margin, 20,000 draws |
 
 > All data are **synthetic** (stated in the report): the scripts validate the analysis pipeline and the design
 > targets, not real-world effect sizes. That is also why the power analysis uses the conservative d = 0.4.
@@ -210,6 +213,8 @@ flowchart RL
 | [`06_user_design_corrections_prompt.md`](prompts/06_user_design_corrections_prompt.md) | 7 design corrections + GitHub sync (password redacted) |
 | [`06_iteration3_pocket_mirror_logo_and_red_team_polish.md`](prompts/06_iteration3_pocket_mirror_logo_and_red_team_polish.md) | pocket-mirror logo + 12-skill red-team polish |
 | [`07_assignment01_feedback_alignment_and_git_collab.md`](prompts/07_assignment01_feedback_alignment_and_git_collab.md) | alignment with the Assignment 01 feedback + two-author Git |
+| [`prompt_01_antigravity`](prompts/prompt_01_antigravity) | Roni's red-team audit prompt to Antigravity (input only) |
+| [`08_antigravity_elon_musk_upgrade_prompt.md`](prompts/08_antigravity_elon_musk_upgrade_prompt.md) | AURAM rebrand, spectral physics, mixed model, tiered economics |
 
 ## Build
 

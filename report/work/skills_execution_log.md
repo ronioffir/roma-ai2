@@ -57,3 +57,15 @@ order, how each skill was invoked, what it changed concretely, and where the evi
 | 12 | `human-readability-math-auditor` | every new symbol defined in a "כאשר" sentence; audit PASS |
 | 7/8 | detector / fixer | page budget restored after each addition; detector PASS |
 | 10 | `ux-entrepreneur-strategist` | "בקול שלנו" box: everyday need for teenage girls, women and grooming-aware men |
+
+## Round 6: AURAM (prompt 08, after the Antigravity audit)
+
+| # | Skill | Contribution |
+|---|---|---|
+| 4 | `beauty-ai-domain-architect` | `spectral_optics.py` (illuminants, CMFs, skin/sclera/iris spectra, screen flash); spectral calibration study; fusion weights fitted on a separate training simulation; tier economics + LTV/CAC grid |
+| 4 | `beauty-ai-domain-architect` | `statistical_validation.py`: crossed mixed-effects pilot, power grid N × d × ICC, extended `--check` (52 values) |
+| 5 | `scientific-hebrew-writer` | eq. 2.1–2.2, sclera physiology, eq. 5.3 + Table 5.5, eq. 4.1 + Tables 4.3–4.4, roadmap §6.5, honest reporting of H0b not rejected |
+| 10 | `ux-entrepreneur-strategist` | three-tier value exchange replacing the 15 s ad; journey, segments and mockup CTAs; voice boxes (Ch.1, 3, 4, 8) |
+| 11 | `luxury-vintage-ui-designer` | AURAM wordmark (TikZ + PNG), banner, mockup branding |
+| 12 | `human-readability-math-auditor` | 19 equations, every symbol defined; audit PASS |
+| 7/8 | detector / fixer | 48 → 44 pages, overfull and equation fixes; detector PASS |

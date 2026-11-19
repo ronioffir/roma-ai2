@@ -1,4 +1,4 @@
-# COMMANDS.md — AuraTwin AI template command list (v1.3.0)
+# COMMANDS.md — AURAM template command list (v1.3.0)
 
 ## New in v1.3.0
 | Command | Purpose |
@@ -6,7 +6,7 @@
 | `\accenttext{…}` | Highlight text in Copper (the proposed solution / key value). Use instead of `\textcolor`. |
 | `\mutedtext{…}` | Secondary text in Dust (requirement IDs, captions inside figures). |
 | `\auratwinlogo[scale]` | The 3-arch + eye logo mark (also in every header). |
-| `\auratwinwordmark[scale]` | Logo mark + "AuraTwin AI" word-mark (cover). |
+| `\auratwinwordmark[scale]` | Logo mark + "AURAM" word-mark (cover). |
 | Palette colours | `auraEggNog`, `auraMustard`, `auraDust`, `auraCopper`, `auraGarnet`, `auraVelvetForest`; semantic: `brandhighlight` (Copper, proposed solution in charts), `brandcream` (Egg Nog backgrounds). |
 
 One line per public command. Use only these commands (booklet Prompt C1). Do not invent new ones —
@@ -64,5 +64,5 @@ Class options: `report` (default), `proposal`, `spec`.
 Fields: `\doctitlehe` `\doctitleen` `\docshorttitle` `\docgroup` `\docinstitution` `\doccourse`
 `\docauthors` `\docauthorsshort` `\docadvisor` `\docpartner` `\docdate` `\docversion` `\doccoverimage`.
 `\makecoverpage` — double-frame cover without a page number. `\auratwinlogo[scale]` — TikZ logo.
-Colours: `brandprimary` (plum), `brandsecondary` (teal = AuraTwin/proposed), `brandaccent` (amber = flagship),
+Colours: `brandprimary` (plum), `brandsecondary` (teal = AURAM/proposed), `brandaccent` (amber = flagship),
 `brandwarn` (red = critical), `brandexample` (indigo), `brandgreen` (milestones), `brandgrey` (competitors).

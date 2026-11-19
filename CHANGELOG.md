@@ -4,6 +4,87 @@ Template = `report/base-report.cls` (base layer) + `report/auratwin-report.cls` 
 Version source of truth: `VERSION`. Rule (booklet §15.6): a problem that repeats across the
 document is fixed **once** in the template, with a version bump and an entry here.
 
+## [3.0] — 2026-11-19 — AURAM: rebrand, spectral physics, hierarchical statistics, tiered economics (prompt 08)
+### Brand
+- The product is renamed **AURAM** (Aura + RAM) in the chapters, cover, `main.tex`, classes, scripts, README, PRD and
+  skills. The wordmark is letter-spaced "AURAM" under the pocket mirror (TikZ and PNG). A Ch.1 examplebox explains
+  the name.
+- Not renamed, on purpose:
+  - verbatim prompts and historical logs (they are records);
+  - test fixtures;
+  - internal names `auratwin-report.cls` and `\auratwinlogo`, which are API names, and renaming them would break
+    builds and documentation.
+### Physics (Pillar 1)
+- New `scripts/spectral_optics.py` provides the spectral pieces of the simulation, all as analytic approximations:
+  - **Illuminants:** D65, A, F11 and a low-CRI LED.
+  - **Colour matching functions:** the Wyman-Sloan-Shirley CMF fit.
+  - **Camera:** Gaussian camera sensitivities.
+  - **Skin:** melanin and haemoglobin.
+  - **Sclera:** yellowing plus log-normal vascular redness plus a tear-film specular term, with an explicit
+    highlight mask.
+  - **Iris:** four categories.
+  - **Screen flash:** the flash spectrum.
+- `generate_beauty_benchmarks.py`: the calibration study is now spectral, with 6 methods, including the
+  screen-flash delta and AURAM's precision-weighted fusion. The fusion's error models are fitted on a **separate**
+  training simulation (seed 99). A new output `calibration_by_illuminant.csv` shows the metameric failure.
+- Ch.2 eq. 2.1 gives image formation. Ch.3 now covers sclera physiology and the von Kries limitation. Ch.5 adds
+  eq. 5.3 (flash delta + fusion) and Table 5.5 (per-illuminant medians).
+- **Results changed and are reported as they are:**
+
+  | Measure | Old | New | Target |
+  |---|---|---|---|
+  | Uncorrected camera, mean ΔE₀₀ | 4.89 | 6.58 | — |
+  | Gray-world AWB, mean ΔE₀₀ | 9.77 | 16.03 | — |
+  | AURAM P95 | 4.81 | 4.25 | ≤ 4.5 (now met) |
+  | AURAM median | 1.37 | 1.86 | ≤ 1.8 (now at the edge) |
+
+  RSK-ALG-07 is redefined as the median risk.
+### Statistics (Pillar 4)
+- `statistical_validation.py` now uses:
+  - a crossed mixed-effects pilot (participant × illuminant, statsmodels), where the same person's captures are
+    correlated;
+  - residual SD per ITA bracket;
+  - Wilcoxon on participant means as a sensitivity analysis;
+  - a cluster bootstrap for H0b;
+  - Holm correction;
+  - a power grid over N 30–180, d 0.25–0.60 and ICC 0.3–0.7 (`power_grid.csv`).
+
+  The t = 30.9 report was removed.
+- **Results:** β₁ = −4.43 [−4.68, −4.18], ICC 0.12. H0a is rejected. **H0b is not rejected** (median 1.94, upper
+  bound 2.06).
+- **Power:** N = 60 gives power 0.9 at d = 0.40 (ICC 0.5), and the planned N = 120 still holds at d = 0.25.
+- `--check` now also verifies the calibration and economics numbers, the per-illuminant table and the LTV/CAC grid
+  (52 values).
+### Economics (Pillar 2)
+- The 15 s ad gate is replaced by three tiers: an instant edge silhouette, a sponsored try-on at $0.02, and a 3 s
+  micro-interaction / credits / VIP at $7.99.
+- Eq. 4.1 adds the e^(−βt) friction drop-off: 72% are kept at 3 s versus 20% at 15 s.
+- Table 4.3 gives the assumptions and outputs, and Table 4.4 an LTV/CAC grid over GPU cost $0.008–0.025 × monthly
+  churn 8–20%.
+- **Base LTV/CAC is 6.0.** It stays above 3.8 at every GPU cost only while churn is at most 12%, and fails at 20%.
+  This is stated in the report; nothing was solved backwards.
+- Revenue per try-on is $0.120, so REQ-BIZ-12 holds even at $0.025 (4.8×).
+- The market is rebuilt from the new ARPU of $1.59: SAM ≈ $4.7B and SOM ≈ $45.0M. The scatter point moves to the
+  all-in session cost of $0.025.
+- Text changed to match: the journey figure, segments table, mockup CTAs, architecture nodes, risks RSK-BIZ-04 and
+  RSK-ALG-07, the summary and the abstract.
+### Moonshot (Pillar 3) and voice (Pillar 6)
+- Ch.3 cites 3D Gaussian splatting and spherical-harmonic lighting.
+- Ch.5 contrasts VITON-HD and IDM-VTON with relightable AURAM.
+- **New Ch.6 §6.5 roadmap:** eq. 6.1 SH relighting with presets, 4D Gaussian splatting and a ReAct stylist agent,
+  explicitly outside the 14 weeks. It sits in Ch.6 because Ch.5 had no room left in its 8-page budget.
+- Four new references (`kerbl2023gaussian`, `ramamoorthi2001sh`, `wu2024gaussian4d`, `yao2023react`) are added to
+  the verification checklist.
+- **Voice boxes:**
+  - Ch.1: the name.
+  - Ch.3: skin is not an RGB matrix.
+  - Ch.4: the origin of the idea (bathroom light, returns, the free prior).
+  - Ch.8: why AURAM.
+### Template
+- v3.0. One-off `\@nobreaktrue` before two headings (§1.5, §3.9) where the cheap `\needspace` break left
+  17–40% of a page blank.
+- Verified: 44 pages, chapter starts 1/4/8/17/23/31/35/37, references 38, 0 errors, 0 warnings.
+
 ## [2.0] — 2026-11-19 — Luxury Pocket Mirror & Red-Team Master Polish (+ Assignment 01 feedback)
 ### Changed (company layer `auratwin-report.cls`)
 - **New Pocket-Mirror logo** replaces Shield-Eye everywhere (cover, every header, app mockup, README). It is an

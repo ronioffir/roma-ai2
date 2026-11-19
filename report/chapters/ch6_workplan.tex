@@ -20,7 +20,7 @@
   root/.style={draw=brandprimary,fill=brandprimary,text=white,rounded corners=3pt,font=\small\bfseries,minimum height=0.75cm,minimum width=3.4cm},
   wp/.style={draw=#1,fill=#1!15,rounded corners=3pt,font=\scriptsize,text width=1.95cm,align=center,minimum height=1.0cm},
   t/.style={font=\tiny,text width=1.95cm,align=center,draw=black!20,fill=white,rounded corners=1pt}]
-  \node[root] (r) at (0,0) {\en{AuraTwin AI}};
+  \node[root] (r) at (0,0) {\en{AURAM}};
   \foreach \i/\x/\c/\name in {1/-4.8/brandsecondary/{WP 1.0\\\heb{נתונים וכיול}},
                               2/-2.4/brandexample/{WP 2.0\\\heb{טרנדים ו-}\en{RAG}},
                               3/0/brandaccent/{WP 3.0\\\heb{הדמיה ושער}},
@@ -147,3 +147,12 @@
 \begin{warningbox}
 שבוע רזרבה שמנוצל לעבודה שוטפת אינו רזרבה. לכן שבועות \num{8} ו-\num{12} אינם משובצים לשום משימה בתוכנית, וכל שימוש בהם מתועד בפרוטוקול כחריגה.
 \end{warningbox}
+
+\section{מפת דרכים מעבר ל-\num{14} השבועות: הצינור המרחבי}
+\label{sec:roadmap}
+כיוון ש-\en{AURAM} מפרידה את האור מההחזרה (סעיף~\ref{sec:arch}), היא יכולה להחליף את האור, בתשעה מקדמים של הרמוניות כדוריות \cite{ramamoorthi2001sh}:
+\begin{equation}
+E(\mathbf{n}) = \sum_{l=0}^{2}\sum_{m=-l}^{l} \hat{A}_l\, L_{lm}\, Y_{lm}(\mathbf{n}),
+\label{eq:sh}
+\end{equation}
+כאשר $E(\mathbf{n})$ היא העוצמה על משטח שהנורמל שלו $\mathbf{n}$, $Y_{lm}$ פונקציות הבסיס, $L_{lm}$ מקדמי התאורה ו-$\hat{A}_l$ מקדמי ההחלקה. החלפת $L_{lm}$ בערכים מוכנים מראה את אותו מראה "במשרד בפלורסנט", "בערב לאור נרות" או "בשמש ים-תיכונית". לצידו ייצוג נפחי דינמי של הבד, \en{4D Gaussian Splatting} \cite{wu2024gaussian4d}, לנפילה ולמתח לאורך קווי הגוף, וסוכנת סטייליסטית בלולאת חשיבה-פעולה \cite{yao2023react} שמחברת יומן ומזג אוויר לבחירת פריטים. כל אלה מחוץ ל-\num{14} השבועות: זו מפת הדרכים.

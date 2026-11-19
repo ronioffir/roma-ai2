@@ -1,6 +1,6 @@
 ---
 name: beauty-ai-domain-architect
-description: Formulates the mathematics, system architecture and unit economics of AuraTwin AI — CIELAB ΔE00 calibration with a user-reported eye colour as a spectral prior, SMPL-X anthropometric ratio vectors, social trend velocity scoring, the Pugh weighted decision matrix with sensitivity analysis, and ad-gated / affiliate unit economics. Use when writing chapters 2, 3, 5 or 7 or when checking equations and numbers.
+description: Formulates the mathematics, system architecture and unit economics of AURAM — CIELAB ΔE00 calibration with a user-reported eye colour as a spectral prior, SMPL-X anthropometric ratio vectors, social trend velocity scoring, the Pugh weighted decision matrix with sensitivity analysis, and ad-gated / affiliate unit economics. Use when writing chapters 2, 3, 5 or 7 or when checking equations and numbers.
 ---
 
 # Beauty-AI Domain Architect (אדריכל המערכת והאלגוריתמיקה)

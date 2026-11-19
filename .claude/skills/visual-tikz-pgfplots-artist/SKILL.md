@@ -16,7 +16,7 @@ Implements booklet chapter 16 and Prompt 5 ("A fancy figure").
 2. Hebrew labels are wrapped in `\texthebrew{...}` (template shortcut `\heb{...}`).
 3. Width ≤ 12.4 cm: `\resizebox` is a last resort; prefer explicit coordinates / `width=12cm` axes.
 4. No overlapping labels; legend outside the data area; consistent colour semantics across the report:
-   brand teal = AuraTwin AI / proposed, amber = flagship paper, grey = competitors, red = critical, green = milestone.
+   brand teal = AURAM / proposed, amber = flagship paper, grey = competitors, red = critical, green = milestone.
 5. Caption BELOW the figure, in Hebrew, says what the reader sees; `\label{fig:...}`.
 6. Data plots read their numbers from `report/figures/data/*.csv` produced by
    `scripts/generate_beauty_benchmarks.py`; simulated data are labelled "(נתונים מדומים)".

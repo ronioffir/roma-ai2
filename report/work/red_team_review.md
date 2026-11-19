@@ -343,3 +343,21 @@ Formal H₀/H₁ (eq. 2.1) with a simulated pilot (Sec. 3.10.5); regression + Ba
 verifies the numbers in the chapters; personal-voice boxes (Ch. 3, Ch. 4); prompt sequence 00–07.
 
 **Not re-scored.** No fresh examiner pass was run after these fixes, so no new score is claimed.
+
+---
+
+## Iteration 4: external audit (Antigravity, prompt `prompts/prompt_01_antigravity`) → prompt 08
+
+The audit itself was run by Roni outside this repository; only its input prompt is committed, and its findings
+reached this session as prompt 08. Response, pillar by pillar:
+
+| Pillar | Audit finding | Response | Residual |
+|---|---|---|---|
+| 1 Physics | sclera treated as a white card; RGB-gain simulation | spectral simulation; sclera physiology; flash delta + fusion; metamerism table | analytic illuminant/CMF approximations, stated |
+| 2 Economics | 15 s ad gate loses most users | three tiers, e^(−βt) drop-off, LTV/CAC grid | LTV/CAC > 3.8 only while churn ≤ 12%: stated, not hidden |
+| 3 Moonshot | 2D warping / static inpainting | SH relighting, 4D GS, stylist agent as a scoped roadmap | outside the 14 weeks by design |
+| 4 Statistics | t = 30.9 on synthetic data | crossed mixed model, power grid; p-values not reported as evidence | **H0b not rejected** in the pilot (median 1.94) |
+| 5 Design | mockup, chart and table polish | AURAM branding, CTA texts, table wraps, eq. widths | no fresh visual examiner pass this round |
+| 6 Voice | generic prose | four voice boxes; third-person body kept | — |
+
+**Not re-scored.** No fresh examiner pass was run after these changes, so no new score is claimed.

@@ -10,9 +10,9 @@
 %% Version history: see ../CHANGELOG.md   Command list: COMMANDS.md
 %% ============================================================================
 \NeedsTeXFormat{LaTeX2e}
-\def\basereport@version{2.0}
+\def\basereport@version{3.0}
 \def\basereport@date{2026/11/16}
-\ProvidesClass{base-report}[2026/11/16 v2.0 Hebrew/English LuaLaTeX report base class]
+\ProvidesClass{base-report}[2026/11/16 v3.0 Hebrew/English LuaLaTeX report base class]
 
 \RequirePackage{fix-cm}   % v2.0: scalable CM math fonts at 11.5 pt (0 font warnings)
 \RequirePackage{iftex}

@@ -1,6 +1,6 @@
 ---
 name: academic-source-researcher
-description: Curates real, verifiable peer-reviewed sources (CVPR, ICCV, ECCV, NeurIPS, ICML, ACM MM, ACM TOG, IEEE TIP/TPAMI, Springer, standards and PM bodies of knowledge) for the AuraTwin AI preparatory report, builds report/references.bib in IEEE-ready BibTeX and the literature synthesis matrix. Use when sources are needed or must be audited.
+description: Curates real, verifiable peer-reviewed sources (CVPR, ICCV, ECCV, NeurIPS, ICML, ACM MM, ACM TOG, IEEE TIP/TPAMI, Springer, standards and PM bodies of knowledge) for the AURAM preparatory report, builds report/references.bib in IEEE-ready BibTeX and the literature synthesis matrix. Use when sources are needed or must be audited.
 ---
 
 # Academic Source Researcher (חוקר מקורות ומאמרים שפיטים)
@@ -31,5 +31,5 @@ Implements booklet Prompt 3 ("Real sources only") and the 3-step source check of
 ## Outputs
 - `report/references.bib` (≥ 30 entries, keys `firstauthorYEARword`).
 - Literature matrix rows (paper × 6 themes, "●" covered, "◐" partial, "—" absent), final row
-  "הפרויקט המוצע: AuraTwin AI — זה הפער".
+  "הפרויקט המוצע: AURAM — זה הפער".
 - Table: paper, method, main result, limitation (feeds chapter 3).

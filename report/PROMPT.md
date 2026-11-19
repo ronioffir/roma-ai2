@@ -1,4 +1,4 @@
-# PROMPT.md — how a model writes a new document with the AuraTwin AI template
+# PROMPT.md — how a model writes a new document with the AURAM template
 
 This file is the self-documenting manual of the template (booklet §15.4, Table 15.3).
 A new model reads this file, `COMMANDS.md`, `../CHANGELOG.md` and `main.tex` before writing.

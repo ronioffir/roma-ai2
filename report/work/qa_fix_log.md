@@ -109,3 +109,20 @@ Final: QA detector **PASS**, readability & math audit **PASS**, 44 pages, 0 erro
 | Table 5.5 label wraps "(שלוש תמונות)" | one-off, **accepted** | shortening it moved Ch. 5's breaks to 45 pages; restored | open (minor) |
 
 Final: **44 pages**, 0 errors, **0 warnings**, QA detector PASS, readability & math PASS, `statistical_validation.py --check` PASS.
+
+---
+
+## Round 6: AURAM, prompt 08 (template v3.0)
+
+| Finding | Level | Fix | Verification |
+|---|---|---|---|
+| 48 pages after the content upgrade | one-off | trims of duplicated prose (Ch.1, 3, 4, 5); latency table → one sentence with the same numbers; roadmap moved to Ch.6 §6.5 (Ch.6 had 9 cm free) | 44 pages, starts on budget |
+| §1.5 and §3.9 headings pushed to a new page with 17–40% free | one-off | `\@nobreaktrue` before those two headings | page renders |
+| Overfull 16.8 pt in Table 4.3, 7.1 pt in §3.10.5 | one-off | unbreakable `\en{}` chains split; script name in `\enlong` | detector PASS |
+| eq. 2.1: R, G, B undefined | one-off | defined in the "כאשר" sentence | readability PASS |
+| eq. 4.1 too wide (number pushed down) | one-off | third line in `gathered` | 90 dpi crop |
+| `--check`: "1.30" missing | data format | illuminant CSV written with two decimals; table updated | NUMBER CHECK PASS |
+| Mockup CTA text cramped | one-off | shorter text | 120 dpi crop |
+| Build killed by the OS (low memory) | environment | passes run one per call in the foreground; aux files cleaned | rebuild |
+
+Final: **44 pages**, 0 errors, **0 warnings**, QA detector PASS, readability & math PASS (19 equations), number check PASS.

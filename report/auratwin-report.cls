@@ -1,13 +1,13 @@
 %% ============================================================================
-%% auratwin-report.cls -- THIN company layer for AuraTwin AI documents
+%% auratwin-report.cls -- THIN company layer for AURAM documents
 %% ----------------------------------------------------------------------------
 %% Loads base-report.cls unchanged and adds ONLY: brand palette, logo,
 %% document fields, document types, cover page, header/footer texts.
 %% Document types (class options): report (default) | proposal | spec
 %% ============================================================================
 \NeedsTeXFormat{LaTeX2e}
-\def\auratwin@version{2.0}
-\ProvidesClass{auratwin-report}[2026/11/16 v2.0 AuraTwin AI company layer]
+\def\auratwin@version{3.0}
+\ProvidesClass{auratwin-report}[2026/11/16 v3.0 AURAM company layer]
 
 \def\auratwin@doctype{report}
 \DeclareOption{report}{\def\auratwin@doctype{report}}
@@ -95,7 +95,7 @@
   \begin{tikzpicture}[scale=#1,baseline=(current bounding box.south)]
     \auratwin@mark
     \node[anchor=north,font=\fontsize{13}{15}\selectfont\sffamily,text=auraVelvetForest] at (0.8,-0.12)
-      {\textenglish{\sffamily AuraTwin\,\textcolor{auraCopper}{AI}}};
+      {\textenglish{\sffamily\addfontfeatures{LetterSpace=18}AURAM}};
   \end{tikzpicture}}
 
 %% ------------------------------------------------------- document fields --
@@ -115,7 +115,7 @@
 \newcommand{\docdate}[1]{\auratwin@field{date}{#1}}
 \newcommand{\docversion}[1]{\auratwin@field{version}{#1}}
 \newcommand{\doccoverimage}[1]{\auratwin@field{cover}{#1}}
-\doctitlehe{}\doctitleen{}\docshorttitle{AuraTwin AI}\docgroup{}\docinstitution{}
+\doctitlehe{}\doctitleen{}\docshorttitle{AURAM}\docgroup{}\docinstitution{}
 \doccourse{}\docauthors{}\docauthorsshort{}\docadvisor{}\docpartner{}
 \docdate{\today}\docversion{1.0}\doccoverimage{}
 
