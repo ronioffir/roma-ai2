@@ -4,6 +4,60 @@ Template = `report/base-report.cls` (base layer) + `report/auratwin-report.cls` 
 Version source of truth: `VERSION`. Rule (booklet §15.6): a problem that repeats across the
 document is fixed **once** in the template, with a version bump and an entry here.
 
+## [2.0] — 2026-11-19 — Luxury Pocket Mirror & Red-Team Master Polish (+ Assignment 01 feedback)
+### Changed (company layer `auratwin-report.cls`)
+- **New Pocket-Mirror logo** replaces Shield-Eye everywhere (cover, every header, app mockup, README). It is an
+  opened vintage compact at a 3/4 angle, with these parts:
+  - **Lid:** a Velvet Forest case with a Copper edge and a Mustard rim, tilted −7°.
+  - **Glass:** an Egg Nog → Dust diagonal sheen with an AI sparkle inside a Copper iris contour.
+  - **Clasp:** an Egg Nog pearl on a Mustard collar.
+  - **Base:** a Garnet band with concentric Mustard / Egg Nog rings.
+
+  The shape reference is the user's "Rose-Gold Floral Compact Mirror" image. `scripts/render_hyperframes_cover.py`
+  draws the identical SVG (`auratwin_logo.png`, `cover_banner.png`, `readme_hero.png`). Cover spacing was
+  0.55 → 0.95 cm and the header mark 0.14 → 0.155.
+- Colour tokens `brandzebra` (Egg Nog!25) and `brandheadtext` (Egg Nog).
+### Changed (base `base-report.cls`): editorial tables
+- `\arraystretch` 1.25 → **1.35**, booktabs rules in **Mustard** (`\heavyrulewidth` 1.1 pt), zero rule separation
+  so fills touch the rules, header text in the layer token (Egg Nog on Velvet Forest), zebra rows Egg Nog!25,
+  `\tabcolsep` 4 → 4.5 pt.
+- `\cellno` is now an empty cell. The examiner read "---" as an unfinished table, and the matrix caption already
+  defines empty cells as the gap.
+### Fixed (base): 67 → **0** LaTeX warnings
+- `fix-cm` provides scalable CM math fonts at 11.5 pt (6 font warnings).
+- `\pdfstringdefDisableCommands` makes `\LR`, `\RL`, `\textenglish` and `\texthebrew` transparent in bookmarks
+  (53 hyperref warnings).
+- `hypcap=false` before `\captionof` in `reporttable*` and `reportfigure*` (4 warnings).
+- biblatex: `\DeclareBibliographyAlias{standard}{manual}`, `\DeclareLanguageMapping{hebrew}{english}`,
+  `language=english, autolang=none` (3 warnings).
+### Fixed (base): orphaned section headings
+- The automatic `\needspace` before a subsection is skipped directly after another heading (`\if@nobreak`). Its
+  penalty was a legal break *between* a section and its first subsection, found with `\tracingpages`.
+- Known limitation, documented in the class: `\needspace`'s cheap optional break. A global rewrite was tried and
+  reverted (it broke float placement in Ch. 4).
+### Added (content, Assignment 01 feedback: statistics as the home discipline)
+- Ch. 2, eq. 2.1: formal H₀a/H₁a (paired difference of ΔE₀₀) and H₀b/H₁b (threshold 1.8). Wilcoxon signed-rank +
+  paired *t* with a 95% CI, Holm, α = 0.05.
+- Ch. 3, Sec. 3.10.5: simulated pilot of the planned test (n = 120 × 4), plus the statistics-student examplebox
+  explaining why the simulated effect size is inflated.
+- Ch. 5, Sec. 5.3.2: eq. 5.4 Bayesian precision-weighted fusion of keypoints, OLS regression on reported covariates
+  and tape measurement; Table 5.5 MAE / RMSE / R² / residual variance.
+- Ch. 4: personal-voice examplebox "בקול שלנו" (eye as a colour ruler, self-funding gate, everyday need across ages
+  and genders).
+- `scripts/statistical_validation.py` writes JSON, CSV and PNG outputs. It replays the exact random stream of
+  `generate_beauty_benchmarks.py`, so the Monte-Carlo Pugh numbers match, and `--check` verifies 17 numbers in
+  the chapters.
+### Changed (content, red-team pass 78/100)
+- Tables 2.2, 3.2, 3.3, 4.1, 6.4 rebalanced (no lone words or markers). Products in Table 4.1 and the ARPU
+  paragraph are set as single LTR units (no dangling ×).
+- Eq. 2.1 uses `\mathrm{vs.}` (`\text{vs.}` rendered ".vs" in RTL).
+- Repetitive "Table X shows" sentences trimmed (Ch. 2, 5). Two boxes that duplicated adjacent text were removed:
+  the Ch. 2 REQ-VIS-01 test box (now in eq. 2.1 + Table 2.2) and the Ch. 5 novelty box (folded into Sec. 5.4's
+  opening).
+- Venn scaled 0.88. The Sec. 5.2.4 sensitivity paragraph was condensed (same numbers).
+- Verified: 44 pages, chapter starts 1/4/8/17/23/31/35/37, references 38, 0 errors, 0 warnings. QA detector PASS,
+  readability & math PASS, number check PASS.
+
 ## [1.4.0] — 2026-11-17 — design corrections (user prompt 02)
 ### Changed (company layer)
 - **New "Shield-Eye" logo** (security, trust and aesthetics). It is a Velvet Forest heraldic shield with a Mustard

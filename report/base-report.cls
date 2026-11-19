@@ -10,10 +10,11 @@
 %% Version history: see ../CHANGELOG.md   Command list: COMMANDS.md
 %% ============================================================================
 \NeedsTeXFormat{LaTeX2e}
-\def\basereport@version{1.4.0}
+\def\basereport@version{2.0}
 \def\basereport@date{2026/11/16}
-\ProvidesClass{base-report}[2026/11/16 v1.4.0 Hebrew/English LuaLaTeX report base class]
+\ProvidesClass{base-report}[2026/11/16 v2.0 Hebrew/English LuaLaTeX report base class]
 
+\RequirePackage{fix-cm}   % v2.0: scalable CM math fonts at 11.5 pt (0 font warnings)
 \RequirePackage{iftex}
 \ifluatex\else
   \ClassError{base-report}{This class requires LuaLaTeX}{Compile with lualatex.}
@@ -68,6 +69,9 @@
 \RequirePackage{graphicx}
 \RequirePackage{etoolbox}
 \RequirePackage{needspace}
+%% Note (v2.0 red team, \tracingpages): \needspace offers TeX a cheap optional break
+%% (\penalty-100 with stretch = the requested space), which TeX takes when the free
+%% space is up to ~1.6x the request. Known and accepted; see qa_fix_log round 5.
 \RequirePackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,shapes.geometric,shapes.misc,calc,
                 fit,backgrounds,shadows,decorations.pathreplacing,patterns}
@@ -153,8 +157,11 @@
 %% Orphan-heading discipline (booklet 19.4): never leave a heading in the
 %% bottom part of a page without room for text after it.
 \AtBeginDocument{%
-  \pretocmd{\section}{\needspace{6\baselineskip}}{}{}%
-  \pretocmd{\subsection}{\needspace{5\baselineskip}}{}{}}
+  % v2.0 fix: no \needspace directly after another heading (\if@nobreak). Its penalty
+  % was a legal break point *between* a section and its first subsection, which
+  % orphaned the section heading (found by \tracingpages in the red-team pass).
+  \pretocmd{\section}{\if@nobreak\else\needspace{6\baselineskip}\fi}{}{}%
+  \pretocmd{\subsection}{\if@nobreak\else\needspace{5\baselineskip}\fi}{}{}}
 
 %% TOC / LoF / LoT appearance: compact, single spaced, page numbers LTR.
 \titlecontents{chapter}[0pt]{\addvspace{3pt}\bfseries\color{brandprimary}}
@@ -233,7 +240,12 @@
 \newcolumntype{P}[1]{>{\raggedleft\arraybackslash}p{#1}}
 \newcolumntype{Q}[1]{>{\centering\arraybackslash}p{#1}}
 \setlength{\arrayrulewidth}{0.4pt}
-\renewcommand{\arraystretch}{1.25}   % v1.3.0 readability: roomier rows
+\renewcommand{\arraystretch}{1.35}   % v2.0 editorial tables: generous row padding
+\setlength{\heavyrulewidth}{1.1pt}\setlength{\lightrulewidth}{0.5pt}
+\setlength{\aboverulesep}{0pt}\setlength{\belowrulesep}{0pt}   % zebra/header fills touch the rules
+\providecolor{brandzebra}{gray}{0.96}
+\newcommand{\basereport@toprule}{\arrayrulecolor{brandaccent}\toprule\arrayrulecolor{brandaccent}}
+\newcommand{\basereport@bottomrule}{\arrayrulecolor{brandaccent}\bottomrule\arrayrulecolor{black}}
 
 %% \begin{reporttable}{<caption>}{<label>}{<tabularx colspec>}
 %%   \headrow \hc{A} & \hc{B} & \hc{C} \\ \midrule  rows...  \end{reporttable}
@@ -245,25 +257,26 @@
 \newenvironment{reporttable}[4][\small]{%
   \table[!htbp]\centering#1\setstretch{1.0}%
   \caption{#2}\label{#3}%
-  \rowcolors{2}{brandtint}{white}\setlength{\tabcolsep}{4pt}% v1.2.1: 6pt->4pt (narrow-column overflow)
-  \tabularx{\maxobjwidth}{#4}\toprule
+  \rowcolors{2}{brandzebra}{white}\setlength{\tabcolsep}{4.5pt}% v2.0: zebra = Egg Nog!25
+  \tabularx{\maxobjwidth}{#4}\basereport@toprule
 }{%
-  \bottomrule\endtabularx\endtable}
+  \basereport@bottomrule\endtabularx\endtable}
 %% Variant without float (for use inside boxes or when exact placement is needed)
 \newenvironment{reporttable*}[4][\small]{%
   \par\needspace{8\baselineskip}\center#1\setstretch{1.0}%
-  \captionof{table}{#2}\label{#3}%
-  \rowcolors{2}{brandtint}{white}\setlength{\tabcolsep}{4pt}% v1.2.1: 6pt->4pt (narrow-column overflow)
-  \tabularx{\maxobjwidth}{#4}\toprule
+  \captionsetup{hypcap=false}\captionof{table}{#2}\label{#3}%
+  \rowcolors{2}{brandzebra}{white}\setlength{\tabcolsep}{4.5pt}% v2.0: zebra = Egg Nog!25
+  \tabularx{\maxobjwidth}{#4}\basereport@toprule
 }{%
-  \bottomrule\endtabularx\endcenter}
+  \basereport@bottomrule\endtabularx\endcenter}
 %% Header row:  \headrow \hc{A} & \hc{B} & \hc{C} \\ \midrule
-\newcommand{\hc}[1]{\textcolor{white}{\headingfont\bfseries #1}}
+\providecolor{brandheadtext}{named}{white}
+\newcommand{\hc}[1]{\textcolor{brandheadtext}{\headingfont\bfseries #1}}   % v2.0: header text colour is a layer token
 \newcommand{\headrow}{\rowcolor{brandprimary}}
 \newcommand{\hlrow}{\rowcolor{brandsecondary!18}}
 \newcommand{\cellok}{\textcolor{brandsecondary}{\ensuremath{\bullet}}}
 \newcommand{\cellpartial}{\textcolor{brandaccent}{\ensuremath{\circ}}}
-\newcommand{\cellno}{\textcolor{brandmuted}{---}}
+\newcommand{\cellno}{}   % v2.0: an empty cell *is* the gap (red team: '---' read as unfinished)
 
 %% Figures: every TikZ/pgfplots picture goes through an English (LTR) wrapper,
 %% so coordinates and axes never mirror. Hebrew labels use \heb{...}.
@@ -277,7 +290,7 @@
   \def\basereport@figcap{#1}\def\basereport@figlab{#2}%
   \par\needspace{10\baselineskip}\begin{center}\begin{english}\centering\setstretch{1.0}%
 }{%
-  \end{english}\captionof{figure}{\basereport@figcap}\label{\basereport@figlab}\end{center}}
+  \end{english}\captionsetup{hypcap=false}\captionof{figure}{\basereport@figcap}\label{\basereport@figlab}\end{center}}
 
 %% Four box types (tcolorbox). breakable=false: a box never splits.
 \tcbset{basereport/.style={enhanced,breakable=false,arc=2pt,
@@ -350,7 +363,9 @@
 
 %% ======================================== STAGE 6: bibliography, metadata --
 \RequirePackage[backend=biber,style=ieee,sorting=none,maxnames=6,minnames=3,
-  doi=true,url=false,isbn=false,dashed=false]{biblatex}
+  doi=true,url=false,isbn=false,dashed=false,language=english,autolang=none]{biblatex}
+\DeclareBibliographyAlias{standard}{manual}   % v2.0: IEEE style has no 'standard' driver
+\DeclareLanguageMapping{hebrew}{english}      % v2.0: biblatex ships no Hebrew .lbx
 %% Citations are LTR units inside Hebrew sentences: "[3]", "[4]--[6]".
 \AtBeginDocument{\let\basereport@origcite\cite
   \renewcommand{\cite}[1]{\mbox{\textenglish{\basereport@origcite{#1}}}}}
@@ -364,5 +379,8 @@
 
 \RequirePackage[hidelinks,bookmarksnumbered,pdfencoding=auto,
   hypertexnames=false]{hyperref}
+%% v2.0: BiDi wrappers are transparent in PDF bookmarks (0 hyperref warnings)
+\pdfstringdefDisableCommands{\let\LR\@firstofone\let\RL\@firstofone
+  \let\textenglish\@firstofone\let\texthebrew\@firstofone}
 \newcommand{\templateversion}{\num{v\basereport@version}}
 \endinput

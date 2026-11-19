@@ -91,3 +91,21 @@ Final: QA detector **PASS** (0 findings), readability & math audit **PASS**, 44 
 | build | `shadows.blur` triggered a silent MiKTeX package install, so passes hung | library removed; shadows drawn with standard TikZ | clean 4-pass build |
 
 Final: QA detector **PASS**, readability & math audit **PASS**, 44 pages, 0 errors.
+
+---
+
+## Round 5: pocket-mirror logo, red-team polish, Assignment 01 feedback (template v2.0)
+
+| Finding | Level | Fix | Verification |
+|---|---|---|---|
+| 67 LaTeX warnings (hyperref tokens, font sizes, hypcap, biblatex) | template | fix-cm, `\pdfstringdefDisableCommands`, `hypcap=false`, biblatex alias and mapping | log: 0 warnings |
+| Tables cramped and plain | template | arraystretch 1.35, Mustard rules, Egg Nog header text and zebra | page renders |
+| Orphaned "3.10" heading + half-blank page | template | `\if@nobreak` guard on the automatic `\needspace` (found with `\tracingpages`) | Ch. 3 back to 9 pages |
+| Global `\needspace` rewrite | template, tried | reverted: broke Ch. 4 float placement (47 pages) | rebuild |
+| Ch. 2 / Ch. 5 closing boxes spilled to a new page after the statistics additions | one-off | removed two boxes that duplicated adjacent text; trimmed restating sentences | 44 pages |
+| Table 4.1 + ARPU paragraph: dangling × (BiDi) | one-off | product chains as single `\en{}` units | page render |
+| Eq. 2.1 ".vs" | one-off | `\mathrm{vs.}` | 150 dpi crop |
+| Tables 2.2 / 3.2 / 3.3 / 6.4 wraps | one-off | column widths; `\cellno` empty | page renders |
+| Table 5.5 label wraps "(שלוש תמונות)" | one-off, **accepted** | shortening it moved Ch. 5's breaks to 45 pages; restored | open (minor) |
+
+Final: **44 pages**, 0 errors, **0 warnings**, QA detector PASS, readability & math PASS, `statistical_validation.py --check` PASS.

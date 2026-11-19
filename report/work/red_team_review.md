@@ -293,3 +293,53 @@ Still open by design (documented, not hidden):
 - The ±4.8 cm baseline and the A100 timing are estimates, to be measured in TSK-1.1 and TSK-3.1.
 - The systematic search protocol for the gap statement is planned in TSK-1.1, and the gap is scoped to "המקורות שנסקרו".
 - The P95 ≤ 4.5 requirement is not yet supported (simulation CI 4.20–5.48). It is a declared open question (RSK-ALG-07).
+
+---
+
+## Iteration 3 (prompts 06-iteration3 and 07): visual red-team pass + lecturer-feedback alignment
+
+**Examiner:** a separate sub-agent (Sonnet) with fresh context. It judged the rendered PDF only (all 44 pages at
+70 dpi, zooms on pp. 8, 22 and 34) and was read-only. **Score: 78 / 100** for visual and typographic quality,
+with 20 ranked items; several were marked "uncertain" by the examiner because they were seen at low resolution.
+
+### Resolution of the 20 items
+
+| # | Finding (PDF page) | Action | Status |
+|---|---|---|---|
+| 1 | Table 4.1: lone words wrap; "×" signs dangle at line starts (BiDi) | middle column 4.0 → 4.7 cm; each product chain is one LTR unit (`\en{150M × $0.68 × 12}`); same fix in the ARPU paragraph | fixed |
+| 2 | Tables 3.2/3.3: "---" fillers read as unfinished; "--" in last row; lone markers wrap | `\cellno` is now an empty cell (the caption says empty cells are the gap); last row reworded; Table 3.3 columns widened | fixed |
+| 3 | Scatter/radar labels small, series hard to tell apart | not changed: zoomed renders show the labels legible; marked uncertain by the examiner | open (minor) |
+| 4 | Fig. 2.2 small value labels | not changed this round | open (minor) |
+| 5 | Fig. 5.3 dense architecture | not changed this round (page budget) | open (minor) |
+| 6 | Fig. 5.4 labels near guide lines | not changed this round | open (minor) |
+| 7 | Mockup caption "clipped" | checked at 140 dpi: not clipped (crop artefact of the examiner's render) | not a defect |
+| 8 | Gantt labels small | not changed this round (page budget) | open (minor) |
+| 9 | Heatmap: R = 10 cell colour | checked: 10 is "medium" (6–11) by the legend, colour correct | not a defect |
+| 10 | Funnel band contrast | not changed this round | open (minor) |
+| 11 | Venn labels small | Venn already redrawn in v1.4.0 with a clearance search; scaled 0.88 to remove an orphaned heading | partly |
+| 12 | Cover: masked IDs; two rules | IDs are masked **by requirement** (master prompt); rules are the cover's design | not a defect |
+| 13 | TOC leaders | cosmetic, unchanged | open (cosmetic) |
+| 14 | Chapter-end blank space | chapter starts are fixed by the page budget; blank space at a chapter end is by design | not a defect |
+| 15 | Tables 5.3/5.4 order 1-3-5 | unchanged: score 1 → 5 left-to-right matches the anchored-scale definition | open (style) |
+| 16-17 | Repetitive "Table X shows" openers; intro repeating the box | several restating sentences removed or shortened (Ch. 2, 5); two boxes that duplicated adjacent text removed | fixed |
+| 18 | Table 2.2 narrow target column | columns rebalanced (target 2.6 → 3.0 cm), body `\footnotesize` | fixed |
+| 19 | Table 4.2 header wraps | intentional `\newline` in two-word names | open (style) |
+| 20 | RACI/Table 6.3 comma placement in ID lists | not changed this round | open (minor) |
+
+### Template-level findings from this pass (logged in CHANGELOG [2.0])
+
+- **Orphaned section heading (p. 18):** the automatic `\needspace` before a subsection inserted a legal break
+  *between* a section and its first subsection. Fixed in `base-report.cls` with an `\if@nobreak` guard.
+- **Early page breaks before headings:** `\needspace` offers TeX a cheap optional break (`\penalty-100` with stretch
+  equal to the request). A global rewrite was tried and **reverted** because it broke Chapter 4's float placement;
+  the two affected chapter ends were fixed locally instead. Documented as a known limitation.
+- **67 → 0 LaTeX warnings:** `fix-cm`, `\pdfstringdefDisableCommands` for the BiDi wrappers, `hypcap=false` for
+  `\captionof`, biblatex `standard` → `manual` alias and a Hebrew → English language mapping.
+
+### Lecturer feedback (Assignment 01) addressed in this round
+
+Formal H₀/H₁ (eq. 2.1) with a simulated pilot (Sec. 3.10.5); regression + Bayesian fusion for circumferences
+(eq. 5.4, Table 5.5); Monte-Carlo Pugh replayed exactly by `scripts/statistical_validation.py`, whose `--check`
+verifies the numbers in the chapters; personal-voice boxes (Ch. 3, Ch. 4); prompt sequence 00–07.
+
+**Not re-scored.** No fresh examiner pass was run after these fixes, so no new score is claimed.

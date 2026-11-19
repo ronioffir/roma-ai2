@@ -6,8 +6,8 @@
 %% Document types (class options): report (default) | proposal | spec
 %% ============================================================================
 \NeedsTeXFormat{LaTeX2e}
-\def\auratwin@version{1.4.0}
-\ProvidesClass{auratwin-report}[2026/11/16 v1.4.0 AuraTwin AI company layer]
+\def\auratwin@version{2.0}
+\ProvidesClass{auratwin-report}[2026/11/16 v2.0 AuraTwin AI company layer]
 
 \def\auratwin@doctype{report}
 \DeclareOption{report}{\def\auratwin@doctype{report}}
@@ -33,6 +33,8 @@
 \colorlet{brandaccent}{auraMustard}
 \colorlet{brandcream}{auraEggNog}
 \colorlet{brandtint}{auraEggNog!45!white}
+\colorlet{brandzebra}{auraEggNog!25!white}      % v2.0 table zebra rows
+\colorlet{brandheadtext}{auraEggNog}             % v2.0 table header text on Velvet Forest
 \colorlet{brandwarn}{auraGarnet}
 \colorlet{brandexample}{auraCopper}
 \colorlet{brandhighlight}{auraCopper}
@@ -41,31 +43,52 @@
 \colorlet{brandgrey}{auraDust!60!white}
 
 %% ------------------------------------------------------------------- logo --
-%% v1.4.0 "Shield-Eye" logo -- security, trust and aesthetics:
-%%  * a Velvet Forest heraldic shield with a Mustard inner rim   (security, trust)
-%%  * an Egg Nog eye whose Mustard iris holds a keyhole pupil      (biometric data stays locked)
-%%  * three small palette arches at the base (Egg Nog, Mustard, Dust) (aesthetics, brand heritage)
-%% Geometry box: 1.6 x 1.92 units. scripts/render_hyperframes_cover.py draws the identical SVG.
-\newcommand{\auratwin@shieldpath}{%
-  (0.02,1.68) .. controls (0.35,1.68) and (0.60,1.78) .. (0.80,1.92)
-  .. controls (1.00,1.78) and (1.25,1.68) .. (1.58,1.68) -- (1.58,0.95)
-  .. controls (1.58,0.45) and (1.15,0.15) .. (0.80,0.00)
-  .. controls (0.45,0.15) and (0.02,0.45) .. (0.02,0.95) -- cycle}
+%% v2.0 "Pocket Mirror" logo -- an opened vintage compact mirror at a 3/4 angle
+%% (reference: Rose-Gold Floral Compact Mirror, redrawn in the brand palette):
+%%  * lid: Velvet Forest case, Copper outer line, Mustard sculpted rim, slight tilt (3/4 view)
+%%  * glass: Egg Nog -> Dust diagonal sheen + an AI sparkle inside a thin iris contour
+%%  * clasp: Egg Nog pearl on a Mustard collar; hinge in Mustard/Copper
+%%  * base: flattened ellipse (perspective) -- Garnet side band, Velvet Forest top face,
+%%    concentric Mustard / Egg Nog rings (the compact pad)
+%% Geometry box: 1.6 x 2.18 units. scripts/render_hyperframes_cover.py draws the identical SVG.
+\newcommand{\auratwin@sparkle}[3]{% centre x, centre y, radius
+  \fill[auraMustard] (#1,#2+#3) .. controls (#1+0.18*#3,#2+0.18*#3) .. (#1+#3,#2)
+    .. controls (#1+0.18*#3,#2-0.18*#3) .. (#1,#2-#3) .. controls (#1-0.18*#3,#2-0.18*#3) .. (#1-#3,#2)
+    .. controls (#1-0.18*#3,#2+0.18*#3) .. (#1,#2+#3) -- cycle;}
 \newcommand{\auratwin@mark}{%
-  \fill[auraVelvetForest] \auratwin@shieldpath;
-  \begin{scope}[shift={(0.8,0.96)},scale=0.86,shift={(-0.8,-0.96)}]
-    \draw[auraMustard,line width=0.7pt] \auratwin@shieldpath;
-  \end{scope}
-  \fill[auraEggNog] (0.30,1.12) .. controls (0.55,1.43) and (1.05,1.43) .. (1.30,1.12)
-                    .. controls (1.05,0.81) and (0.55,0.81) .. (0.30,1.12) -- cycle;
-  \fill[auraMustard] (0.80,1.12) circle (0.205);
-  \draw[auraDust,line width=0.5pt] (0.80,1.12) circle (0.205);
-  \fill[auraVelvetForest] (0.80,1.165) circle (0.058);
-  \fill[auraVelvetForest] (0.772,1.15) -- (0.828,1.15) -- (0.846,1.005) -- (0.754,1.005) -- cycle;
-  \fill[auraEggNog] (0.885,1.215) circle (0.03);
-  \fill[auraEggNog] (0.40,0.48) -- (0.40,0.60) arc[start angle=180,end angle=90,radius=0.14] -- (0.54,0.48) -- cycle;
-  \fill[auraMustard] (0.68,0.74) -- (0.68,0.62) arc[start angle=180,end angle=360,radius=0.12] -- (0.92,0.74) -- cycle;
-  \fill[auraDust] (1.06,0.48) -- (1.06,0.74) arc[start angle=90,end angle=0,radius=0.14] -- (1.20,0.48) -- cycle;}
+  % ---- base (compact pad, seen in perspective)
+  \fill[auraGarnet] (0.06,0.36) -- (0.06,0.24) arc[start angle=180,end angle=360,x radius=0.74,y radius=0.21]
+                    -- (1.54,0.36) -- cycle;
+  \draw[auraMustard,line width=0.5pt] (0.06,0.24) arc[start angle=180,end angle=360,x radius=0.74,y radius=0.21];
+  \fill[auraVelvetForest] (0.80,0.36) ellipse[x radius=0.74,y radius=0.21];
+  \draw[auraCopper,line width=0.6pt] (0.80,0.36) ellipse[x radius=0.74,y radius=0.21];
+  \draw[auraMustard,line width=0.8pt] (0.80,0.36) ellipse[x radius=0.61,y radius=0.165];
+  \fill[auraEggNog] (0.80,0.36) ellipse[x radius=0.49,y radius=0.125];
+  \draw[auraMustard,line width=0.5pt] (0.80,0.36) ellipse[x radius=0.33,y radius=0.08];
+  % ---- hinge
+  \fill[auraMustard,rounded corners=0.5pt] (0.67,0.50) rectangle (0.93,0.62);
+  \draw[auraCopper,line width=0.4pt] (0.80,0.50) -- (0.80,0.62);
+  % ---- lid (tilted 3/4 view)
+  \begin{scope}[rotate around={-7:(0.80,1.31)}]
+    \fill[auraVelvetForest] (0.80,1.31) ellipse[x radius=0.64,y radius=0.70];
+    \draw[auraCopper,line width=0.7pt] (0.80,1.31) ellipse[x radius=0.64,y radius=0.70];
+    \draw[auraMustard,line width=1.6pt] (0.80,1.31) ellipse[x radius=0.545,y radius=0.605];
+    \begin{scope}
+      \clip (0.80,1.31) ellipse[x radius=0.49,y radius=0.55];
+      \shade[left color=auraEggNog,right color=auraDust,shading angle=-35]
+        (0.20,0.70) rectangle (1.40,1.92);
+      \fill[auraEggNog] (-0.10,0.60) -- (0.50,1.95) -- (0.68,1.95) -- (0.08,0.60) -- cycle;
+      \fill[auraEggNog] (0.16,0.60) -- (0.76,1.95) -- (0.82,1.95) -- (0.22,0.60) -- cycle;
+    \end{scope}
+    % AI sparkle inside a thin iris contour
+    \draw[auraCopper,line width=0.55pt] (0.88,1.22) circle (0.21);
+    \auratwin@sparkle{0.88}{1.22}{0.15}
+    \auratwin@sparkle{0.66}{0.96}{0.065}
+    % clasp: Mustard collar + Egg Nog pearl
+    \fill[auraMustard] (0.73,1.99) rectangle (0.87,2.06);
+    \fill[auraEggNog] (0.80,2.11) circle (0.065);
+    \draw[auraMustard,line width=0.5pt] (0.80,2.11) circle (0.065);
+  \end{scope}}
 \newcommand{\auratwinlogo}[1][1]{%
   \begin{tikzpicture}[scale=#1,baseline=0pt]\auratwin@mark\end{tikzpicture}}
 \newcommand{\auratwinwordmark}[1][1]{%
@@ -105,7 +128,7 @@
 
 %% Header / footer texts (directions are fixed inside every slot).
 \AtBeginDocument{%
-  \setheadleft{\raisebox{-1pt}{\auratwinlogo[0.14]}\ \en{\docfield{short}}\ \textbar\ \texthebrew{\auratwin@typename}\ \textbar\ \en{\docfield{group}}}%
+  \setheadleft{\raisebox{-1.5pt}{\auratwinlogo[0.155]}\ \en{\docfield{short}}\ \textbar\ \texthebrew{\auratwin@typename}\ \textbar\ \en{\docfield{group}}}%
   \setheadright{\copyrightsign\ \num{\the\year}\ \texthebrew{\docfield{authorsshort}}}}
 
 %% ------------------------------------------------- editorial chapter opening --
@@ -144,7 +167,7 @@
   \end{tikzpicture}%
   \end{english}\par   % v1.3.0 fix: end the overlay's paragraph so \vspace* applies before the text
   \centering\setstretch{1.1}%
-  \vspace*{0.55cm}%
+  \vspace*{0.95cm}%   % v2.0: the pocket-mirror mark is taller than the shield
   {\headingfont\small\color{auraDust!85!black}\docfield{inst}\par}%
   \vspace{1pt}{\headingfont\small\color{auraDust!85!black}\docfield{course}\par}%
   \vspace{6pt}%

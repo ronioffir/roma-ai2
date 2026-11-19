@@ -44,3 +44,16 @@ order, how each skill was invoked, what it changed concretely, and where the evi
 | 10 | `ux-entrepreneur-strategist` | mockup modernised: secure chip, lock cues, match ring, capsule CTAs, phone status bar |
 | 12 | `human-readability-math-auditor` | heatmap readability (solid fills, larger type); audit re-run: PASS |
 | 7/8 | detector / fixer | build hang diagnosed (missing pgf-blur package) and removed; detector PASS |
+
+## Round 5: pocket mirror, red-team polish, Assignment 01 feedback (prompts 06-iteration3 and 07)
+
+| # | Skill | Contribution |
+|---|---|---|
+| 11 | `luxury-vintage-ui-designer` | Pocket-Mirror logo (TikZ + identical SVG/PNG) from the user's reference image; editorial table style (Mustard rules, Egg Nog headers/zebra) |
+| 2 | `cls-template-architect` | v2.0: 0-warning build, `\if@nobreak` heading guard, table tokens; a global `\needspace` rewrite was tried and reverted |
+| 9 | `red-team-examiner` | fresh-context sub-agent (Sonnet), PDF only: 78/100, 20 items; resolution table in `red_team_review.md` |
+| 4 | `beauty-ai-domain-architect` | `scripts/statistical_validation.py`: paired tests, Bayesian circumference fusion, exact Monte-Carlo replay, `--check` |
+| 5 | `scientific-hebrew-writer` | eq. 2.1 hypotheses, Sec. 3.10.5 pilot, Sec. 5.3.2 fusion, personal-voice boxes; repetitive sentences trimmed |
+| 12 | `human-readability-math-auditor` | every new symbol defined in a "כאשר" sentence; audit PASS |
+| 7/8 | detector / fixer | page budget restored after each addition; detector PASS |
+| 10 | `ux-entrepreneur-strategist` | "בקול שלנו" box: everyday need for teenage girls, women and grooming-aware men |
