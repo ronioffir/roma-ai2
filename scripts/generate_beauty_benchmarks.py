@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-generate_beauty_benchmarks.py -- data generator for the AuraTwin AI preparatory report.
+generate_beauty_benchmarks.py -- data generator for the AURAM preparatory report.
 
 Produces every number that feeds a pgfplots chart (report/figures/data/*.csv) and a
 summary (report/work/benchmarks_summary.md) that the chapters quote. Nothing in the
@@ -23,7 +23,11 @@ import csv
 import math
 from pathlib import Path
 
+import sys
+
 import numpy as np
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "report" / "figures" / "data"
@@ -112,89 +116,151 @@ def _selftest_ciede2000():
         assert abs(got - ref) < 1e-3, (a, b, got, ref)
 
 
-# ------------------------------------------------------------- calibration study
-IRIS_PRIORS = {  # CIELAB mean and per-channel std of a self-reported eye-colour category
-    "brown": ((32.0, 9.0, 17.0), (5.0, 2.5, 4.0)),
-    "hazel": ((45.0, 6.0, 24.0), (5.0, 2.5, 4.0)),
-    "green": ((50.0, -8.0, 16.0), (5.0, 3.0, 4.0)),
-    "blue": ((56.0, -3.0, -16.0), (5.0, 2.5, 4.0)),
-}
-SCLERA = ((86.0, 1.5, 6.0), (3.0, 1.0, 2.0))
+# ------------------------------------------------------------- calibration study (spectral, v3)
+# v3 (AURAM, prompt 08): physically based image formation (scripts/spectral_optics.py) replaces
+# the v1/v2 uniform RGB multipliers. Four illuminant families (D65, A, F11, low-CRI LED), a sclera
+# with yellowing + log-normal vascular redness + tear-film specular highlights, and a screen-flash
+# delta frame. Method names are the row labels of report Fig. 2.2 / Fig. 5.2.
+import spectral_optics as so  # noqa: E402
+
+METHODS = ["Uncorrected camera", "Gray-world AWB", "Sclera anchor (diagonal, no mask)",
+           "Sclera + iris prior (diagonal, masked)", "Flash delta only",
+           "AURAM: flash delta + eye anchor (Bayesian)"]
+PROPOSED = METHODS[-1]
+_CCM = {}
+VAR_A0, VAR_A1, VAR_F_SCALE = 0.02, 1.5, 1.0   # error models of the two estimators; set by fit_fusion_weights()
 
 
-def illuminant_gains(rng, n):
-    """Random illuminant: CCT 2700-6500 K approximated by RGB gains + green/magenta tint
-    + exposure. Returns (n,3) multiplicative gains applied in linear RGB."""
-    t = rng.uniform(0, 1, n)                        # 0 = warm tungsten, 1 = cool daylight
-    r = 1.0 + 0.55 * (1 - t)
-    b = 1.0 + 0.55 * t - 0.25 * (1 - t)
-    g = 1.0 + rng.normal(0, 0.07, n)                # fluorescent / LED tint
-    exposure = rng.uniform(0.75, 1.15, n)
-    gains = np.stack([r, g, b], -1)
-    gains /= gains[:, 1:2]                           # camera keeps green as reference
-    return gains * exposure[:, None]
+def fit_fusion_weights(n=3000, seed=99):
+    """Design-time calibration of AURAM's fusion on a SEPARATE training simulation (seed 99, never
+    used for evaluation): relative squared error of the eye-anchor estimate regressed on the squared
+    iris discrepancy (the metamerism detector), and the scale of the flash noise model."""
+    global VAR_A0, VAR_A1, VAR_F_SCALE
+    rng = np.random.default_rng(seed)
+    P = draw_persons(rng, n)
+    I = simulate_captures(rng, P, rng.integers(0, 4, n), internals=True)
+    rel = lambda x: (np.linalg.norm(x - I["xyz_true"], axis=1) / np.linalg.norm(I["xyz_true"], axis=1)) ** 2 / 3
+    X = np.column_stack([np.ones(n), I["disc"] ** 2])
+    (a0, a1), *_ = np.linalg.lstsq(X, rel(I["xyz_a"]), rcond=None)
+    VAR_A0, VAR_A1 = max(float(a0), 1e-6), max(float(a1), 0.0)
+    VAR_F_SCALE = float(np.mean(rel(I["xyz_f"])) / np.mean(I["var_f0"]))
+    return {"var_a0": VAR_A0, "var_a1": VAR_A1, "var_f_scale": VAR_F_SCALE}
+
+
+def _ccms():
+    if not _CCM:
+        rng = np.random.default_rng(7)                      # fixed calibration set of the "factory"
+        S = so.training_reflectances(rng)
+        _CCM["D65"] = so.fit_ccm(so.ILLUM["D65"], S)
+        _CCM["SCREEN"] = so.fit_ccm(so.SCREEN, S)
+        # camera exposure constant: unbiased skin luminance under D65 with the camera's own AE rule
+        # (face priority, highlights protected) -- a well-calibrated phone under daylight
+        _CCM["scl_pop"] = so.sclera_reflectance(np.array([0.12]), np.array([0.10]))[0]
+        sk = so.skin_reflectance(rng.uniform(0.3, 4.5, 2000), rng.uniform(0.3, 2.2, 2000))
+        rho = so.render(so.ILLUM["D65"], sk)
+        rs = so.render(so.ILLUM["D65"], _CCM["scl_pop"][None])
+        expo = np.minimum(0.45 / rho[:, 1:2], 0.92 / rs.max())
+        _CCM["k_cam"] = float(np.median(so.xyz_d65(sk)[:, 1] / ((rho * expo) @ _CCM["D65"])[:, 1]))
+    return _CCM
+
+
+def draw_persons(rng, n):
+    """Persistent traits of n people (skin, sclera, iris)."""
+    return {"mel": rng.uniform(0.3, 4.5, n), "hb": rng.uniform(0.3, 2.2, n),
+            "yellow": np.clip(rng.lognormal(np.log(0.10), 0.5, n), 0, 0.6),     # age-related deposition
+            "red": rng.lognormal(np.log(0.08), 0.6, n),                             # baseline vascular redness
+            "iris": rng.integers(0, 4, n), "iris_scale": rng.lognormal(0, 0.18, n)}
+
+
+def simulate_captures(rng, P, fam, internals=False):
+    """One capture per row of the trait dict P under illuminant family index fam (n,).
+    Returns {method: DeltaE00 array} and the true skin Lab."""
+    C = _ccms()
+    n = fam.size
+    E = np.stack([so.ILLUM[so.ILLUM_NAMES[f]] for f in fam])
+    w = rng.uniform(0, 0.25, n)[:, None]                     # some daylight through a window
+    E = (1 - w) * E + w * so.ILLUM["D65"][None]
+    skin = so.skin_reflectance(P["mel"], P["hb"])
+    red_now = P["red"] * rng.lognormal(0, 0.45, n)           # fatigue / irritation on the day
+    scl = so.sclera_reflectance(P["yellow"], red_now)
+    iris = so.iris_reflectance(P["iris"], P["iris_scale"])
+    spec = rng.beta(1.5, 14, n)                              # tear-film specular fraction (non-Lambertian)
+    spec_res = 0.25 * spec                                   # residual after the explicit highlight mask
+    scl_raw = (1 - spec)[:, None] * scl + spec[:, None]
+    scl_msk = (1 - spec_res)[:, None] * scl + spec_res[:, None]
+    bg = np.clip(0.35 + rng.normal(0, 0.12, (n, 1)) + 0.1 * np.sin(so.LAM[None] / rng.uniform(20, 60, (n, 1))), 0.05, 0.9)
+
+    rho = {k: so.render(E, s) for k, s in {"skin": skin, "scl_raw": scl_raw, "scl_msk": scl_msk,
+                                           "iris": iris, "bg": bg}.items()}
+    expo = 0.45 / rho["skin"][:, 1:2] * rng.uniform(0.85, 1.15, (n, 1))   # face-priority auto-exposure
+    expo = np.minimum(expo, 0.92 / rho["scl_raw"].max(1, keepdims=True))     # ...but highlights are protected
+    sd = {"skin": 0.0015, "scl_raw": 0.002, "scl_msk": 0.0025, "iris": 0.003, "bg": 0.002}
+    obs = {k: np.clip(v * expo + rng.normal(0, sd[k], v.shape), 1e-4, 1.0) for k, v in rho.items()}
+
+    true_lab = so.xyz_to_lab(so.xyz_d65(skin))
+    to_lab = lambda rgb, M: so.xyz_to_lab(np.clip(rgb @ M, 1e-6, None))
+    res = {}
+    # 1-2: camera white balance (partial and full gray-world), fixed exposure constant
+    scene = 0.45 * obs["skin"] + 0.40 * obs["bg"] + 0.15 * obs["scl_raw"]
+    awb = scene.mean(1, keepdims=True) / scene
+    for name, g in (("Uncorrected camera", 1 + 0.35 * (awb - 1)), ("Gray-world AWB", awb)):
+        res[name] = gb_ciede(to_lab(obs["skin"] * g * C["k_cam"], C["D65"]), true_lab)
+    # 3: naive diagonal sclera anchor -- population sclera, no specular mask
+    ref_pop = so.render(so.ILLUM["D65"], C["scl_pop"][None])
+    g3 = ref_pop / obs["scl_raw"]
+    res[METHODS[2]] = gb_ciede(to_lab(obs["skin"] * g3, C["D65"]), true_lab)
+    # 4: diagonal MAP on log-gains: masked sclera (population) + iris prior of the reported category
+    ref_iris = so.render(so.ILLUM["D65"], np.stack([so.IRIS_BASE[c] for c in so.IRIS_CATS])[P["iris"]])
+    ws_, wi_ = 1 / 0.03 ** 2, 1 / 0.12 ** 2
+    lg = (ws_ * np.log(ref_pop / obs["scl_msk"]) + wi_ * np.log(ref_iris / obs["iris"])) / (ws_ + wi_)
+    lg += np.log(ref_pop / obs["scl_msk"]).mean(1, keepdims=True) - lg.mean(1, keepdims=True)
+    res[METHODS[3]] = gb_ciede(to_lab(obs["skin"] * np.exp(lg), C["D65"]), true_lab)
+    # 5: screen-flash delta frame: dI = I_flash - I_ambient = reflectance under the KNOWN screen spectrum
+    f_abs = rng.uniform(0.08, 0.40, (n, 1))                  # screen at full white, ~30 cm, vs the room light
+    def delta(S, amb):
+        clean = so.render(so.SCREEN, S) * expo * f_abs / so.render(so.SCREEN, np.ones((1, so.LAM.size)))[:, 1:2] \
+            * so.render(E, np.ones((1, so.LAM.size)))[:, 1:2]
+        noise_sd = (np.sqrt(2) * 0.0015 + 0.002 * amb) / np.sqrt(8)   # aligned 8-frame burst: sensor + residual motion/flicker
+        return clean + rng.normal(0, 1, clean.shape) * noise_sd, noise_sd
+    d_skin, nsd_skin = delta(skin, obs["skin"])
+    d_scl, _ = delta(scl_msk, obs["scl_msk"])
+    d_iris, _ = delta(iris, obs["iris"])
+    # enrolment: the user's own sclera measured once under the screen in a dim room (low noise)
+    scl_enr = so.sclera_reflectance(P["yellow"], P["red"])
+    enr_scr = so.render(so.SCREEN, scl_enr) * (1 + rng.normal(0, 0.01, (n, 3)))
+    k = enr_scr[:, 1:2] / np.clip(d_scl[:, 1:2], 1e-5, None)
+    xyz_flash = np.clip((d_skin * k) @ C["SCREEN"], 1e-6, None)
+    res[METHODS[4]] = gb_ciede(so.xyz_to_lab(xyz_flash), true_lab)
+    # 6: AURAM -- enrolment-referenced eye anchor (diagonal) fused with the flash estimate.
+    ref_enr = so.render(so.ILLUM["D65"], scl_enr) * (1 + rng.normal(0, 0.01, (n, 3)))
+    lg6 = (ws_ * np.log(ref_enr / obs["scl_msk"]) + wi_ * np.log(ref_iris / obs["iris"])) / (ws_ + wi_)
+    lg6 += np.log(ref_enr / obs["scl_msk"]).mean(1, keepdims=True) - lg6.mean(1, keepdims=True)
+    xyz_anchor = np.clip((obs["skin"] * np.exp(lg6)) @ C["D65"], 1e-6, None)
+    # metamerism detector: the iris seen through the anchor vs the iris seen by the flash
+    iris_a = (obs["iris"] * np.exp(lg6)) @ C["D65"]
+    iris_f = (d_iris * k) @ C["SCREEN"]
+    disc = np.linalg.norm(iris_a - iris_f, axis=1) / np.clip(np.linalg.norm(iris_f, axis=1), 1e-6, None)
+    var_a = (VAR_A0 + VAR_A1 * disc ** 2)[:, None]
+    var_f = VAR_F_SCALE * ((nsd_skin / np.clip(d_skin, 1e-5, None)) ** 2).mean(1, keepdims=True)
+    if internals:
+        return {"xyz_a": xyz_anchor, "xyz_f": xyz_flash, "disc": disc, "var_f0": var_f / VAR_F_SCALE,
+                "xyz_true": so.xyz_d65(skin)}
+    xyz6 = (xyz_anchor / var_a + xyz_flash / var_f) / (1 / var_a + 1 / var_f)
+    res[PROPOSED] = gb_ciede(so.xyz_to_lab(xyz6), true_lab)
+    return res, true_lab
+
+
+def gb_ciede(a, b):
+    return ciede2000(a, b)
 
 
 def calibration_study(rng, n=4000):
-    labels = rng.choice(list(IRIS_PRIORS), n)
-    skin_lab = np.stack([rng.uniform(40, 78, n), rng.uniform(8, 20, n), rng.uniform(12, 28, n)], -1)
-    sclera_user = np.array(SCLERA[0]) + rng.normal(0, 1, (n, 3)) * np.array(SCLERA[1])
-    # per-capture sclera redness (fatigue, irritation, specular tint): a* shift >= 0
-    redness = rng.exponential(2.5, n)
-    sclera_lab = sclera_user + np.stack([np.zeros(n), redness, 0.3 * redness], -1)
-    iris_mu = np.array([IRIS_PRIORS[l][0] for l in labels])
-    iris_sd = np.array([IRIS_PRIORS[l][1] for l in labels])
-    iris_lab = iris_mu + rng.normal(0, 1, (n, 3)) * iris_sd
-
-    gains = illuminant_gains(rng, n)
-    # auto-exposure protects highlights: the brightest anchor (sclera) stays below 0.92
-    peak = (lab_to_linrgb(sclera_lab) * gains).max(1, keepdims=True)
-    gains = gains * np.minimum(1.0, 0.92 / peak)
-    # sensor noise in linear RGB AFTER averaging over the segmented region
-    # (per-pixel sd ~0.006; skin patch ~1500 px incl. texture, sclera ~250 px, iris ~400 px)
-    region_sd = {"skin": 0.0015, "sclera": 0.002, "iris": 0.003}
-    obs = {k: np.clip(lab_to_linrgb(v) * gains + rng.normal(0, region_sd[k], (n, 3)), 1e-4, 1)
-           for k, v in {"skin": skin_lab, "sclera": sclera_lab, "iris": iris_lab}.items()}
-    # Camera auto-white-balance: gray-world on the selfie (partial correction, as in practice)
-    scene_mean = 0.6 * obs["skin"] + 0.25 * np.clip(rng.normal(0.35, 0.08, (n, 3)) * gains, 0, 1) \
-        + 0.15 * obs["sclera"]
-    awb = scene_mean.mean(1, keepdims=True) / scene_mean
-    awb_partial = 1 + 0.5 * (awb - 1)
-
-    true_skin = skin_lab
-    res = {}
-    res["Uncorrected camera"] = ciede2000(linrgb_to_lab(np.clip(obs["skin"] * awb_partial, 0, 1)), true_skin)
-    res["Gray-world AWB"] = ciede2000(linrgb_to_lab(np.clip(obs["skin"] * awb, 0, 1)), true_skin)
-    # Sclera-only anchor: diagonal gains that map observed sclera to the population sclera mean
-    sclera_ref = lab_to_linrgb(np.array(SCLERA[0]))
-    g_s = sclera_ref / obs["sclera"]
-    res["Sclera anchor"] = ciede2000(linrgb_to_lab(np.clip(obs["skin"] * g_s, 0, 1)), true_skin)
-    # Sclera + self-reported iris prior: weighted least squares on log-gains (MAP estimate)
-    iris_ref = lab_to_linrgb(iris_mu)
-    w_s, w_i = 1 / 0.03 ** 2, 1 / 0.12 ** 2            # sclera is a tighter anchor than iris
-    log_g = (w_s * np.log(sclera_ref / obs["sclera"]) + w_i * np.log(iris_ref / obs["iris"])) / (w_s + w_i)
-    # shrink the exposure component toward the sclera estimate (iris luminance is uncertain)
-    log_g += (np.log(g_s).mean(1, keepdims=True) - log_g.mean(1, keepdims=True))
-    res["Sclera + iris prior"] = ciede2000(linrgb_to_lab(np.clip(obs["skin"] * np.exp(log_g), 0, 1)), true_skin)
-    # AuraTwin: one-time enrolment with the phone screen as a known (D65-like) flash.
-    # The enrolment measures the user's own sclera/iris with small error; the self-reported
-    # eye-colour category acts as a Bayesian prior that rejects implausible iris readings.
-    enr_sclera = sclera_user + rng.normal(0, 0.8, (n, 3))
-    flash_iris = iris_lab + rng.normal(0, 2.0, (n, 3))
-    post_iris = (flash_iris / 2.0 ** 2 + iris_mu / iris_sd ** 2) / (1 / 2.0 ** 2 + 1 / iris_sd ** 2)
-    s_ref, i_ref = lab_to_linrgb(enr_sclera), lab_to_linrgb(post_iris)
-    # robust two-anchor fusion: down-weight the sclera when its chroma departs from enrolment
-    obs_scl_lab = linrgb_to_lab(np.clip(obs["sclera"] * g_s, 1e-4, 1))
-    red_flag = np.clip((obs_scl_lab[:, 1] - SCLERA[0][1]) / 3.0, 0, None)
-    w_s2 = 1 / (0.02 + 0.05 * red_flag[:, None]) ** 2
-    w_i2 = 1 / 0.05 ** 2
-    lg = (w_s2 * np.log(s_ref / obs["sclera"]) + w_i2 * np.log(i_ref / obs["iris"])) / (w_s2 + w_i2)
-    lg += (np.log(s_ref / obs["sclera"]).mean(1, keepdims=True) - lg.mean(1, keepdims=True))
-    res["Enrolment + iris prior (AuraTwin)"] = ciede2000(
-        linrgb_to_lab(np.clip(obs["skin"] * np.exp(lg), 0, 1)), true_skin)
-    # ITA (individual typology angle) of each synthetic skin sample, for subgroup reporting
-    ita = np.degrees(np.arctan2(skin_lab[:, 0] - 50, skin_lab[:, 2]))
-    res["_ita"] = ita
+    fit_fusion_weights()
+    P = draw_persons(rng, n)
+    fam = rng.integers(0, 4, n)
+    res, lab = simulate_captures(rng, P, fam)
+    res["_ita"] = np.degrees(np.arctan2(lab[:, 0] - 50, lab[:, 2]))
+    res["_fam"] = fam
     return res
 
 
@@ -202,8 +268,8 @@ def power_from_simulation(res, rng, n_part=120, n_light=4, reps=2000):
     """Effect size and power estimated from the simulation itself (cluster = participant).
     Each simulated participant contributes n_light captures; the analysis unit is the
     participant mean of the paired difference (camera - proposed)."""
-    d = res["Uncorrected camera"] - res["Enrolment + iris prior (AuraTwin)"]
-    a = res["Enrolment + iris prior (AuraTwin)"]
+    d = res["Uncorrected camera"] - res[PROPOSED]
+    a = res[PROPOSED]
     dz = d.mean() / d.std(ddof=1)                        # per-capture standardized effect
     # participant-level effect: average of n_light captures (assume within-person corr 0.5)
     rho = 0.5
@@ -320,57 +386,82 @@ RADAR = {
     "Zeekit (Walmart)": [1.5, 3.0, 3.5, 3.0, 2.0, 3.0],
     "Stitch Fix": [1.0, 3.5, 1.0, 1.0, 3.0, 2.0],
     "IDM-VTON (flagship)": [1.0, 2.0, 5.0, 1.5, 1.5, 1.0],
-    "AuraTwin AI (target)": [4.5, 4.0, 4.5, 4.0, 5.0, 4.5],
+    "AURAM (target)": [4.5, 4.0, 4.5, 4.0, 5.0, 4.5],
 }
 SCATTER = [  # name, cost per styling session (USD), personalisation accuracy index (0-100)
     ("ModiFace", 0.004, 62), ("YouCam", 0.003, 58), ("Zeekit", 0.030, 55),
     ("Stitch Fix", 8.00, 74), ("IDM-VTON", 0.090, 60), ("Cloud LLM (Alt2)", 0.120, 70),
-    ("AuraTwin AI", 0.011, 88),
+    ("AURAM", 0.025, 88),
 ]
 
 
 # ------------------------------------------------------------------ unit economics
+# ------------------------------------------------------------------ unit economics (v3, tiers)
+# v3 (AURAM, prompt 08): the 15-second rewarded-ad gate is replaced by three tiers. Every input is a
+# TEAM ASSUMPTION, labelled as such in the report (Table 4.3); the outputs are what the assumptions
+# imply -- nothing is solved backwards from a target.
+ECON = {
+    "sessions": 6, "recs": 3, "ctr": 0.08, "conv": 0.04, "aov": 65.0, "comm": 0.08,  # affiliate path
+    "tryons_per_session": 1.7,
+    "share_sponsored": 0.60,        # share of try-on requests on items of a sponsoring retailer (Tier 2)
+    "sponsor_fee": 0.02,            # USD the retailer pays per generated try-on (engagement SKU fee)
+    "conv_uplift": 1.5,             # purchase multiplier after a try-on (3x add-to-cart -> 1.5x purchase)
+    "micro_seconds": 3.0,           # Tier 3 brand micro-interaction
+    "ad_seconds": 15.0,             # the old gate, for comparison
+    "dropoff_15s": 0.80,            # assumed share lost by a 15 s unskippable ad -> beta = ln(5)/15
+    "micro_ecpm": 8.0,              # USD per 1000 completed 3 s micro-interactions
+    "sub_rate": 0.03, "sub_price": 7.99, "pay_fee": 0.15,     # VIP / Pro subscription
+    "rec_cost": 0.002,              # cloud cost of one recommendation session
+    "gpu_cost": 0.015,              # all-in serverless cost of one generated try-on (base)
+    "gpu_grid": (0.008, 0.015, 0.025),
+    "churn": 0.12,                  # monthly churn (base); LTV horizon = 1 / churn months
+    "churn_grid": (0.08, 0.12, 0.20),
+    "cac": 2.00,                    # blended customer-acquisition cost, USD
+}
+
+
+def tier_economics(gpu_cost=None, churn=None, e=ECON):
+    """Monthly contribution of one active user under the three-tier engine."""
+    c = e["gpu_cost"] if gpu_cost is None else gpu_cost
+    lam = e["churn"] if churn is None else churn
+    beta = math.log(1 / (1 - e["dropoff_15s"])) / e["ad_seconds"]          # drop-off rate per second of friction
+    keep_micro = math.exp(-beta * e["micro_seconds"])
+    keep_ad = math.exp(-beta * e["ad_seconds"])
+    req = e["sessions"] * e["tryons_per_session"]                            # try-on requests / month (Tier 1 serves all)
+    n_spon = req * e["share_sponsored"]
+    n_micro = req * (1 - e["share_sponsored"]) * keep_micro
+    n_gen = n_spon + n_micro                                                 # generated try-ons / month
+    uplift = e["conv"] * (e["conv_uplift"] - 1) * e["aov"] * e["comm"]       # extra commission per try-on
+    rev_aff = e["sessions"] * e["recs"] * e["ctr"] * e["conv"] * e["aov"] * e["comm"]
+    rev_gen = n_spon * e["sponsor_fee"] + n_micro * e["micro_ecpm"] / 1000 + n_gen * uplift
+    rev_sub = e["sub_rate"] * e["sub_price"] * (1 - e["pay_fee"])
+    revenue = rev_aff + rev_gen + rev_sub
+    cost = n_gen * c + e["sessions"] * e["rec_cost"]
+    margin = revenue - cost
+    ltv = margin / lam
+    per_tryon_rev = (n_spon * e["sponsor_fee"] + n_micro * e["micro_ecpm"] / 1000) / n_gen + uplift
+    return {"beta": beta, "keep_micro": keep_micro, "keep_ad": keep_ad, "req": req, "n_gen": n_gen,
+            "uplift": uplift, "rev_aff": rev_aff, "rev_gen": rev_gen, "rev_sub": rev_sub,
+            "revenue": revenue, "cost": cost, "margin": margin, "gross_margin": margin / revenue,
+            "ltv": ltv, "ltv_cac": ltv / e["cac"], "per_tryon_rev": per_tryon_rev,
+            "biz12_ratio": per_tryon_rev / c, "gpu_cost": c, "churn": lam}
+
+
 def unit_economics():
-    """Gate = rewarded ad OR affiliate click-through (one of the two per generation).
-    All inputs are team assumptions (labelled in the report); the requirement threshold
-    2.4x follows from a 58 % gross-margin target: 1 - 1/2.4 = 0.583."""
-    ecpm_rewarded = 15.0                    # USD per 1000 rewarded views
-    p_conv, aov, r_aff = 0.018, 65.0, 0.08  # conversion after click-through, order value, commission
-    q_aff = 0.5                             # share of users who choose the affiliate path
-    rev_ad = ecpm_rewarded / 1000
-    rev_aff = p_conv * aov * r_aff
-    rev = (1 - q_aff) * rev_ad + q_aff * rev_aff
-    # cost of one try-on image
-    api_low, api_high = 0.045, 0.090        # commercial try-on API price (status quo, ch.2)
-    gpu_hour, seconds, util, overhead = 0.80, 4.5, 0.30, 1.6   # self-hosted distilled model
-    self_hosted = gpu_hour / 3600 * seconds / util * overhead
-    stress_rev = (1 - 0.3) * rev_ad * 0.5 + 0.3 * rev_aff       # eCPM -50 %, affiliate share 30 %
-    return {"rev_ad": rev_ad, "rev_aff": rev_aff, "rev_mix": rev,
-            "ratio_api_low": rev / api_low, "ratio_api_high": rev / api_high,
-            "self_hosted_cost": self_hosted, "ratio_self_hosted": rev / self_hosted,
-            "cost_ceiling_2_4": rev / 2.4, "gross_margin_at_2_4": 1 - 1 / 2.4,
-            "stress_rev": stress_rev, "stress_ratio": stress_rev / self_hosted,
-            "rag_query_cost": 0.002}
+    base = tier_economics()
+    grid = [(c, lam, tier_economics(c, lam)["ltv_cac"]) for c in ECON["gpu_grid"] for lam in ECON["churn_grid"]]
+    worst_biz12 = tier_economics(max(ECON["gpu_grid"]))["biz12_ratio"]
+    return {"base": base, "grid": grid, "worst_biz12": worst_biz12}
 
 
 def market_build():
-    """Bottom-up SAM and SOM (team assumptions, labelled in the report)."""
-    # B2C ARPU per active user per month
-    sessions, recs, ctr, conv, aov, comm = 6, 3, 0.08, 0.04, 65.0, 0.08
-    gens_per_session, ecpm = 1.7, 15.0   # same 1.7 try-ons per session as Table 4.3 / scatter
-    prem_rate, prem_price = 0.03, 9.99
-    arpu_aff = sessions * recs * ctr * conv * aov * comm
-    arpu_ads = sessions * gens_per_session * 0.5 * ecpm / 1000      # half of the gates via ads
-    arpu_prem = prem_rate * prem_price
-    arpu = arpu_aff + arpu_ads + arpu_prem
-    # SOM year 3
+    """Bottom-up SAM and SOM (team assumptions). B2C ARPU = monthly revenue of the tier engine."""
+    arpu = tier_economics()["revenue"]
     b2b_som = 12 * 2_000_000 * 0.60       # 12 retailers x 2M online orders/yr x $0.60 per order
     b2c_som = 1_600_000 * arpu * 12
-    # SAM (target regions)
     b2b_sam = 3000 * 600_000              # 3,000 retailers with >$50M online revenue x $0.6M
     b2c_sam = 150_000_000 * arpu * 12     # monthly users of beauty/fashion apps in the regions
-    return {"arpu_aff": arpu_aff, "arpu_ads": arpu_ads, "arpu_prem": arpu_prem, "arpu": arpu,
-            "b2b_som": b2b_som, "b2c_som": b2c_som, "som": b2b_som + b2c_som,
+    return {"arpu": arpu, "b2b_som": b2b_som, "b2c_som": b2c_som, "som": b2b_som + b2c_som,
             "b2b_sam": b2b_sam, "b2c_sam": b2c_sam, "sam": b2b_sam + b2c_sam}
 
 
@@ -391,9 +482,10 @@ def main():
 
     cal = calibration_study(rng)
     ita = cal.pop("_ita")
+    fam = cal.pop("_fam")
     cal_rows = [(k, np.mean(v), np.median(v), np.percentile(v, 95), (v <= 2.0).mean() * 100)
                 for k, v in cal.items()]
-    prop = cal["Enrolment + iris prior (AuraTwin)"]
+    prop = cal[PROPOSED]
     ita_groups = {"light (ITA>41)": ita > 41, "intermediate (10<ITA<=41)": (ita > 10) & (ita <= 41),
                   "tan/brown (ITA<=10)": ita <= 10}
     ita_rows = [(g, int(m.sum()), float(np.median(prop[m])), float(np.percentile(prop[m], 95)))
@@ -403,6 +495,10 @@ def main():
               [(r[0], *[round(x, 2) for x in r[1:]]) for r in cal_rows])
     write_csv(DATA / "calibration_bars.csv", ["idx", "mean", "p95"],
               [(i, round(r[1], 2), round(r[3], 2)) for i, r in enumerate(cal_rows)])
+    # metameric failure: median error per illuminant family for the four calibration methods
+    import spectral_optics as so
+    ill_rows = [(m, *[f"{float(np.median(cal[m][fam == f])):.2f}" for f in range(4)]) for m in METHODS[2:]]
+    write_csv(DATA / "calibration_by_illuminant.csv", ["method", *so.ILLUM_NAMES], ill_rows)
 
     base_w = [c[3] for c in CRITERIA]
     assert abs(sum(base_w) - 1.0) < 1e-9
@@ -433,11 +529,13 @@ def main():
               [(k, n, " | ".join(RADAR_AXES)) for k, n in zip(keys, RADAR)])
     write_csv(DATA / "scatter.csv", ["name", "cost", "acc"], SCATTER)
     ue = unit_economics()
+    write_csv(DATA / "ltv_cac_grid.csv", ["gpu_cost", "churn", "ltv_cac"],
+              [(c, l, round(v, 2)) for c, l, v in ue["grid"]])
 
     WORK.mkdir(parents=True, exist_ok=True)
     with open(WORK / "benchmarks_summary.md", "w", encoding="utf-8") as f:
         f.write(f"# Benchmarks summary (seed {args.seed})\n\n")
-        f.write("## Calibration simulation (n=4000 synthetic selfies, CIEDE2000 on skin)\n\n")
+        f.write("## Calibration simulation (spectral v3, n=4000 synthetic selfies, CIEDE2000 on skin)\n\n")
         f.write("| method | mean | median | p95 | % <= 2.0 |\n|---|---|---|---|---|\n")
         for r in cal_rows:
             f.write(f"| {r[0]} | {r[1]:.2f} | {r[2]:.2f} | {r[3]:.2f} | {r[4]:.1f} |\n")
@@ -455,6 +553,12 @@ def main():
         f.write(f"\nScore sensitivity: {tot} single +-1 score changes, winner flips {flips}; "
                 f"smallest margin {worst[1]:.2f} at {worst[0]}\n")
         f.write(f"Adversarial double change (Alt3 -1 on acc & cost, Alt1 +1 on lat & real): {adv}\n")
+        f.write("\n## Median error by illuminant family (metameric failure of diagonal anchors)\n\n")
+        f.write("| method | " + " | ".join(so.ILLUM_NAMES) + " |\n|---|---|---|---|---|\n")
+        for r in ill_rows:
+            f.write(f"| {r[0]} | " + " | ".join(r[1:]) + " |\n")
+        f.write(f"\nFusion error models (fitted on the seed-99 training simulation): "
+                f"var_a0={VAR_A0:.5f}, var_a1={VAR_A1:.4f}, flash scale={VAR_F_SCALE:.3f}\n")
         f.write("\n## Calibration by skin-tone subgroup (proposed method)\n\n")
         for g in ita_rows:
             f.write(f"- {g[0]}: n={g[1]}, median {g[2]:.2f}, p95 {g[3]:.2f}\n")

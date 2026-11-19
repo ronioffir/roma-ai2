@@ -1,0 +1,5 @@
+method,D65,A,F11,LED
+"Sclera anchor (diagonal, no mask)",1.30,1.84,2.79,3.33
+"Sclera + iris prior (diagonal, masked)",1.18,2.09,2.77,3.30
+Flash delta only,2.19,2.33,2.15,2.21
+AURAM: flash delta + eye anchor (Bayesian),1.31,1.91,2.08,2.22

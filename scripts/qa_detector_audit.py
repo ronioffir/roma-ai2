@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-qa_detector_audit.py -- "השוטר שבודק": the read-only QA Detector of the AuraTwin AI report.
+qa_detector_audit.py -- "השוטר שבודק": the read-only QA Detector of the AURAM report.
 
 Implements skill .claude/skills/bidi-qa-detector (booklet Prompt B2, Table 19.1, §14.5, §19.4).
 It NEVER edits sources. Its only outputs are:
@@ -270,7 +270,7 @@ class Detector:
         if last and re.fullmatch(r"(\d+|[אב]׳?|i)", last[-1]):
             self.add("דף שער", "COVER-PAGENUM", "cover shows a page number", last[-1], page=1)
         for needle, rule in [("©", "copyright sign missing"), ("roma-ai2", "group code missing"),
-                             ("AuraTwin", "English title missing"), ("דוח מכין", "document type missing")]:
+                             ("AURAM", "English title missing"), ("דוח מכין", "document type missing")]:
             if needle not in cover:
                 self.add("דף שער", "COVER-FIELD", rule, needle, page=1)
 
@@ -469,7 +469,7 @@ class Detector:
 
 
 def main():
-    ap = argparse.ArgumentParser(description="Read-only QA detector for the AuraTwin AI report "
+    ap = argparse.ArgumentParser(description="Read-only QA detector for the AURAM report "
                                              "(writes <report-dir>/work/qa_audit_report.md).")
     ap.add_argument("--report-dir", default="report", help="LaTeX project folder (default: report)")
     ap.add_argument("--key-pages", default="", help="comma-separated PDF pages to render at 110 dpi")

@@ -104,7 +104,7 @@ def logo_html() -> str:
  p{{margin:6px 0 0;font-size:18px;font-weight:600;letter-spacing:.34em;color:{PAL['dust']}}}
 </style></head><body><div class="card">
 <svg viewBox="0 0 240 330">{mark}</svg>
-<h1>AuraTwin <b>AI</b></h1><p>REFLECT · CALIBRATE · BEAUTIFY</p></div></body></html>"""
+<h1>AURAM</h1><p>AURA · RAM · REFLECT · CALIBRATE · REMEMBER</p></div></body></html>"""
 
 
 def mesh_svg(w=1600, h=640, seed=8) -> str:
@@ -158,7 +158,7 @@ def cover_html() -> str:
 </style></head><body><div class="bg"></div>{mesh_svg()}<div class="frame"></div>
 <div class="txt"><div class="logo"><svg viewBox="0 0 100 137">{mark}</svg></div>
 <div class="kicker">PRELIMINARY DESIGN REPORT · ROMA-AI2</div>
-<h1>AuraTwin <b>AI</b></h1>
+<h1>AURAM</h1>
 <div class="he">התאמה ביומטרית מכוילת של אופנה וביוטי, כריית טרנדים והדמיה וירטואלית מותנית-מודל-עסקי</div></div>
 <div class="swatches">{sw}</div></body></html>"""
 

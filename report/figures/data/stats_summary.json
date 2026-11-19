@@ -1,29 +1,43 @@
 {
   "seed": {
     "pugh_and_calibration": 2026,
-    "paired_pilot": 2027,
-    "circumference": 2028
+    "pilot": 2027,
+    "circumference": 2028,
+    "power": 2029
   },
-  "paired_test": {
+  "mixed_pilot": {
     "n": 120,
     "n_light": 4,
-    "mean_diff": 2.985931499644725,
-    "sd_diff": 1.0593794860365289,
-    "ci95_low": 2.7944406471429852,
-    "ci95_high": 3.177422352146465,
-    "t": 30.8758487223388,
-    "df": 119,
-    "p_t": 5.999424807489647e-59,
-    "wilcoxon_W": 7260.0,
-    "p_wilcoxon": 9.859758560762177e-22,
-    "dz": 2.8185664712236704,
-    "median_aur": 1.4587987052522704,
-    "median_upper95": 1.5363212225878056,
-    "p_h1b": 0.0,
-    "holm_h1a": 9.859758560762177e-22,
-    "holm_h1b": 0.0,
+    "b0": 6.578395334560096,
+    "b1": -4.4281586206395325,
+    "se_b1": 0.12604085015567543,
+    "ci95_low": -4.675198686944657,
+    "ci95_high": -4.181118554334408,
+    "s2_part": 0.7911716850862573,
+    "s2_light": 1.9155141729919625,
+    "s2_resid": 3.812711017911701,
+    "icc_part": 0.1213565764035686,
+    "resid_sd_by_ita": {
+      "light": 2.0687017009008883,
+      "intermediate": 1.7689990494355594,
+      "tan_brown": 1.694508763380595
+    },
+    "median_aur": 1.9425138312746446,
+    "median_upper95": 2.0634608268983463,
+    "p_h1a": 1.0670373768637632e-270,
+    "p_h1b": 0.98825,
+    "holm_h1a": 2.1340747537275264e-270,
+    "holm_h1b": 0.98825,
     "reject_h0a": true,
-    "reject_h0b": true
+    "reject_h0b": false,
+    "wilcoxon_p": 9.859758560762177e-22,
+    "mean_diff_participant": 4.4281586206395325
+  },
+  "power": {
+    "min_n_d040_icc05": 60,
+    "min_n_d025_icc05": 120,
+    "min_n_d040_icc07": 60,
+    "min_n_d040_icc03": 60
   },
   "circumference": {
     "keypoints": {
@@ -68,9 +82,9 @@
   "pugh_montecarlo": {
     "draws": 20000,
     "dirichlet_conc": 40,
-    "p_win_alt3": 0.99995,
-    "margin_p5": 0.47168283459993016,
-    "margin_mean": 0.8815726645785786,
-    "p_win_uniform": 0.8921
+    "p_win_alt3": 0.99985,
+    "margin_p5": 0.4740361543593411,
+    "margin_mean": 0.8809544279849928,
+    "p_win_uniform": 0.8956
   }
 }

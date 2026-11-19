@@ -89,3 +89,16 @@ figure (and add the source to `references.bib`) or keep the explicit estimate la
 The calibration-simulation results (ΔE00 by method) and the Pugh-matrix totals/sensitivity are **computed** by
 `scripts/generate_beauty_benchmarks.py` (seed 2026) and are reproducible; they are synthetic-simulation results and
 are labelled as such in the report.
+
+## D. References added in iteration 4 (prompt 08, AURAM) -- verify before submission
+
+| Key | Claimed source | Check |
+|---|---|---|
+| `kerbl2023gaussian` | Kerbl et al., "3D Gaussian Splatting for Real-Time Radiance Field Rendering", ACM TOG 42(4), 2023 | [ ] |
+| `ramamoorthi2001sh` | Ramamoorthi & Hanrahan, "An Efficient Representation for Irradiance Environment Maps", SIGGRAPH 2001 | [ ] |
+| `wu2024gaussian4d` | Wu et al., "4D Gaussian Splatting for Real-Time Dynamic Scene Rendering", CVPR 2024 | [ ] |
+| `yao2023react` | Yao et al., "ReAct: Synergizing Reasoning and Acting in Language Models", ICLR 2023 | [ ] |
+
+Also new in iteration 4: the spectral simulation (`scripts/spectral_optics.py`) uses **analytic approximations**
+(Planck curves for D65 and A, Gaussian peaks for F11 and the LED, the Wyman-Sloan-Shirley CMF fit, Gaussian camera
+sensitivities), not the tabulated CIE data. All economics inputs in Table 4.3 are team assumptions.

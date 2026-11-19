@@ -366,6 +366,10 @@ The file name was set by the user, so two files share the `06_` prefix.
 
 Verbatim in [`07_assignment01_feedback_alignment_and_git_collab.md`](07_assignment01_feedback_alignment_and_git_collab.md).
 
+## Prompt 7 — AURAM rebrand + tier-1 upgrade after the Antigravity audit (2026-11-19)
+
+Verbatim in [`08_antigravity_elon_musk_upgrade_prompt.md`](08_antigravity_elon_musk_upgrade_prompt.md). The audit input prompt is [`prompt_01_antigravity`](prompt_01_antigravity), committed by Roni. The same message was sent twice (the first build was killed for low memory).
+
 ## Later prompts
 
 <!-- Append every further user prompt here, verbatim, with date. -->
