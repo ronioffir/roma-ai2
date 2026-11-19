@@ -1,0 +1,4 @@
+model,MAE,RMSE,R2,resid_var
+keypoints,1.470,1.795,0.961,3.207
+regression,3.075,3.838,0.821,14.671
+fusion,0.899,1.133,0.984,1.284

@@ -357,6 +357,15 @@ Verbatim in [`01_user_rejects_ux_luxury_design_prompt.md`](01_user_rejects_ux_lu
 
 Verbatim in [`06_user_design_corrections_prompt.md`](06_user_design_corrections_prompt.md). The GitHub password in that message is **redacted** and was not used.
 
+## Prompt 5 — Pocket-mirror logo + 12-skill red-team polish (2026-11-18)
+
+Verbatim in [`06_iteration3_pocket_mirror_logo_and_red_team_polish.md`](06_iteration3_pocket_mirror_logo_and_red_team_polish.md).
+The file name was set by the user, so two files share the `06_` prefix.
+
+## Prompt 6 — Assignment 01 feedback alignment + two-author Git (2026-11-19)
+
+Verbatim in [`07_assignment01_feedback_alignment_and_git_collab.md`](07_assignment01_feedback_alignment_and_git_collab.md).
+
 ## Later prompts
 
 <!-- Append every further user prompt here, verbatim, with date. -->

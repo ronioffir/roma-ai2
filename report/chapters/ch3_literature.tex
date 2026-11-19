@@ -128,7 +128,7 @@ q(\mathbf{x}_t \mid \mathbf{x}_0) = \mathcal{N}\!\big(\sqrt{\bar\alpha_t}\,\math
 
 טבלה~\ref{tab:litmatrix} מרכזת את הסקירה. השורות הן המקורות והעמודות הן שש יכולות שהפרויקט דורש. עיגול מלא מסמן יכולת שנבחנה במלואה, עיגול ריק יכולת חלקית, וקו יכולת שלא נבחנה.
 
-\begin{reporttable}[\footnotesize]{מטריצת הספרות: מקורות מול שש יכולות. המשבצות הריקות הן הפער}{tab:litmatrix}{R Q{1.2cm} Q{1.2cm} Q{1.2cm} Q{1.2cm} Q{1.2cm} Q{1.2cm}}
+\begin{reporttable}[\footnotesize]{מטריצת הספרות: מקורות מול שש יכולות. המשבצות הריקות הן הפער}{tab:litmatrix}{R Q{1.0cm} Q{1.0cm} Q{1.0cm} Q{1.0cm} Q{1.0cm} Q{1.0cm}}
 \headrow \hc{מקור} & \hc{כיול צבע} & \hc{עוגן ביומטרי} & \hc{גוף מטרי} & \hc{הדמיה} & \hc{אחזור וטרנד} & \hc{עלות ונייד} \\ \midrule
 \en{FFCC} \cite{barron2017ffcc} & \cellok & \cellno & \cellno & \cellno & \cellno & \cellpartial \\
 \en{FC4} \cite{hu2017fc4} & \cellok & \cellno & \cellno & \cellno & \cellno & \cellno \\
@@ -149,7 +149,7 @@ q(\mathbf{x}_t \mid \mathbf{x}_0) = \mathcal{N}\!\big(\sqrt{\bar\alpha_t}\,\math
 \en{RAG} \cite{lewis2020rag} & \cellno & \cellno & \cellno & \cellno & \cellok & \cellno \\
 \en{Fashion Forward} \cite{alhalah2017fashionforward} & \cellno & \cellno & \cellno & \cellno & \cellok & \cellno \\
 סקירת המלצות אופנה \cite{deldjoo2023fashionrec} & \cellno & \cellno & \cellpartial & \cellno & \cellok & \cellno \\
-\hlrow \textbf{הפרויקט המוצע: \en{AuraTwin AI} -- זה הפער} & \cellok & \cellok & \cellok & \cellok & \cellok & \cellok \\
+\hlrow \textbf{הפרויקט המוצע, \en{AuraTwin AI}, סוגר את הפער} & \cellok & \cellok & \cellok & \cellok & \cellok & \cellok \\
 \end{reporttable}
 
 הקריאה של הטבלה לאורך העמודות מלמדת יותר מהקריאה לאורך השורות. ארבע העמודות הראשונות מכוסות היטב, כל אחת בנפרד. אף מקור אינו מכסה יותר משתי יכולות במלואן, ואף מקור בתחום ההדמיה אינו מכסה את כיול הצבע או את העוגן הביומטרי. עמודת העלות והפריסה בנייד ריקה כמעט לגמרי בתחום ההדמיה: המאמרים מדווחים על איכות, ולא על עלות ליחידה. השורה האחרונה היא התחייבות ולא הישג: זו המשבצת שהפרויקט מתחייב למלא.
@@ -173,7 +173,7 @@ q(\mathbf{x}_t \mid \mathbf{x}_0) = \mathcal{N}\!\big(\sqrt{\bar\alpha_t}\,\math
 מאמר הדגל (\en{Flagship Paper}) הוא הפרסום שממנו הפרויקט שואב את הבסיס המתודולוגי הישיר ביותר. הוא נבחר בחיתוך של שלושה קריטריונים (איור~\ref{fig:venn}): במה שפיטה בדירוג גבוה, קרבה ישירה לבעיה, וחזרתיות (\en{Replicability}) שמאפשרת לשחזר את התוצאות \cite{segal2026booklet}.
 
 \begin{reportfigure}{מאמר הדגל נמצא בחיתוך של שלושת הקריטריונים}{fig:venn}
-\begin{tikzpicture}[x=1cm,y=1cm,
+\begin{tikzpicture}[x=1cm,y=1cm,scale=0.88,
   cat/.style={fill=#1,text=brandcream,font=\small\bfseries,rounded corners=7pt,inner xsep=7pt,inner ysep=3pt},
   pap/.style={fill=white,draw=#1,line width=0.6pt,font=\scriptsize,rounded corners=2pt,inner sep=2pt,align=center}]
   % three distinct hues: Velvet Forest (venue), Copper (closeness), Dust (replicability)
@@ -197,7 +197,7 @@ q(\mathbf{x}_t \mid \mathbf{x}_0) = \mathcal{N}\!\big(\sqrt{\bar\alpha_t}\,\math
 
 טבלה~\ref{tab:flagcand} מראה כיצד הוכרעה הבחירה בין המועמדים. \en{TryOnDiffusion} עומדת בשני הקריטריונים הראשונים, אך המודל והנתונים שלה אינם זמינים לציבור, ולכן אי אפשר לשחזר את תוצאותיה. \en{IDM-VTON} עומדת בשלושתם: פורסמה בכנס \en{ECCV 2024}, עוסקת ישירות בהדמיה בתמונות "מהשטח", ופרסמה קוד ומשקלים.
 
-\begin{reporttable}{המועמדים למאמר הדגל מול שלושת הקריטריונים}{tab:flagcand}{R Q{2.0cm} Q{2.3cm} Q{2.3cm}}
+\begin{reporttable}{המועמדים למאמר הדגל מול שלושת הקריטריונים}{tab:flagcand}{R Q{2.3cm} Q{2.75cm} Q{2.75cm}}
 \headrow \hc{מועמד} & \hc{במה שפיטה} & \hc{קרבה לבעיה} & \hc{חזרתיות} \\ \midrule
 \en{TryOnDiffusion} \cite{zhu2023tryondiffusion} & \en{CVPR 2023} \cellok & גבוהה \cellok & קוד ונתונים סגורים \cellno \\
 \en{StableVITON} \cite{kim2024stableviton} & \en{CVPR 2024} \cellok & גבוהה \cellok & קוד פתוח \cellok \\
@@ -278,3 +278,11 @@ q(\mathbf{x}_t \mid \mathbf{x}_0) = \mathcal{N}\!\big(\sqrt{\bar\alpha_t}\,\math
 \end{keymessagebox}
 
 הפער נבנה בדרך של ערעור על הנחה (\en{Problematization}) ולא רק באיתור משבצת ריקה, במובן שהציעו סנדברג ואלבסון \cite{sandberg2011gap}: ההנחה שצבעי תמונת הקלט נכונים משותפת לכל הספרות של תחום ג, ולכן שיפור של מודל ההדמיה לבדו לא יסגור אותו. ההשערות בסעיף~\ref{sec:rq} בוחנות את הפער הזה ישירות. מידות הגוף והשער הכלכלי אינם חלק מטענת הפער: הם רכיבי אינטגרציה הנדסיים, שנמדדים בדרישות המפרט. היקף הטענה מוגבל למקורות שנסקרו: חיפוש שיטתי לפי פרוטוקול קבוע (מאגרי \en{IEEE Xplore}, \en{ACM DL} ו-\en{Google Scholar}, צירופי מילים של עין, לובן העין ואיזון לבן עם סלפי וגוון עור) מתוכנן כחלק ממשימה \en{TSK-1.1}, והניסוח יעודכן לפי תוצאותיו. הפרויקט מציע לסגור אותו לפני מודל ההדמיה, בשכבת הכיול, ולהעביר אל מודל הדגל קלט מכויל ומידות מטריות כהתניה נוספת. פרק~\ref{ch:market} יבחן אם פער זה קיים גם במוצרים המסחריים, ופרק~\ref{ch:design} יתרגם אותו לארכיטקטורה.
+
+\subsection{הרצה מקדימה של מבחני ההשערות}
+\label{sec:pilot}
+כדי לוודא שתכנון הניתוח בסעיף~\ref{sec:rq} ישים, הוא הורץ על ניסוי מדומה בגודל המתוכנן: \num{120} משתתפות, ארבע תאורות לכל אחת, מתוך \num{4,000} צילומי הסימולציה (\en{scripts/statistical\_validation.py}). הממוצע של ההפרש המזווג הוא \num{2.99}, עם רווח סמך של \num{95\%} \num{[2.79, 3.18]}. מבחן $t$ מזווג נותן \num{$t(119) = 30.9$}, ומבחן וילקוקסון מאשר את הכיוון, שניהם עם \num{$p < 0.001$}, וגודל האפקט הוא \num{$d_z = 2.82$}. הגבול העליון של חציון השגיאה הוא \num{1.54}, מתחת לסף \num{1.8}. לכן שתי השערות האפס במשוואה~\eqref{eq:hyp} נדחות גם אחרי תיקון הולם.
+
+\begin{examplebox}[מה אנחנו לומדות מזה, כסטודנטיות לסטטיסטיקה]
+גודל האפקט בסימולציה מנופח: הצילומים של כל משתתפת מדומה הוגרלו באופן בלתי תלוי, בעוד שבמציאות צילומים של אותה משתתפת מתואמים. לכן ההרצה מאמתת את צינור הניתוח, ולא את גודל האפקט. מסיבה זו חישוב העוצמה נשען על \num{$d = 0.4$} השמרני, ולא על \num{2.82}.
+\end{examplebox}
