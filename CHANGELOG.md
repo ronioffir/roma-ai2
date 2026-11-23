@@ -4,6 +4,46 @@ Template = `report/base-report.cls` (base layer) + `report/auratwin-report.cls` 
 Version source of truth: `VERSION`. Rule (booklet §15.6): a problem that repeats across the
 document is fixed **once** in the template, with a version bump and an entry here.
 
+## [3.4] — 2026-11-23 — Pass 4: final audit fixes (prompt 12)
+Fresh-context examiner (Sonnet, PDF text only): **66/100**, 15 items. Each was verified against the source before
+any fix; the resolution is in `report/work/red_team_review.md` (iteration 5).
+### Fixed
+- **Median framing:** "on the target" → the median of 1.86 **exceeds** the 1.8 target and does not meet it yet
+  (abstract, Ch.5, Table 8.1).
+- **Session cost:** the AURAM session cost was still $0.011 in Table 4.2 and in the scatter-plot star; it is now
+  $0.025, as in the text and `scatter.csv`. The persuasive "26 points above the line" was removed.
+- **Ch.2 box:** "×2.4 above the threshold" → ×3.3. **Ch.7:** "four" → "five" residuals in the medium zone
+  (Table 7.2).
+- **Literature search:** it was attributed to the wrong task (TSK-1.1, the baseline experiment) and now sits in
+  work package 1.
+- **Cover:** the hypothetical partner no longer names real companies (L'Oréal-ModiFace was also analysed as a
+  competitor).
+- **Economics labelling:** labelled "team assumptions not yet validated" in the abstract and the summary.
+  "Independent channels" became "separate channels" that share retailer conversions, and 3.8 is called the team's
+  target threshold.
+- **Power:** the observed ICC of 0.12 is below the planned range, which only raises H0a power; H0b power is low
+  while the median is near 1.8.
+- **Privacy:** "reduces regulatory exposure in advance" became "reduces but does not remove". Minors need parental
+  consent (GDPR Art. 8), and compliance will go through legal review. The open decisions now include the legal
+  framework (minors' consent, liability for a wrong recommendation). The mockup now says "the photo is not
+  stored" instead of "stays on the device".
+- **Ranking bias:** the score contains no commission or sponsorship term, and a ranking audit is planned for the
+  pilot.
+- **Defensibility:** eye-based illumination estimation is prior art [Nishino & Nayar]; the novelty is the
+  combination with the flash and the prior, so the advantage is time, not a patent.
+- **Body sizing:** the result is stated as a simulation under an independence assumption, to be tested on 60
+  participants.
+- **Notation:** "הולם" → `Holm`.
+### Not changed (with reason)
+- **Pugh accuracy score:** the examiner read the *latency* anchor ("both paths on target") as the accuracy anchor.
+  Accuracy 5 is "eye calibration + full metric body", which AURAM has.
+- **ID placeholder on the cover:** IDs are masked by requirement (master prompt).
+- **Half-page scope/assumptions section:** no room in the 44-page budget. The material exists in §2.1.4 (assumptions
+  and constraints) and Table 8.1 + the out-of-scope line.
+### Verified
+- 44 pages, chapter starts on budget, 0 errors, 0 warnings, 0 undefined references.
+- Detector, readability and number check PASS.
+
 ## [3.3] — 2026-11-23 — Pass 3: language, BiDi & readability (prompt 11)
 ### Changed (prose; no new content or numbers)
 - **Topic sentences:** 15 paragraph openers of the form "From the figure / table it emerges that…" are rewritten

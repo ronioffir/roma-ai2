@@ -361,3 +361,32 @@ reached this session as prompt 08. Response, pillar by pillar:
 | 6 Voice | generic prose | four voice boxes; third-person body kept | — |
 
 **Not re-scored.** No fresh examiner pass was run after these changes, so no new score is claimed.
+
+---
+
+## Iteration 5: final audit (Pass 4, prompt 12)
+
+Fresh-context examiner (Sonnet), PDF text only, examiner + investor persona: **66/100**, 15 ranked items.
+Every item was checked against the LaTeX source before acting.
+
+| # | Finding | Verified? | Action |
+|---|---|---|---|
+| 1 | median 1.86 described as "on" the 1.8 target | yes | reworded everywhere: exceeds the target, not met yet |
+| 2 | Pugh accuracy 5 contradicts the scale | **no**: the latency anchor was read as accuracy | unchanged; uniform-weights wording clarified |
+| 3 | session cost $0.011 vs $0.025 | yes (table **and** scatter star) | $0.025 everywhere |
+| 4 | ×2.4 vs ×3.3; "four" vs five residuals; search task | yes | fixed |
+| 5 | real companies named as the simulated partner | yes | hypothetical partner, no company named |
+| 6 | unvalidated economics shown as findings; "independent" channels | yes | labelled as assumptions; "separate", shared conversions |
+| 7 | observed ICC 0.12 outside the power grid; no H0b power | yes | sentence added |
+| 8 | defensibility | partly | prior art cited; stated as a time advantage, not a patent |
+| 9 | privacy, minors, liability; mockup "stays on device" | yes | modest claim, GDPR Art. 8, legal review, open decision (5); mockup text |
+| 10 | sponsored-ranking bias | yes | no commission/sponsor term in the score; ranking audit in the pilot |
+| 11 | CAC unvalidated in the abstract | yes | covered by the "not yet validated" label |
+| 12 | body-sizing result circular | yes | stated as a simulation under independence; 60-participant test |
+| 13 | "26 points above the line" persuasive | yes | removed |
+| 14 | no scope/assumptions section | partly | no room; §2.1.4 + Table 8.1 + out-of-scope line |
+| 15 | "הולם" for Holm; ID placeholder | yes / by design | Holm fixed; IDs masked by requirement |
+
+**Not re-scored.** The fixes address 13 of 15 items fully or partly. The structural deductions remain: all
+results are simulations, and the market/economics inputs are unvalidated assumptions. Text cannot remove
+these; only the pilot can. No new score is claimed.

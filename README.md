@@ -218,6 +218,7 @@ flowchart RL
 | [`09_pass1_completeness_and_shark_tank_prompt.md`](prompts/09_pass1_completeness_and_shark_tank_prompt.md) | Pass 1: report completeness, evidence status, edge cases, go-to-market |
 | [`10_pass2_visual_luxury_layout_prompt.md`](prompts/10_pass2_visual_luxury_layout_prompt.md) | Pass 2: visual polish, chart labels, lists page, overfull tables |
 | [`11_pass3_language_bidi_readability_prompt.md`](prompts/11_pass3_language_bidi_readability_prompt.md) | Pass 3: topic sentences, terminology, BiDi and spacing scans |
+| [`12_pass4_final_audit_release_prompt.md`](prompts/12_pass4_final_audit_release_prompt.md) | Pass 4: final fresh-context audit (66/100, 15 items) and fixes |
 
 ## Build
 

@@ -382,6 +382,10 @@ Verbatim in [`10_pass2_visual_luxury_layout_prompt.md`](10_pass2_visual_luxury_l
 
 Verbatim in [`11_pass3_language_bidi_readability_prompt.md`](11_pass3_language_bidi_readability_prompt.md).
 
+## Prompt 11 — Pass 4: final audit & release (2026-11-23)
+
+Verbatim in [`12_pass4_final_audit_release_prompt.md`](12_pass4_final_audit_release_prompt.md).
+
 ## Later prompts
 
 <!-- Append every further user prompt here, verbatim, with date. -->
