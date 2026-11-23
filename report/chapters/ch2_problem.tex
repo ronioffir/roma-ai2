@@ -44,13 +44,13 @@
   ytick={0,1}, y dir=reverse, restrict y to domain=-0.5:1.5,
   yticklabels={\heb{מצלמה, ללא תיקון},\heb{איזון לבן גלובלי}},
   yticklabel style={font=\small}, xticklabel style={font=\small},
-  legend style={at={(0.98,0.04)},anchor=south east,font=\scriptsize},
+  legend style={at={(0.98,0.96)},anchor=north east,font=\scriptsize},
   enlarge y limits=0.16, xmajorgrids, grid style={black!10},
-  nodes near coords, nodes near coords style={font=\tiny}, every node near coord/.append style={xshift=1pt}]
+  nodes near coords, nodes near coords style={font=\scriptsize,/pgf/number format/fixed,/pgf/number format/fixed zerofill,/pgf/number format/precision=2}, every node near coord/.append style={xshift=1pt}]
   \addplot[fill=brandsecondary!75,draw=brandsecondary] table[x=mean,y=idx]{figures/data/calibration_bars.csv};
   \addplot[fill=brandaccent!85,draw=brandaccent!80!black] table[x=p95,y=idx]{figures/data/calibration_bars.csv};
   \draw[brandwarn,dashed,thick] (axis cs:2.0,-0.6) -- (axis cs:2.0,1.6);
-  \node[font=\tiny,text=brandwarn,anchor=south west] at (axis cs:2.05,-0.55) {JND $\approx 2.0$};
+  \node[font=\scriptsize,text=brandwarn,anchor=south west] at (axis cs:2.05,-0.55) {JND $\approx 2.0$};
   \legend{Mean, P95}
 \end{axis}
 \end{tikzpicture}
@@ -108,7 +108,7 @@ H_{0b}\colon \tilde{e} \ge 1.8 \;\; \mathrm{vs.} \;\; H_{1b}\colon \tilde{e} < 1
 
 מפרט הדרישות בנוי לפי עקרונות תקן \en{ISO/IEC/IEEE 29148} \cite{ieee29148}: לכל דרישה מזהה ייחודי, סיווג (תפקודית, ביצועים, אילוץ או אבטחה), ערך יעד ביחידות מדידות, ושיטת אימות (טבלה~\ref{tab:req}).
 
-\begin{reporttable}[\footnotesize]{מפרט הדרישות ההנדסי של \en{AURAM}}{tab:req}{P{1.9cm} R P{1.25cm} P{3.0cm} R}
+\begin{reporttable}[\footnotesize]{מפרט הדרישות ההנדסי של \en{AURAM}}{tab:req}{P{2.05cm} R P{1.2cm} P{3.05cm} R}
 \headrow \hc{מזהה} & \hc{הדרישה} & \hc{סיווג} & \hc{ערך יעד} & \hc{שיטת אימות} \\ \midrule
 \en{REQ-VIS-01} & כיול גוון העור בתאורה לא מבוקרת & ביצועים & \num{$\tilde{\Delta E}_{00} \le 1.8$}; \num{$P_{95} \le 4.5$} & \num{120} משתתפות, \num{4} תאורות, מול ספקטרופוטומטר \\
 \en{REQ-VIS-02} & איתור עוגני העין (לובן וקשתית) & תפקודית & \num{$\ge 97\%$}; \num{$\text{IoU} \ge 0.85$} & \num{500} תמונות מתויגות ידנית \\

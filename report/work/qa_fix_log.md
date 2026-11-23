@@ -136,3 +136,17 @@ Final: **44 pages**, 0 errors, **0 warnings**, QA detector PASS, readability & m
 | Edge-case table pushed Ch.7 to 3 pages | 5 single-line rows, intro folded into one sentence | 44 pages |
 
 Final: 44 pages, 0 errors, 0 warnings, detector PASS, readability PASS, number check PASS.
+
+---
+
+## Round 8: Pass 2 visual polish (prompt 10)
+
+| Finding | Level | Fix | Verification |
+|---|---|---|---|
+| Lists page ד׳ overflowed by 10.7 pt into the footer | template | abbreviations in 3 columns | 0 overfull vboxes, page render |
+| `\tiny` chart labels (Figs 2.2, 4.2, 4.4, 5.3, 5.4, 6.1, 6.2) | one-off | `\scriptsize`, higher-contrast colour, fixed 2 decimals | crop renders |
+| Fig. 2.2 legend over a bar; Fig. 5.3 label collisions | one-off | legend top-right; label removed / moved | crop renders |
+| 17 overfull lines (tables) | one-off | column widths | 5 left, all < 5 pt |
+| 20% gap on p.9 | tried `\@nobreaktrue` | **reverted** (45 pages) | 44 pages |
+
+Final: 44 pages, 0 errors, 0 warnings, 0 undefined references; detector, readability and number check PASS.

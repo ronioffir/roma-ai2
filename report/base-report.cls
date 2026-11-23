@@ -206,7 +206,7 @@
 \newenvironment{abbrevtable}{%
   \par\setlength{\columnsep}{16pt}\setlength{\parskip}{0.6pt}%
   \let\en\enlong   % expansions must wrap inside a narrow column
-  \begin{multicols}{2}}{\end{multicols}}
+  \begin{multicols}{3}}{\end{multicols}}% v3.2: 3 columns; the lists page had no bottom margin left
 
 %% Captions: table caption ABOVE, figure caption BELOW (booklet Table 11.1).
 \RequirePackage[font={small,singlespacing},labelfont={bf,color=brandprimary},

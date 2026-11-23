@@ -374,6 +374,10 @@ Verbatim in [`08_antigravity_elon_musk_upgrade_prompt.md`](08_antigravity_elon_m
 
 Verbatim in [`09_pass1_completeness_and_shark_tank_prompt.md`](09_pass1_completeness_and_shark_tank_prompt.md).
 
+## Prompt 9 — Pass 2: visual luxury & layout (2026-11-23)
+
+Verbatim in [`10_pass2_visual_luxury_layout_prompt.md`](10_pass2_visual_luxury_layout_prompt.md).
+
 ## Later prompts
 
 <!-- Append every further user prompt here, verbatim, with date. -->

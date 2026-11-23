@@ -4,6 +4,34 @@ Template = `report/base-report.cls` (base layer) + `report/auratwin-report.cls` 
 Version source of truth: `VERSION`. Rule (booklet §15.6): a problem that repeats across the
 document is fixed **once** in the template, with a version bump and an entry here.
 
+## [3.2] — 2026-11-23 — Pass 2: visual polish & layout cleanliness (prompt 10)
+### Changed (template)
+- Abbreviation list in **three columns** (`abbrevtable`). Preliminary page ד׳ had overflowed its text block by
+  10.7 pt and ran into the footer; it now has a clean bottom margin.
+### Fixed (figures)
+- **Value labels:** the value labels of Figs 2.2 and 5.4 go from `\tiny` to `\scriptsize`, with two fixed
+  decimals (12.40, not 12.4), matching the text and the CSVs.
+- **Legends:** the Fig. 2.2 legend moves top-right (it covered the gray-world P95 bar), and the Fig. 5.4 legend is
+  enlarged.
+- **Radar:** tick labels `\tiny` → `\scriptsize`.
+- **User journey (Fig. 4.4):** time labels `\tiny` → `\scriptsize`, in Dust instead of a pale grey (contrast).
+- **Architecture (Fig. 5.3):**
+  - edge labels → `\scriptsize`;
+  - "funded" label removed: it overlapped the router box in a gap narrower than the word, and the text states it;
+  - "Lab, keypoints, H" moved off the cloud-lane title.
+- **WBS / Gantt (Figs 6.1–6.2):** task, week and row labels `\tiny` → `\scriptsize`.
+- The UI mockup keeps its small UI micro-typography on purpose.
+### Fixed (tables and captions)
+- Column widths in Tables 2.2, 3.2, 4.2 and 7.1: unbreakable IDs were 2–4 pt wider than their columns.
+- Overfull lines: 17 → 5, all < 5 pt. Overfull vboxes: 2 → 0.
+- Shorter captions for Table 5.6 and Fig. 5.5, so each fits one line in the lists.
+### Tried and reverted
+- `\@nobreaktrue` before §3.3 (to fill a 20% gap on p.9). It pushed the report to 45 pages; reverted.
+### Verified
+- 44 pages, chapter starts 1/4/8/17/23/31/35/37, references 38.
+- 0 errors, 0 warnings, 0 undefined references.
+- QA detector PASS, readability & math PASS, number check PASS.
+
 ## [3.1] — 2026-11-23 — Pass 1: report completeness & investor sharpness (prompt 09)
 ### Changed (content only; layout, template and page budget unchanged)
 - **Ch.1 manager box:** purpose of the report, its three decision-makers (advisor/committee, partner, team) and

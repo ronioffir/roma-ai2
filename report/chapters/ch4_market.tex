@@ -74,7 +74,7 @@
 
 טבלה~\ref{tab:compare} מעמתת את המוצרים עם מאמר הדגל ועם הפתרון המתוכנן, לפי שמונה פרמטרים הנדסיים.
 
-\begin{reporttable}[\footnotesize]{השוואה רב-פרמטרית: מוצרים מסחריים, מאמר הדגל והפתרון המוצע (הערכת הצוות)}{tab:compare}{P{1.65cm} C C C C C C}
+\begin{reporttable}[\footnotesize]{השוואה רב-פרמטרית: מוצרים מסחריים, מאמר הדגל והפתרון המוצע (הערכת הצוות)}{tab:compare}{P{1.75cm} C C C C C C}
 \headrow \hc{פרמטר} & \hc{\en{ModiFace}} & \hc{\en{YouCam}} & \hc{\en{Zeekit}} & \hc{\en{Stitch}\newline\en{Fix}} & \hc{\en{IDM-}\newline\en{VTON}} & \hc{\en{AURAM}} \\ \midrule
 טכנולוגיה & \en{AR} פנים & \en{AR} פנים ושיער & עיוות בגד & טבלאי ואנושי & דיפוזיה & היברידי \\
 כיול צבע & חלקי & חלקי & אין & אין & אין & עוגן עין \\
@@ -95,7 +95,7 @@
 
 \begin{reportfigure}{תרשים רדאר: פרופיל ביצועים על שישה צירים (הערכת הצוות, סולם \num{0--5})}{fig:radar}
 \begin{tikzpicture}
-\begin{polaraxis}[width=8.4cm, ymin=0, ymax=5, ytick={1,2,3,4,5}, yticklabel style={font=\tiny},
+\begin{polaraxis}[width=8.4cm, ymin=0, ymax=5, ytick={1,2,3,4,5}, yticklabel style={font=\scriptsize},
   xtick={0,60,120,180,240,300},
   xticklabels={\heb{כיול צבע},\heb{התאמת גזרה},\heb{פוטו-ריאליזם},\heb{מהירות},\heb{כיסוי קטגוריות},\heb{רווח לחישוב}},
   xticklabel style={font=\scriptsize}, grid style={black!15},
@@ -203,10 +203,10 @@ M = R_{\text{aff}} + R_{\text{sub}} + n\,s\,f + n\,(1-s)\,e^{-\beta t}\,\frac{\t
     \node[num=\c] at (\n.north) {\t};
   \draw[-Stealth,very thick,brandaccent] (s1) -- (s2); \draw[-Stealth,very thick,brandaccent] (s2) -- (s3);
   \draw[-Stealth,very thick,brandaccent] (s3) -- (s4);
-  \node[font=\tiny,text=brandmuted] at (9.55,-1.68) {$\le$ 30 s};
-  \node[font=\tiny,text=brandmuted] at (6.37,-1.68) {$\le$ 1.8 s};
-  \node[font=\tiny,text=brandmuted] at (3.18,-1.68) {$\le$ 3 s + $\le$ 4.5 s};
-  \node[font=\tiny,text=brandmuted] at (0,-1.68) {1 click};
+  \node[font=\scriptsize,text=brandsecondary] at (9.55,-1.68) {$\le$ 30 s};
+  \node[font=\scriptsize,text=brandsecondary] at (6.37,-1.68) {$\le$ 1.8 s};
+  \node[font=\scriptsize,text=brandsecondary] at (3.18,-1.68) {$\le$ 3 s + $\le$ 4.5 s};
+  \node[font=\scriptsize,text=brandsecondary] at (0,-1.68) {1 click};
 \end{tikzpicture}
 \end{reportfigure*}
 

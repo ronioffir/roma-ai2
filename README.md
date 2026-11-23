@@ -216,6 +216,7 @@ flowchart RL
 | [`prompt_01_antigravity`](prompts/prompt_01_antigravity) | Roni's red-team audit prompt to Antigravity (input only) |
 | [`08_antigravity_elon_musk_upgrade_prompt.md`](prompts/08_antigravity_elon_musk_upgrade_prompt.md) | AURAM rebrand, spectral physics, mixed model, tiered economics |
 | [`09_pass1_completeness_and_shark_tank_prompt.md`](prompts/09_pass1_completeness_and_shark_tank_prompt.md) | Pass 1: report completeness, evidence status, edge cases, go-to-market |
+| [`10_pass2_visual_luxury_layout_prompt.md`](prompts/10_pass2_visual_luxury_layout_prompt.md) | Pass 2: visual polish, chart labels, lists page, overfull tables |
 
 ## Build
 

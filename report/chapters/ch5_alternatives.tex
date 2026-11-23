@@ -140,7 +140,7 @@ S_j = \sum_{i=1}^{n} w_i \cdot c_{ij}, \qquad \sum_{i=1}^{n} w_i = 1.00 .
 \begin{tikzpicture}[x=1cm,y=1cm,
   m/.style={draw=#1,fill=#1!12,rounded corners=3pt,line width=0.8pt,minimum height=0.8cm,
             text width=2.25cm,align=center,font=\scriptsize},
-  a/.style={-Stealth,thick,brandprimary}, lbl/.style={font=\tiny,text=black!70,fill=white,inner sep=1pt}]
+  a/.style={-Stealth,thick,brandprimary}, lbl/.style={font=\scriptsize,text=black!75,fill=white,inner sep=1pt}]
   % lanes
   \fill[brandsecondary!6] (-0.3,0.9) rectangle (12.1,-1.25);
   \fill[brandprimary!5] (-0.3,-1.45) rectangle (12.1,-5.35);
@@ -168,10 +168,10 @@ S_j = \sum_{i=1}^{n} w_i \cdot c_{ij}, \qquad \sum_{i=1}^{n} w_i = 1.00 .
   \node[m=brandaccent] (soc) at (1.3,-6.3) {\en{Social media}\\\en{public posts}};
   % flows
   \draw[a] (cap) -- (eye); \draw[a] (eye) -- (cal); \draw[a] (cal) -- (kp);
-  \draw[a] (kp) -- node[lbl,right] {\enlong{Lab, keypoints, H}} (gw);
+  \draw[a] (kp) -- node[lbl,left] {\enlong{Lab, keypoints, H}} (gw);
   \draw[a] (gw) -- (smpl); \draw[a] (smpl) -- (rag); \draw[a] (trend) -- (rag);
   \draw[a] (rag) -- (rank); \draw[a] (kg) -- (rag); \draw[a] (rank) -- (gate);
-  \draw[a] (gate) -- node[lbl,above] {\en{funded}} (vton);
+  \draw[a] (gate) -- (vton);
   \draw[a] (vton.north) -- (gw.south);
   \draw[a,brandaccent!80!black] (ads) -- (gate); \draw[a,brandaccent!80!black] (aff) -- (kg);
   \draw[a,brandaccent!80!black] (soc) -- (trend);
@@ -204,9 +204,9 @@ S_j = \sum_{i=1}^{n} w_i \cdot c_{ij}, \qquad \sum_{i=1}^{n} w_i = 1.00 .
   ytick={0,1,2,3,4,5}, y dir=reverse,
   yticklabels={\heb{מצלמה},\heb{איזון לבן גלובלי},\heb{לובן העין, אלכסוני},\heb{לובן + קשתית, אלכסוני},\heb{הבזק בלבד},\heb{\en{AURAM} (מוצע)}},
   yticklabel style={font=\scriptsize}, xticklabel style={font=\scriptsize}, label style={font=\scriptsize},
-  legend style={at={(0.98,0.04)},anchor=south east,font=\tiny},
+  legend style={at={(0.98,0.04)},anchor=south east,font=\scriptsize},
   enlarge y limits=0.12, xmajorgrids, grid style={black!10},
-  nodes near coords, nodes near coords style={font=\tiny}]
+  nodes near coords, nodes near coords style={font=\scriptsize,/pgf/number format/fixed,/pgf/number format/fixed zerofill,/pgf/number format/precision=2}]
   \addplot[fill=brandsecondary!75,draw=brandsecondary] table[x=mean,y=idx]{figures/data/calibration_bars.csv};
   \addplot[fill=brandaccent!85,draw=brandaccent!80!black] table[x=p95,y=idx]{figures/data/calibration_bars.csv};
   \draw[brandwarn,dashed,thick] (axis cs:1.8,-0.6) -- (axis cs:1.8,5.6);
@@ -241,7 +241,7 @@ S_j = \sum_{i=1}^{n} w_i \cdot c_{ij}, \qquad \sum_{i=1}^{n} w_i = 1.00 .
 \end{equation}
 כאשר $\hat{C}_k$ הוא האומדן של מקור $k$, $\sigma_k^2$ שונות השגיאה שלו, שנאמדת ממדגם הכיול, ו-$\tau_k$ הדיוק שלו. טבלה~\ref{tab:fusion} משווה את שלוש הגישות על היקף המותן, במדגם בדיקה מדומה של \num{634} אנשים.
 
-\begin{reporttable*}{אומדן היקף המותן במדגם הבדיקה: שגיאה מוחלטת ממוצעת, שורש השגיאה הריבועית, $R^2$ ושונות השארית (\en{cm})}{tab:fusion}{R Q{1.5cm} Q{1.5cm} Q{1.5cm} Q{1.9cm}}
+\begin{reporttable*}{אומדן היקף המותן במדגם הבדיקה: \en{MAE}, \en{RMSE}, $R^2$ ושונות השארית (\en{cm})}{tab:fusion}{R Q{1.5cm} Q{1.5cm} Q{1.5cm} Q{1.9cm}}
 \headrow \hc{מודל} & \hc{\en{MAE}} & \hc{\en{RMSE}} & \hc{$R^2$} & \hc{$\sigma^2_{\text{res}}$} \\ \midrule
 רגרסיה על משתנים מדווחים & \num{3.08} & \num{3.84} & \num{0.82} & \num{14.67} \\
 נקודות ציון בלבד (שלוש תמונות) & \num{1.47} & \num{1.80} & \num{0.96} & \num{3.21} \\
@@ -270,7 +270,7 @@ v_t(s) = \frac{d}{dt}\log\big(1+n_t(s)\big),
 \subsection{ממשק המשתמש: תוסף הדפדפן והאפליקציה הנלווית}
 הארכיטקטורה פוגשת את המשתמשת בשני משטחים (איור~\ref{fig:mockup}). תוסף הדפדפן נפתח כחלונית צד בדף מוצר של קמעונאי שותף, ומציג את המידה המומלצת, את התאמת הגוון ואת כפתור ההדמיה. האפליקציה הנלווית משמשת לשגרת הבוקר: גוון העור המכויל, טרנד עולה, ושלושה כרטיסי "קנייה בלחיצה" ללבוש, לאיפור ולציפורניים. בשני המשטחים מוצג סימון קבוע שהתמונה נשארת במכשיר, כדי שהפרטיות שבתכן תהיה גלויה גם בממשק.
 
-\begin{reportfigure}{מוקאפ של ממשק \en{AURAM}: חלונית התוסף בדף מוצר (משמאל) והאפליקציה הנלווית (מימין). הערכים להמחשה}{fig:mockup}
+\begin{reportfigure}{מוקאפ של ממשק \en{AURAM}: חלונית התוסף בדף מוצר והאפליקציה הנלווית (ערכים להמחשה)}{fig:mockup}
 \begin{tikzpicture}[x=1cm,y=1cm,font=\sffamily\scriptsize,
   % soft shadow = two stacked low-opacity layers (standard TikZ only, no extra package)
   softshadow/.style={preaction={fill=brandprimary,opacity=0.06,transform canvas={yshift=-2.4pt}},

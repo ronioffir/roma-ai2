@@ -1,6 +1,6 @@
 # QA audit report — bidi-qa-detector
 
-- Generated: 2026-11-23 11:08
+- Generated: 2026-11-23 11:41
 - PDF: `report\report.pdf` — 44 pages (expected 44 = 4 preliminary + 40 body)
 - Detector is read-only: no source file was modified.
 - **Verdict: PASS** (0 findings)
