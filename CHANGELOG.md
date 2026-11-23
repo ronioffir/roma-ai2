@@ -4,6 +4,32 @@ Template = `report/base-report.cls` (base layer) + `report/auratwin-report.cls` 
 Version source of truth: `VERSION`. Rule (booklet §15.6): a problem that repeats across the
 document is fixed **once** in the template, with a version bump and an entry here.
 
+## [3.1] — 2026-11-23 — Pass 1: report completeness & investor sharpness (prompt 09)
+### Changed (content only; layout, template and page budget unchanged)
+- **Ch.1 manager box:** purpose of the report, its three decision-makers (advisor/committee, partner, team) and
+  "why now". It is rewritten at the same length.
+- **Ch.4 §4.5:** the three moats are condensed into one paragraph. A new **three-step gated go-to-market** follows:
+  1. one partner retailer with an A/B test on returns and add-to-cart;
+  2. the companion app for users acquired via the extension;
+  3. licensing to further retailers only after a proven drop in returns.
+
+  CAC and conversion uplift are flagged as unvalidated pilot targets.
+- **Ch.7 Table 7.3 (new):** edge cases and failure modes. These cover glasses, makeup or lashes, night-mode screen,
+  mixed light, skin change or red/yellow sclera (no medical inference), and the sponsored-ranking conflict of
+  interest (sponsorship sets try-on availability, not the score).
+- **Ch.8:** the 3-actions figure is replaced by Table 8.1, the **evidence status** of colour, body, try-on,
+  economics and partner (what exists today vs what is still open). It is followed by the prioritized open decisions
+  with triggers and fallbacks, an explicit **out-of-scope** line, and the immediate actions (now in text).
+- **Grounding:** no new numbers were introduced.
+### Verified
+- 44 pages, chapter starts 1/4/8/17/23/31/35/37, references 38, 0 errors, 0 warnings.
+- QA detector PASS, readability & math PASS, number check PASS.
+### Skills applied
+- `red-team-examiner` (checklist applied in this session; no fresh-context examiner run).
+- `expert-committee-prd`, `ux-entrepreneur-strategist`, `scientific-hebrew-writer`.
+- `bidi-qa-detector` / `bidi-qa-fixer`, `human-readability-math-auditor`.
+- The repository has no GitHub-workflow skill; the established two-author commit convention was followed.
+
 ## [3.0] — 2026-11-19 — AURAM: rebrand, spectral physics, hierarchical statistics, tiered economics (prompt 08)
 ### Brand
 - The product is renamed **AURAM** (Aura + RAM) in the chapters, cover, `main.tex`, classes, scripts, README, PRD and

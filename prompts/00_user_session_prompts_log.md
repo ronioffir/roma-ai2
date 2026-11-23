@@ -370,6 +370,10 @@ Verbatim in [`07_assignment01_feedback_alignment_and_git_collab.md`](07_assignme
 
 Verbatim in [`08_antigravity_elon_musk_upgrade_prompt.md`](08_antigravity_elon_musk_upgrade_prompt.md). The audit input prompt is [`prompt_01_antigravity`](prompt_01_antigravity), committed by Roni. The same message was sent twice (the first build was killed for low memory).
 
+## Prompt 8 — Pass 1: completeness & Shark-Tank sharpness (2026-11-23)
+
+Verbatim in [`09_pass1_completeness_and_shark_tank_prompt.md`](09_pass1_completeness_and_shark_tank_prompt.md).
+
 ## Later prompts
 
 <!-- Append every further user prompt here, verbatim, with date. -->

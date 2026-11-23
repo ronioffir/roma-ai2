@@ -126,3 +126,13 @@ Final: **44 pages**, 0 errors, **0 warnings**, QA detector PASS, readability & m
 | Build killed by the OS (low memory) | environment | passes run one per call in the foreground; aux files cleaned | rebuild |
 
 Final: **44 pages**, 0 errors, **0 warnings**, QA detector PASS, readability & math PASS (19 equations), number check PASS.
+
+---
+
+## Round 7: Pass 1 completeness (prompt 09)
+
+| Finding | Fix | Verification |
+|---|---|---|
+| Edge-case table pushed Ch.7 to 3 pages | 5 single-line rows, intro folded into one sentence | 44 pages |
+
+Final: 44 pages, 0 errors, 0 warnings, detector PASS, readability PASS, number check PASS.

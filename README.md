@@ -215,6 +215,7 @@ flowchart RL
 | [`07_assignment01_feedback_alignment_and_git_collab.md`](prompts/07_assignment01_feedback_alignment_and_git_collab.md) | alignment with the Assignment 01 feedback + two-author Git |
 | [`prompt_01_antigravity`](prompts/prompt_01_antigravity) | Roni's red-team audit prompt to Antigravity (input only) |
 | [`08_antigravity_elon_musk_upgrade_prompt.md`](prompts/08_antigravity_elon_musk_upgrade_prompt.md) | AURAM rebrand, spectral physics, mixed model, tiered economics |
+| [`09_pass1_completeness_and_shark_tank_prompt.md`](prompts/09_pass1_completeness_and_shark_tank_prompt.md) | Pass 1: report completeness, evidence status, edge cases, go-to-market |
 
 ## Build
 
