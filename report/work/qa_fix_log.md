@@ -150,3 +150,17 @@ Final: 44 pages, 0 errors, 0 warnings, detector PASS, readability PASS, number c
 | 20% gap on p.9 | tried `\@nobreaktrue` | **reverted** (45 pages) | 44 pages |
 
 Final: 44 pages, 0 errors, 0 warnings, 0 undefined references; detector, readability and number check PASS.
+
+---
+
+## Round 9: Pass 3 language & BiDi (prompt 11)
+
+| Check | Result |
+|---|---|
+| double spaces, space before punctuation, space inside parentheses, doubled words | 0 found |
+| Latin text outside `\en{}` / `\num{}` / math in Hebrew paragraphs | 0 found |
+| "From the figure/table it emerges…" openers | 15 rewritten as topic sentences |
+| obsolete "ad gate" wording | 4 places unified |
+| typo | "שששה" → "שישה" |
+
+Final: 44 pages, 0 errors, 0 warnings, 0 undefined references; detector, readability and number check PASS.

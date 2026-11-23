@@ -4,6 +4,22 @@ Template = `report/base-report.cls` (base layer) + `report/auratwin-report.cls` 
 Version source of truth: `VERSION`. Rule (booklet §15.6): a problem that repeats across the
 document is fixed **once** in the template, with a version bump and an entry here.
 
+## [3.3] — 2026-11-23 — Pass 3: language, BiDi & readability (prompt 11)
+### Changed (prose; no new content or numbers)
+- **Topic sentences:** 15 paragraph openers of the form "From the figure / table it emerges that…" are rewritten
+  as direct topic sentences (Ch. 2–7). This was the filler pattern flagged by the red-team examiner.
+- **Terminology:** the obsolete "ad gate" (שער הפרסום) wording is unified to the value-exchange gate in the
+  Ch.4 manager box, comparison Table 4.2 and task TSK-3.2 (Tables 6.1, 6.3).
+- **Typo:** "שששה" → "שישה" (Ch.7).
+- **Density:** the densest paragraph (Ch.3 colour-constancy methods) is tightened, with the same facts and citations.
+### Verified by scan
+- **Spacing:** no double spaces, no space before punctuation, no space inside parentheses.
+- **Words:** no doubled words.
+- **BiDi:** no Latin text in a Hebrew paragraph outside `\en{}`, `\num{}` or math (custom scan).
+- **Audits:** readability & math audit PASS (punctuation spacing, Hebrew in math, symbols defined); QA detector BiDi
+  families PASS.
+- **Build:** 44 pages, chapter starts on budget, 0 errors, 0 warnings, 0 undefined references; number check PASS.
+
 ## [3.2] — 2026-11-23 — Pass 2: visual polish & layout cleanliness (prompt 10)
 ### Changed (template)
 - Abbreviation list in **three columns** (`abbrevtable`). Preliminary page ד׳ had overflowed its text block by

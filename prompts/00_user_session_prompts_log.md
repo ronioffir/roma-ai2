@@ -378,6 +378,10 @@ Verbatim in [`09_pass1_completeness_and_shark_tank_prompt.md`](09_pass1_complete
 
 Verbatim in [`10_pass2_visual_luxury_layout_prompt.md`](10_pass2_visual_luxury_layout_prompt.md).
 
+## Prompt 10 — Pass 3: language, BiDi & readability (2026-11-23)
+
+Verbatim in [`11_pass3_language_bidi_readability_prompt.md`](11_pass3_language_bidi_readability_prompt.md).
+
 ## Later prompts
 
 <!-- Append every further user prompt here, verbatim, with date. -->
