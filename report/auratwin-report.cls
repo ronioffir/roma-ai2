@@ -135,6 +135,15 @@
   \end{tikzpicture}}}
 \setpagemark{\auratwinwatermark}
 
+%% v3.5 mirrorbox -- the brand's signature callout (used once, Ch.1): Egg Nog field,
+%% Mustard frame with a thin Dust inner line, the pocket-mirror mark on the left edge.
+\newtcolorbox{mirrorbox}[1][]{basereport,colback=auraEggNog!55!white,colframe=auraMustard,
+  boxrule=0.9pt,arc=3pt,borderline={0.4pt}{2.2pt}{auraDust!70},left=2.05cm,right=11pt,top=8pt,bottom=8pt,
+  fontupper=\small,
+  before upper={\setstretch{1.18}{\headingfont\bfseries\color{auraVelvetForest}#1\par}\vspace{1pt}},
+  overlay={\begin{scope}[shift={([xshift=0.52cm,yshift=-0.66cm]frame.west)},scale=0.6]\auratwin@mark\end{scope}},
+  before={\par\needspace{6\baselineskip}}}
+
 %% Header / footer texts (directions are fixed inside every slot).
 \AtBeginDocument{%
   \setheadleft{\raisebox{-1.5pt}{\auratwinlogo[0.155]}\ \en{\docfield{short}}\ \textbar\ \texthebrew{\auratwin@typename}\ \textbar\ \en{\docfield{group}}}%

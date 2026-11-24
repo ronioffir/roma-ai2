@@ -18,18 +18,18 @@
 
 שלוש החלופות נבדלות בשאלה אחת: היכן מתבצע החישוב. חלופות \num{1} ו-\num{2} הן שני קצוות, וחלופה \num{3} מפצלת את המערכת לפי אופי כל רכיב: רכיבים רגישים לפרטיות וקלים נשארים במכשיר, רכיבים זולים ומהירים עוברים לענן, והרכיב היקר מופעל רק כשהוא ממומן. טבלה~\ref{tab:alts} מסכמת את היתרון ואת המחיר של כל אחת.
 
-\begin{reporttable}{שלוש חלופות התכן, עם היתרון והמחיר של כל אחת}{tab:alts}{P{4.6cm} R R}
+\begin{reporttable}[\footnotesize]{שלוש חלופות התכן, עם היתרון והמחיר של כל אחת}{tab:alts}{P{4.6cm} R R}
 \headrow \hc{חלופה} & \hc{היתרון} & \hc{המחיר} \\ \midrule
 \num{1}: עיבוד מלא בקצה (\en{CoreML}, \en{MediaPipe}, דיפוזיה מכווצת) & אפס עלות ענן ופרטיות מרבית & התחממות, זיכרון \num{< 4 GB}, איכות הדמיה נמוכה \\
 \num{2}: ענן מונוליטי (מודל שפה רב-מודאלי ודיפוזיה כללית) & זמן פיתוח קצר והסקה עשירה & \num{\$0.12} לסשן, \num{> 9 s}, שליטה חלשה בגזרת ה-\en{SKU} \\
 \num{3}: חישוב מפוצל היברידי עם \en{RAG} ושער & דיוק, המלצה ב-\num{$\le 1.5$ s} ב-\num{\$0.002} & מורכבות אינטגרציה ותלות בשער \\
 \end{reporttable}
 
-\textbf{חלופה \num{1}, עיבוד מלא בקצה.} כל הצינור רץ על המכשיר: איתור נקודות ציון בעזרת \en{MediaPipe}, כיול צבע, מודל גוף מוקטן, מנוע המלצה מקומי ומודל דיפוזיה מכווץ. היתרונות ברורים: אין עלות שרת, והתמונה אינה עוזבת את המכשיר. המחיר: מודל דיפוזיה שנכנס לפחות מ-\num{4 GB} מאבד איכות בקפלי בד ומתחמם (\en{Thermal Throttling}), וקטלוג של עשרות אלפי פריטים עם טרנדים כל \num{6} שעות אינו מתאים למכשיר.
+\textbf{חלופה \num{1}, עיבוד מלא בקצה.} כל הצינור רץ על המכשיר, כולל מודל דיפוזיה מכווץ: אין עלות שרת, והתמונה אינה עוזבת את המכשיר. המחיר: מודל דיפוזיה שנכנס לפחות מ-\num{4 GB} מאבד איכות בקפלי בד ומתחמם (\en{Thermal Throttling}), וקטלוג של עשרות אלפי פריטים עם טרנדים כל \num{6} שעות אינו מתאים למכשיר.
 
-\textbf{חלופה \num{2}, ענן מונוליטי.} התמונה נשלחת למודל שפה רב-מודאלי מסחרי, שמנתח אותה ומחזיר המלצות בשפה טבעית, ומודל דיפוזיה כללי מייצר את ההדמיה. זו הדרך המהירה ביותר לאב-טיפוס. המחיר: עלות של כ-\num{\$0.12} לסשן (אומדן הצוות, טוקנים ודיפוזיה), זמן תגובה של יותר מ-\num{9 s}, והעברת תמונות פנים לספק חיצוני. והחיסרון העמוק: מודל כללי "מדמיין" בגד דומה ולא את הפריט מהקטלוג, ואינו מכייל צבע.
+\textbf{חלופה \num{2}, ענן מונוליטי.} התמונה נשלחת למודל שפה רב-מודאלי מסחרי ולמודל דיפוזיה כללי, הדרך המהירה ביותר לאב-טיפוס. המחיר: כ-\num{\$0.12} לסשן (אומדן הצוות), יותר מ-\num{9 s}, והעברת תמונות פנים לספק חיצוני; ומודל כללי "מדמיין" בגד דומה ולא את הפריט מהקטלוג, ואינו מכייל צבע.
 
-\textbf{חלופה \num{3}, חישוב מפוצל היברידי.} במכשיר רצים רק הרכיבים הקלים והרגישים: איתור העין והפנים, כיול הצבע לפי עוגני העין, ואיתור נקודות ציון של הגוף והיד. לענן נשלחים רק וקטורים: צבע מכויל, נקודות ציון וגובה מדווח. בענן רצים התאמת מודל \en{SMPL-X}, אחזור וקטורי מהקטלוג ומגרף הטרנדים, ומנוע ההמלצה, בעלות של כ-\num{\$0.002} לשאילתה. מודל ההדמיה, המבוסס על מאמר הדגל לאחר זיקוק, מופעל רק אחרי שהשער נפתח. המחיר הוא מורכבות: שלושה ממשקים בין רכיבים, ותלות בכך שהשער אכן ממומן.
+\textbf{חלופה \num{3}, חישוב מפוצל היברידי.} במכשיר רצים רק הרכיבים הקלים והרגישים: איתור העין והפנים, כיול הצבע ונקודות הציון. לענן נשלחים רק וקטורים, ושם רצים התאמת \en{SMPL-X}, האחזור וההמלצה בכ-\num{\$0.002} לשאילתה; מודל ההדמיה המזוקק מופעל רק אחרי שהשער נפתח. המחיר הוא מורכבות: שלושה ממשקים בין רכיבים, ותלות בכך שהשער אכן ממומן.
 
 \textbf{סינון ראשוני מול המפרט.} לפני הניקוד נבדק אם כל חלופה מסוגלת, עקרונית, לעמוד במפרט. חלופה \num{2} נכשלת במבנה שלה בארבע דרישות: זמני התגובה (\en{REQ-LAT-05}, \en{REQ-GEN-06}), הפרטיות (\en{REQ-SEC-11}) והמרווח הכלכלי (\en{REQ-BIZ-12}). חלופה \num{1} נכשלת בשלוש: זמן ההדמיה, שמירת הזהות ועדכניות הטרנדים. חלופה \num{3} אינה נכשלת באף דרישה, אך זמן ההדמיה והמרווח הכלכלי בה תלויים באותו גורם, זיקוק מודל ההדמיה, ולכן הוא מוגדר כמשימה בנתיב הסיכון.
 
@@ -49,7 +49,7 @@ S_j = \sum_{i=1}^{n} w_i \cdot c_{ij}, \qquad \sum_{i=1}^{n} w_i = 1.00 .
 
 כל משקל נגזר מדרישה במפרט (טבלה~\ref{tab:weights}), כך שהמשקל משקף את חשיבות הדרישה ולא את העדפת הצוות.
 
-\begin{reporttable}{הקריטריונים, משקליהם והדרישות שמהן נגזרו}{tab:weights}{P{3.6cm} P{1.4cm} R}
+\begin{reporttable}[\footnotesize]{הקריטריונים, משקליהם והדרישות שמהן נגזרו}{tab:weights}{P{3.6cm} P{1.4cm} R}
 \headrow \hc{קריטריון} & \hc{משקל} & \hc{נימוק ודרישות מקושרות} \\ \midrule
 דיוק התאמה אישית & \num{0.25} & לב הבעיה: \en{REQ-VIS-01}, \en{REQ-BOD-03} \\
 עלות ליחידת שימוש & \num{0.20} & קיימות כלכלית: \en{REQ-BIZ-12} \\
@@ -60,7 +60,7 @@ S_j = \sum_{i=1}^{n} w_i \cdot c_{ij}, \qquad \sum_{i=1}^{n} w_i = 1.00 .
 \hlrow \textbf{סה"כ} & \textbf{\num{1.00}} & \\
 \end{reporttable}
 
-\begin{reporttable}{מטריצת החלטה משוקללת: ציון גולמי (ובסוגריים הציון המשוקלל)}{tab:pugh}{P{4.8cm} C C C}
+\begin{reporttable}[\footnotesize]{מטריצת החלטה משוקללת: ציון גולמי (ובסוגריים הציון המשוקלל)}{tab:pugh}{P{4.8cm} C C C}
 \headrow \hc{קריטריון (משקל)} & \hc{\num{1}: קצה} & \hc{\num{2}: ענן מונוליטי} & \hc{\num{3}: היברידי} \\ \midrule
 דיוק התאמה אישית (\num{0.25}) & \num{4 (1.00)} & \num{3 (0.75)} & \num{5 (1.25)} \\
 עלות ליחידה (\num{0.20}) & \num{5 (1.00)} & \num{2 (0.40)} & \num{4 (0.80)} \\
@@ -83,13 +83,13 @@ S_j = \sum_{i=1}^{n} w_i \cdot c_{ij}, \qquad \sum_{i=1}^{n} w_i = 1.00 .
 
 נימוקי הציונים נגזרים מהסולמות בטבלה~\ref{tab:anchors}. חלופה \num{1} מקבלת \num{4} בדיוק (כיול במכשיר, מודל גוף מוקטן) ו-\num{2} בזמן תגובה (הדמיה איטית ומתחממת). חלופה \num{2} מקבלת \num{3} בדיוק, כי מודל שפה אינו מכייל צבע ואינו מודד. חלופה \num{3} מקבלת \num{5} בדיוק, ו-\num{4} בזמן תגובה, כי מסלול ההמלצה עומד ביעד במרווח אבל מסלול ההדמיה עומד בדיוק על הגבול (סעיף~\ref{sec:latency}). בעלות ובפרטיות: \num{4}.
 
-\begin{reportfigure}{הציון הסופי של כל חלופה, מפורק לתרומת כל קריטריון}{fig:stacked}
+\begin{reportfigure}{החלופה ההיברידית מובילה בזכות דיוק ופוטו-ריאליזם יחד, לא בזכות קריטריון יחיד}{fig:stacked}
 \begin{tikzpicture}
-\begin{axis}[xbar stacked, width=11.6cm, height=4.9cm, bar width=13pt, xmin=0, xmax=5,
-  ytick={0,1,2}, yticklabels={\en{Alt 1: Edge},\en{Alt 2: Cloud},\enlong{Alt 3: Hybrid}},
+\begin{axis}[xbar stacked, width=11.6cm, height=3.6cm, bar width=9pt, xmin=0, xmax=5,
+  ytick={0,1,2}, yticklabels={\heb{חלופה \num{1}: קצה},\heb{חלופה \num{2}: ענן},\heb{חלופה \num{3}: היברידית}},
   y dir=reverse, enlarge y limits=0.3, tick label style={font=\small},
-  xlabel={Weighted score $S_j$}, xmajorgrids, grid style={black!10},
-  legend style={at={(0.5,-0.42)},anchor=north,legend columns=6,font=\scriptsize,draw=none},
+  xlabel={\heb{ציון משוקלל \num{$S_j$}}}, xmajorgrids, grid style={black!10},
+  legend style={at={(0.5,-0.66)},anchor=north,legend columns=6,font=\scriptsize,draw=none},
   reverse legend=false]
   \addplot[fill=brandhighlight,draw=white] table[x=acc,y=alt]{figures/data/pugh_stacked.csv};
   \addplot[fill=brandaccent,draw=white] table[x=cost,y=alt]{figures/data/pugh_stacked.csv};
@@ -100,7 +100,7 @@ S_j = \sum_{i=1}^{n} w_i \cdot c_{ij}, \qquad \sum_{i=1}^{n} w_i = 1.00 .
   \node[font=\scriptsize\bfseries,anchor=west] at (axis cs:3.40,0) {3.40};
   \node[font=\scriptsize\bfseries,anchor=west] at (axis cs:2.85,1) {2.85};
   \node[font=\scriptsize\bfseries,anchor=west] at (axis cs:4.30,2) {4.30};
-  \legend{Accuracy, Cost, Latency, Realism, Privacy, Dev effort}
+  \legend{\heb{דיוק},\heb{עלות},\heb{זמן תגובה},\heb{פוטו-ריאליזם},\heb{פרטיות},\heb{מאמץ פיתוח}}
 \end{axis}
 \end{tikzpicture}
 \end{reportfigure}
@@ -108,20 +108,20 @@ S_j = \sum_{i=1}^{n} w_i \cdot c_{ij}, \qquad \sum_{i=1}^{n} w_i = 1.00 .
 איור~\ref{fig:stacked} מפרק את הציון לתרומות. חלופה \num{3} מגיעה ל-\num{4.30} בעיקר בזכות הדיוק והפוטו-ריאליזם, ולא בזכות קריטריון יחיד. חלופה \num{1}, השנייה בדירוג, מקבלת את רוב ציונה מעלות ומפרטיות, ונכשלת בהדמיה. חלופה \num{2} נשענת על פוטו-ריאליזם ועל מהירות הפיתוח.
 
 \subsection{ניתוח רגישות: האם ההחלטה יציבה?}
-מטריצה טובה נבחנת בשאלה מה קורה כשהמשקלים משתנים, והניתוח נעשה בשלוש רמות. ראשית, כל משקל שונה בנפרד ב-\num{$\pm 0.05$} וב-\num{$\pm 0.10$}, ושאר המשקלים נורמלו לסכום \num{1.00}: בכל \num{24} התרחישים חלופה \num{3} נשארה ראשונה, בפער של \num{0.54} לפחות. שנית, בתרחיש הקיצון של החוברת, זמן תגובה \num{0.45} ועלות \num{0.00}, היא קיבלה \num{4.25} מול \num{2.68} ו-\num{2.40}. שלישית, בסימולציית מונטה קרלו הוגרלו \num{20,000} וקטורי משקלים מהתפלגות דיריכלה סביב המשקלים שנקבעו: חלופה \num{3} ניצחה בכולם, והאחוזון ה-\num{5} של מרווח הניצחון היה \num{0.47}. גם במשקלים אחידים לגמרי, בלי הנחה מוקדמת, היא ניצחה ב-\num{89.6\%} מהמקרים. גם שינוי של ציון יחיד ב-\num{$\pm 1$} או שינוי עוין כפול (\num{3.85} מול \num{3.70}) לא החליפו את המנצחת. איור~\ref{fig:sens} מציג את הניתוח לשני הקריטריונים הרגישים ביותר.
+ניתוח הרגישות נעשה בשלוש רמות. ראשית, כל משקל שונה בנפרד ב-\num{$\pm 0.05$} וב-\num{$\pm 0.10$}, ושאר המשקלים נורמלו לסכום \num{1.00}: בכל \num{24} התרחישים חלופה \num{3} נשארה ראשונה, בפער של \num{0.54} לפחות. שנית, בתרחיש הקיצון של החוברת, זמן תגובה \num{0.45} ועלות \num{0.00}, היא קיבלה \num{4.25} מול \num{2.68} ו-\num{2.40}. שלישית, בסימולציית מונטה קרלו הוגרלו \num{20,000} וקטורי משקלים מהתפלגות דיריכלה סביב המשקלים שנקבעו: חלופה \num{3} ניצחה בכולם, והאחוזון ה-\num{5} של מרווח הניצחון היה \num{0.47}. גם במשקלים אחידים לגמרי, בלי הנחה מוקדמת, היא ניצחה ב-\num{89.6\%} מהמקרים. גם שינוי של ציון יחיד ב-\num{$\pm 1$} או שינוי עוין כפול (\num{3.85} מול \num{3.70}) לא החליפו את המנצחת. איור~\ref{fig:sens} מציג את הניתוח לשני הקריטריונים הרגישים ביותר.
 
-\begin{reportfigure}{ניתוח רגישות: הציון של כל חלופה כפונקציה של משקל העלות ושל משקל זמן התגובה}{fig:sens}
+\begin{reportfigure}{ניתוח רגישות: ההחלטה מתהפכת רק כשמשקל העלות כמעט משולש}{fig:sens}
 \begin{tikzpicture}
 \begin{groupplot}[group style={group size=2 by 1,horizontal sep=1.3cm},
-  width=6.2cm, height=4.6cm, xmin=0, xmax=0.6, ymin=1.5, ymax=5, grid=major, grid style={black!10},
+  width=6.2cm, height=3.5cm, xmin=0, xmax=0.6, ymin=1.5, ymax=5, grid=major, grid style={black!10},
   tick label style={font=\scriptsize}, label style={font=\scriptsize}, ylabel={$S_j$}]
-\nextgroupplot[xlabel={weight of Cost}, legend style={at={(1.12,-0.38)},anchor=north,legend columns=3,font=\scriptsize,draw=none}]
+\nextgroupplot[xlabel={\heb{משקל העלות}}, legend style={at={(1.12,-0.56)},anchor=north,legend columns=3,font=\scriptsize,draw=none}]
   \addplot[brandsecondary,thick] table[x=w,y=alt1]{figures/data/sens_cost.csv};
   \addplot[brandwarn,thick,dashed] table[x=w,y=alt2]{figures/data/sens_cost.csv};
   \addplot[brandhighlight,very thick] table[x=w,y=alt3]{figures/data/sens_cost.csv};
   \draw[black!50,dotted,thick] (axis cs:0.20,1.5) -- (axis cs:0.20,5);
-  \legend{Alt 1 Edge, Alt 2 Cloud, Alt 3 Hybrid}
-\nextgroupplot[xlabel={weight of Latency}]
+  \legend{\heb{חלופה \num{1}: קצה},\heb{חלופה \num{2}: ענן},\heb{חלופה \num{3}: היברידית}}
+\nextgroupplot[xlabel={\heb{משקל זמן התגובה}}]
   \addplot[brandsecondary,thick] table[x=w,y=alt1]{figures/data/sens_lat.csv};
   \addplot[brandwarn,thick,dashed] table[x=w,y=alt2]{figures/data/sens_lat.csv};
   \addplot[brandhighlight,very thick] table[x=w,y=alt3]{figures/data/sens_lat.csv};
@@ -134,10 +134,10 @@ S_j = \sum_{i=1}^{n} w_i \cdot c_{ij}, \qquad \sum_{i=1}^{n} w_i = 1.00 .
 \section{שלב שלישי: ארכיטקטורת המערכת וזרימת הנתונים}
 \label{sec:arch}
 
-איור~\ref{fig:arch} מציג את הארכיטקטורה של החלופה שנבחרה בשלוש רצועות: מכשיר, ענן ושותפים. החצים מציינים מה עובר בין הרצועות. במסלול ההמלצה אף חץ אינו מעביר תמונה אל הענן. במסלול ההדמיה התמונה עוברת רק בהסכמה פרטנית לכל הדמיה, מעובדת בזיכרון בלבד, ונמחקת בתוך \num{60} שניות (\en{REQ-SEC-11}).
+איור~\ref{fig:arch} מציג את הארכיטקטורה שנבחרה בשלוש רצועות: מכשיר, ענן ושותפים. במסלול הזול, ההמלצה, אף חץ אינו מעביר תמונה אל הענן: מהמכשיר עוברים רק וקטורים, דרך שער ה-\en{API}, אל התאמת מודל הגוף, האחזור והדירוג. המסלול היקר, ההדמיה, מתחיל רק כשנתב החלפת הערך מאשר שההדמיה ממומנת; התמונה עוברת רק בהסכמה פרטנית לכל הדמיה, מעובדת בזיכרון בלבד ונמחקת בתוך \num{60} שניות (\en{REQ-SEC-11}). הצללית המיידית של שכבה \num{1} רצה במכשיר.
 
 \begin{reportfigure}{ארכיטקטורת \en{AURAM} וזרימת הנתונים בין המכשיר, הענן והשותפים}{fig:arch}
-\begin{tikzpicture}[x=1cm,y=1cm,
+\begin{tikzpicture}[x=1cm,y=0.84cm,
   m/.style={draw=#1,fill=#1!12,rounded corners=3pt,line width=0.8pt,minimum height=0.8cm,
             text width=2.25cm,align=center,font=\scriptsize},
   a/.style={-Stealth,thick,brandprimary}, lbl/.style={font=\scriptsize,text=black!75,fill=white,inner sep=1pt}]
@@ -149,37 +149,35 @@ S_j = \sum_{i=1}^{n} w_i \cdot c_{ij}, \qquad \sum_{i=1}^{n} w_i = 1.00 .
   \node[font=\scriptsize\bfseries,text=brandprimary,anchor=east] at (12.0,-1.68) {\heb{ענן}};
   \node[font=\scriptsize\bfseries,text=brandaccent!80!black,anchor=east] at (12.0,-5.75) {\heb{שותפים ופרסום}};
   % edge
-  \node[m=brandsecondary] (cap) at (1.3,-0.3) {\enlong{Selfie + height}\\\enlong{+ eye-colour label}};
-  \node[m=brandsecondary] (eye) at (4.3,-0.3) {\en{Face/eye landmarks}\\\enlong{sclera, iris masks}};
-  \node[m=brandsecondary] (cal) at (7.3,-0.3) {\en{MAP calibration}\\$\hat{\mathbf{M}}$, \en{skin} $L^*a^*b^*$};
-  \node[m=brandsecondary] (kp) at (10.4,-0.3) {\enlong{Body + hand}\\\enlong{keypoints, nail masks}};
+  \node[m=brandsecondary] (cap) at (1.3,-0.3) {\heb{סלפי + גובה}\\\heb{+ צבע עיניים מדווח}};
+  \node[m=brandsecondary] (eye) at (4.3,-0.3) {\heb{נקודות ציון: פנים ועין}\\\heb{מסכות לובן וקשתית}};
+  \node[m=brandsecondary] (cal) at (7.3,-0.3) {\heb{כיול \en{MAP}: \num{$\hat{\mathbf{M}}$}}\\\heb{גוון העור ב-\num{$L^*a^*b^*$}}};
+  \node[m=brandsecondary] (kp) at (10.4,-0.3) {\heb{נקודות ציון: גוף ויד}\\\heb{מסכות ציפורניים}};
   % cloud
-  \node[m=brandprimary] (gw) at (10.4,-2.4) {\en{API gateway}\\\en{vectors only}};
-  \node[m=brandprimary] (smpl) at (7.3,-2.4) {\en{SMPL-X fit}\\\en{circumferences}};
-  \node[m=brandexample] (rag) at (4.3,-2.4) {\en{Multimodal RAG}\\\enlong{CLIP + FAISS}};
-  \node[m=brandexample] (trend) at (1.3,-2.4) {\en{Trend miner}\\\en{velocity} $T(s)$};
-  \node[m=brandprimary] (rank) at (4.3,-4.3) {\enlong{Ranker + explainer}\\\en{recommendations}};
-  \node[m=brandwarn] (gate) at (7.3,-4.3) {\enlong{Value-exchange}\\\en{router (3 tiers)}};
-  \node[m=brandaccent] (vton) at (10.4,-4.3) {\en{Distilled VTON}\\\en{(flagship-based)}};
-  \node[m=brandprimary] (kg) at (1.3,-4.3) {\enlong{Catalogue + trend}\\\en{knowledge graph}};
+  \node[m=brandprimary] (gw) at (10.4,-2.4) {\heb{שער \en{API}}\\\heb{וקטורים בלבד}};
+  \node[m=brandprimary] (smpl) at (7.3,-2.4) {\heb{התאמת \en{SMPL-X}}\\\heb{היקפי גוף}};
+  \node[m=brandexample] (rag) at (4.3,-2.4) {\heb{\en{RAG} רב-מודאלי}\\\enlong{CLIP + FAISS}};
+  \node[m=brandexample] (trend) at (1.3,-2.4) {\heb{כורה הטרנדים}\\\heb{קצב צמיחה \num{$T(s)$}}};
+  \node[m=brandprimary] (rank) at (4.3,-4.3) {\heb{דירוג והסבר}\\\heb{המלצות}};
+  \node[m=brandwarn] (gate) at (7.3,-4.3) {\heb{נתב החלפת הערך}\\\heb{(שלוש שכבות)}};
+  \node[m=brandaccent] (vton) at (10.4,-4.3) {\heb{הדמיה מזוקקת}\\\heb{(לפי מאמר הדגל)}};
+  \node[m=brandprimary] (kg) at (1.3,-4.3) {\heb{קטלוג וגרף ידע}\\\heb{של טרנדים}};
   % partners
-  \node[m=brandaccent] (ads) at (7.3,-6.3) {\en{Brand sponsors}\\\en{micro-ads}};
-  \node[m=brandaccent] (aff) at (4.3,-6.3) {\en{Retailer affiliate}\\\enlong{SKU, stock, link}};
-  \node[m=brandaccent] (soc) at (1.3,-6.3) {\en{Social media}\\\en{public posts}};
+  \node[m=brandaccent] (ads) at (7.3,-6.3) {\heb{מותגים נותני חסות}\\\heb{מיקרו-אינטראקציות}};
+  \node[m=brandaccent] (aff) at (4.3,-6.3) {\heb{קמעונאי שותף}\\\heb{מלאי, מחיר וקישור}};
+  \node[m=brandaccent] (soc) at (1.3,-6.3) {\heb{רשתות חברתיות}\\\heb{פוסטים ציבוריים}};
   % flows
   \draw[a] (cap) -- (eye); \draw[a] (eye) -- (cal); \draw[a] (cal) -- (kp);
-  \draw[a] (kp) -- node[lbl,left] {\enlong{Lab, keypoints, H}} (gw);
+  \draw[a] (kp) -- node[lbl,left] {\heb{צבע, נקודות ציון, גובה}} (gw);
   \draw[a] (gw) -- (smpl); \draw[a] (smpl) -- (rag); \draw[a] (trend) -- (rag);
   \draw[a] (rag) -- (rank); \draw[a] (kg) -- (rag); \draw[a] (rank) -- (gate);
   \draw[a] (gate) -- (vton);
   \draw[a] (vton.north) -- (gw.south);
   \draw[a,brandaccent!80!black] (ads) -- (gate); \draw[a,brandaccent!80!black] (aff) -- (kg);
   \draw[a,brandaccent!80!black] (soc) -- (trend);
-  \draw[a,brandaccent!80!black] (rank.south) -- node[lbl,left] {\en{links}} (aff.north);
+  \draw[a,brandaccent!80!black] (rank.south) -- node[lbl,left] {\heb{קישורים}} (aff.north);
 \end{tikzpicture}
 \end{reportfigure}
-
-המערכת בנויה משני מסלולים. המסלול הזול, המלצה, עובר מהמכשיר דרך שער \en{API} אל התאמת מודל הגוף, האחזור והדירוג, וחוזר אל המשתמשת עם קישורי שותפים. המסלול היקר, הדמיה, מתחיל רק כשנתב החלפת הערך מאשר שההדמיה ממומנת; הצללית המיידית של שכבה \num{1} רצה במכשיר. שלושת המודולים המרכזיים מתוארים להלן.
 
 \subsection{צינור הכיול הביומטרי במכשיר}
 הכיול מכליל את מודל פון קריס שבמשוואה~\eqref{eq:vonkries} למטריצה $\mathbf{M}$, שנאמדת כאומדן \en{MAP} (\enlong{Maximum a Posteriori}) מתוך קבוצת העוגנים $\mathcal{A}$ = \{לובן העין, הקשתית\}:
@@ -197,10 +195,10 @@ S_j = \sum_{i=1}^{n} w_i \cdot c_{ij}, \qquad \sum_{i=1}^{n} w_i = 1.00 .
 \end{equation}
 כאשר $\mathbf{I}_{\text{flash}}$ ו-$\mathbf{I}_{\text{ambient}}$ הן התמונות עם המסך הלבן ובלעדיו, $F(\lambda)$ הספקטרום הידוע של המסך, $\mathbf{Q}(\lambda)$ וקטור רגישויות החיישן, $\kappa$ קנה מידה שנקבע מלובן העין של הרישום, $\boldsymbol{\eta}$ רעש, $\mathbf{x}_{\text{a}}$ ו-$\mathbf{x}_{\text{f}}$ אומדני צבע העור מהעוגן (משוואה~\eqref{eq:map}) ומההבזק, ו-$\sigma^2_{\text{a}}$, $\sigma^2_{\text{f}}$ השונויות שלהם. $\sigma^2_{\text{f}}$ נגזרת מיחס האות לרעש של ההבזק, ו-$\sigma^2_{\text{a}}$ גדלה עם אי-ההסכמה בין שני האומדנים של הקשתית, שהיא גלאי של כשל מטמרי. מודלי השונות הותאמו על סימולציית אימון נפרדת. הבדיקה נעשתה בסימולציה הספקטרלית של פרק~\ref{ch:problem}, עם לובן עין מצהיב, אדום ובוהק (איור~\ref{fig:calibfull}).
 
-\begin{reportfigure}{בדיקת היתכנות בסימולציה ספקטרלית ($n=\num{4,000}$, נתונים סינתטיים): שגיאת העור לפי שיטת כיול}{fig:calibfull}
+\begin{reportfigure}{השילוב של עוגן העין וההבזק מוריד את האחוזון ה-\num{95} מתחת ליעד; החציון עדיין על הגבול (סימולציה, $n=\num{4,000}$)}{fig:calibfull}
 \begin{tikzpicture}
-\begin{axis}[xbar, width=11.6cm, height=4.6cm, bar width=4pt,
-  xmin=0, xmax=27, xlabel={$\Delta E_{00}$ (skin, lower is better)},
+\begin{axis}[xbar, width=11.6cm, height=3.9cm, bar width=3.2pt,
+  xmin=0, xmax=27, xlabel={\heb{שגיאת צבע העור \num{$\Delta E_{00}$} (נמוך יותר טוב יותר)}},
   ytick={0,1,2,3,4,5}, y dir=reverse,
   yticklabels={\heb{מצלמה},\heb{איזון לבן גלובלי},\heb{לובן העין, אלכסוני},\heb{לובן + קשתית, אלכסוני},\heb{הבזק בלבד},\heb{\en{AURAM} (מוצע)}},
   yticklabel style={font=\scriptsize}, xticklabel style={font=\scriptsize}, label style={font=\scriptsize},
@@ -211,7 +209,7 @@ S_j = \sum_{i=1}^{n} w_i \cdot c_{ij}, \qquad \sum_{i=1}^{n} w_i = 1.00 .
   \addplot[fill=brandaccent!85,draw=brandaccent!80!black] table[x=p95,y=idx]{figures/data/calibration_bars.csv};
   \draw[brandwarn,dashed,thick] (axis cs:1.8,-0.6) -- (axis cs:1.8,5.6);
   \draw[brandwarn,dotted,thick] (axis cs:4.5,-0.6) -- (axis cs:4.5,5.6);
-  \legend{Mean, P95}
+  \legend{\heb{ממוצע},\heb{אחוזון \num{95}}}
 \end{axis}
 \end{tikzpicture}
 \end{reportfigure}
@@ -225,6 +223,41 @@ S_j = \sum_{i=1}^{n} w_i \cdot c_{ij}, \qquad \sum_{i=1}^{n} w_i = 1.00 .
 \end{reporttable*}
 
 הכשל המטמרי ניכר במספרים: העוגן האלכסוני מצוין באור יום (\num{1.18}) ומתדרדר ל-\num{3.30} ב-\en{LED}. ההבזק כמעט אדיש לתאורה (\num{2.15--2.33}) אך רועש. השילוב לוקח מכל אחד את החוזק שלו: חציון \num{1.86}, ממוצע \num{2.08}, ו-\num{55.2\%} מהצילומים מתחת לסף ההבחנה. האחוזון ה-\num{95}, \num{4.25}, נמוך מהיעד של \num{4.5}, ורווח הסמך שלו בתכנון של \num{120} משתתפות הוא \num{3.90--4.51}. לעומת זאת החציון, \num{1.86}, חורג מעט מהיעד של \num{1.8} ואינו עומד בו, ולכן הוא מוגדר כסיכון \en{RSK-ALG-07}. בעור בהיר (\en{ITA} מעל \num{41}) החציון גבוה יותר, \num{2.47}, ובעור כהה \num{1.79}; זו הסיבה לדווח לפי תת-קבוצות. בניסוי האמיתי יתווספו שיטות ייחוס לומדות, \en{FFCC} ו-\en{FC4} \cite{barron2017ffcc,hu2017fc4}.
+
+\subsection{מספר אחד אינו תשובה: ההתפלגות האחורית של החציון}
+\label{sec:posterior}
+החציון \num{1.86} הוא נקודה, והשאלה ההנדסית היא כמה בטוחים בה. לכן נתוני הניסוי המדומה (\num{120} משתתפות בארבע משפחות תאורה) נותחו שוב במודל בייסיאני היררכי על לוג השגיאה: אפקט אקראי למשתתפת, אפקט אקראי למשפחת התאורה ושונות שארית נפרדת לכל משפחה (\en{scripts/uncertainty\_voi.py}). איור~\ref{fig:posterior} מציג את ההתפלגות האחורית של החציון, ולצד כל שורה את הסיכוי שהוא עומד ביעד.
+
+\begin{reportfigure}{ההתפלגות האחורית של חציון השגיאה: היעד מושג באור יום ונכשל בתאורה מלאכותית (ניסוי מדומה; קו עבה \num{50\%}, קו דק \num{95\%})}{fig:posterior}
+\begin{tikzpicture}
+\begin{axis}[width=11.8cm, height=4.4cm, xmin=0.6, xmax=5.1, ymin=0.4, ymax=7.4,
+  ytick={1,...,6},
+  yticklabels={\heb{תאורה חדשה},\heb{ארבע התאורות יחד},\heb{\en{LED} זול},\heb{פלורסנט \en{F11}},\heb{נורת להט \en{A}},\heb{אור יום \en{D65}}},
+  yticklabel style={font=\scriptsize}, xticklabel style={font=\scriptsize}, label style={font=\scriptsize},
+  xtick={1,1.5,2,2.5,3,3.5,4}, xmajorgrids, grid style={black!10},
+  xlabel={\heb{חציון שגיאת העור \num{$\Delta E_{00}$} (נמוך יותר טוב יותר)}}, axis y line*=left, axis x line*=bottom]
+  \draw[brandwarn,dashed,thick] (axis cs:1.8,0.4) -- (axis cs:1.8,6.6);
+  \node[font=\scriptsize,text=brandwarn,anchor=south] at (axis cs:1.8,6.55) {\heb{יעד \num{1.8}}};
+  \addplot[only marks, mark=none, brandsecondary,
+    error bars/.cd, x dir=both, x explicit, error bar style={line width=0.8pt}, error mark=|]
+    table[x=med, y=pos, x error minus expr=\thisrow{med}-\thisrow{lo95}, x error plus expr=\thisrow{hi95}-\thisrow{med}]{figures/data/posterior_median.csv};
+  \addplot[only marks, mark=none, brandprimary,
+    error bars/.cd, x dir=both, x explicit, error bar style={line width=3.2pt}, error mark=none]
+    table[x=med, y=pos, x error minus expr=\thisrow{med}-\thisrow{lo50}, x error plus expr=\thisrow{hi50}-\thisrow{med}]{figures/data/posterior_median.csv};
+  \addplot[only marks, mark=*, mark size=2.1pt, brandhighlight, mark options={draw=white}]
+    table[x=med, y=pos]{figures/data/posterior_median.csv};
+  \addplot[only marks, mark=none, point meta=explicit,
+    nodes near coords={\pgfmathprintnumber[fixed,precision=0]{\pgfplotspointmeta}\%},
+    every node near coord/.style={font=\scriptsize\bfseries,anchor=center,text=brandprimary}]
+    table[x expr=4.65, y=pos, meta=p_pct]{figures/data/posterior_median.csv};
+  \node[font=\scriptsize,text=brandprimary] at (axis cs:4.65,6.9) {\heb{סיכוי לעמוד ביעד}};
+\end{axis}
+\end{tikzpicture}
+\end{reportfigure}
+
+שלוש מסקנות עולות מהאיור. \textbf{ראשית,} בארבע התאורות שנבדקו החציון הוא \num{1.87}, ברווח בר-סמך של \num{95\%} בין \num{1.75} ל-\num{2.00}, והסיכוי שהוא עומד ביעד הוא \num{12\%} בלבד; הדגימה החוזרת של סעיף~\ref{sec:pilot}, שאינה מניחה התפלגות, מחמירה עוד יותר. \textbf{שנית,} היעד מושג באור יום כמעט בוודאות ונכשל בשלוש התאורות המלאכותיות: הבעיה אינה הכיול באופן כללי, אלא התאורה הביתית. \textbf{שלישית,} לתאורה חדשה שלא נבדקה הרווח מתרחב ל-\num{0.89} עד \num{3.87}, והסיכוי לעמוד ביעד הוא \num{47\%}, כמעט הטלת מטבע.
+
+\textbf{ערך המידע של תכנון הניסוי.} המודל מפרק את אי-הוודאות של חציון האוכלוסייה למקורותיה: \num{94\%} ממנה נובעים מכך שנבדקו רק ארבע משפחות תאורה, ולא ממספר המשתתפות. בתכנון הנוכחי, \num{120} משתתפות בארבע תאורות (\num{480} צילומים), רוחב הרווח של \num{95\%} הוא \num{$\pm 30\%$}. הכפלת המשתתפות ל-\num{240} משאירה אותו על \num{$\pm 29\%$}; אותם \num{480} צילומים בדיוק, בחלוקה של \num{60} משתתפות לשמונה תאורות, מצמצמים אותו ל-\num{$\pm 22\%$}, ו-\num{120} משתתפות ב-\num{12} תאורות ל-\num{$\pm 17\%$}. לכן ההמלצה לניסוי האימות היא להוסיף משפחות תאורה לפני שמוסיפים משתתפות; מספר המשתתפות נשאר \num{120} בגלל עוצמת המבחן של $H_{0a}$ בתת-קבוצות הגוון. גם האומדן של השונות בין תאורות נשען על ארבע משפחות בלבד ולכן אינו ודאי: כשהסקאלה של ההתפלגות הקודמת שלו משתנה פי חמישה, הסיכוי לתאורה חדשה נע בין \num{45\%} ל-\num{47\%}.
 
 \subsection{אומדן מידות הגוף}
 מנקודות הציון ומהגובה המדווח $H$ מותאם מודל \en{SMPL-X} (משוואה~\eqref{eq:smplx}), ומהרשת המתקבלת מחושב וקטור יחסים חסר-ממד:
@@ -241,7 +274,7 @@ S_j = \sum_{i=1}^{n} w_i \cdot c_{ij}, \qquad \sum_{i=1}^{n} w_i = 1.00 .
 \end{equation}
 כאשר $\hat{C}_k$ הוא האומדן של מקור $k$, $\sigma_k^2$ שונות השגיאה שלו, שנאמדת ממדגם הכיול, ו-$\tau_k$ הדיוק שלו. טבלה~\ref{tab:fusion} משווה את שלוש הגישות על היקף המותן, במדגם בדיקה מדומה של \num{634} אנשים.
 
-\begin{reporttable*}{אומדן היקף המותן במדגם הבדיקה: \en{MAE}, \en{RMSE}, $R^2$ ושונות השארית (\en{cm})}{tab:fusion}{R Q{1.9cm} Q{1.9cm} Q{1.9cm} Q{2.1cm}}
+\begin{reporttable*}{שילוב שלושת המקורות מוריד את שגיאת היקף המותן מתחת ליעד של \num{1.2} ס"מ (מדגם בדיקה מדומה)}{tab:fusion}{R Q{1.9cm} Q{1.9cm} Q{1.9cm} Q{2.1cm}}
 \headrow \hc{מודל} & \hc{\en{MAE}} & \hc{\en{RMSE}} & \hc{$R^2$} & \hc{$\sigma^2_{\text{res}}$} \\ \midrule
 רגרסיה על משתנים מדווחים & \num{3.08} & \num{3.84} & \num{0.82} & \num{14.67} \\
 נקודות ציון בלבד (שלוש תמונות) & \num{1.47} & \num{1.80} & \num{0.96} & \num{3.21} \\
@@ -369,10 +402,44 @@ v_t(s) = \frac{d}{dt}\log\big(1+n_t(s)\big),
 
 מהמוקאפ עולים שלושה עקרונות: ההמלצה, הגוון והמידה מוצגים תמיד בלי תנאי, כל מספר בממשק נשען על דרישה במפרט, ואין ברירות מחדל מגדריות.
 
+\subsection{כשהפיזיקה מתווכחת עם הכלכלה: אילוצי החומרה}
+\label{sec:hardware}
+\en{AURAM} היא תוכנה, אבל היא רצה על חומרה שאינה שלה: מסך, חיישן וסוללה של טלפון בדרגת ביניים, ומעבד גרפי שכור לפי שנייה. שלושה גבולות פיזיים מכתיבים את צורת המודל הסטטיסטי ואת מבנה ההכנסות, ובכל אחד מהם התכן מתכופף במקום להישבר.
+
+\textbf{המסך אינו פנס.} מסך של \num{600} ניט במרחק \num{30} ס"מ מטיל על הפנים כ-\num{60} לוקס, פחות מתאורת סלון. יחס האות לרעש של ההבזק שווה ליחס בין אור המסך לאור החדר, כפול שורש מספר הפריימים, ולכן כל הכפלה של אור החדר דורשת פי ארבעה פריימים (איור~\ref{fig:hardware}). ברצף של שמונה פריימים החציון עומד ביעד עד כ-\num{200} לוקס, עולה ל-\num{1.98} ב-\num{400} לוקס ול-\num{2.34} ליד חלון בהיר. ההבזק לבדו קורס שם ל-\num{14.6}, אבל השילוב אינו קורס: $\sigma^2_{\text{f}}$ במשוואה~\eqref{eq:flash} גדלה עם הרעש, והמשקל עובר מעצמו אל עוגן העין. זו הסיבה שהשונות היא חלק מהמודל, ולא קבוע שכויל פעם אחת.
+
+\begin{reportfigure}{האילוץ האופטי: מעל כ-\num{200} לוקס ההבזק נחלש והחציון חוצה את היעד; פי ארבעה פריימים קונים הכפלה אחת של אור החדר (סימולציה)}{fig:hardware}
+\begin{tikzpicture}
+\begin{semilogxaxis}[width=11.4cm, height=5.0cm, xmin=85, xmax=3800, ymin=1.45, ymax=2.85, ytick={1.5,1.8,2.1,2.4},
+  xtick={100,200,400,800,1600,3200}, xticklabels={100,200,400,800,{1,600},{3,200}},
+  grid=major, grid style={black!10}, tick label style={font=\scriptsize}, label style={font=\scriptsize},
+  xlabel={\heb{אור החדר על הפנים, בלוקס (מסך של \num{600} ניט במרחק \num{30} ס"מ)}},
+  ylabel={\heb{חציון \num{$\Delta E_{00}$}}},
+  legend style={at={(0.02,0.95)},anchor=north west,font=\scriptsize,draw=black!20,legend columns=2}]
+  \addplot[brandgrey,thick,mark=o,mark size=1.5pt] table[x=lux,y=median]{figures/data/hardware_burst4.csv};
+  \addplot[brandhighlight,very thick,mark=*,mark size=1.8pt] table[x=lux,y=median]{figures/data/hardware_burst8.csv};
+  \addplot[brandsecondary,thick,dashed,mark=square*,mark size=1.5pt] table[x=lux,y=median]{figures/data/hardware_burst16.csv};
+  \addplot[brandprimary,thick,dotted,mark=triangle*,mark size=1.8pt] table[x=lux,y=median]{figures/data/hardware_burst32.csv};
+  \draw[brandwarn,dashed,thick] (axis cs:85,1.8) -- (axis cs:3800,1.8);
+  \legend{\heb{\num{4} פריימים},\heb{\num{8} פריימים (ברירת המחדל)},\heb{\num{16} פריימים},\heb{\num{32} פריימים}}
+\end{semilogxaxis}
+\end{tikzpicture}
+\end{reportfigure}
+
+שלוש התנגשויות נוספות נפתרו באותה דרך, וטבלה~\ref{tab:tension} מרכזת אותן. החשובה שבהן: הזמן, ולא הכסף, קובע את מספר צעדי הדיפוזיה, ולכן מרווח העלות הוא תקציב שאפשר להמיר בזמן.
+
+\begin{reporttable*}[\footnotesize]{כל אילוץ פיזי כפה שינוי במודל או בכלכלה: ארבע התנגשויות ופתרונן}{tab:tension}{P{3.3cm} R R}
+\headrow \hc{האילוץ הפיזי} & \hc{מה הוא שובר} & \hc{ההתאמה במודל או בכלכלה} \\ \midrule
+בהירות המסך מול אור החדר & מעל כ-\num{200} לוקס ההבזק נבלע ברעש & שונות ההבזק נאמדת בכל צילום, המשקל עובר לעוגן העין, והממשק מציג טווח לגוון \\
+רעש החיישן מול זמן הצילום & \num{8} פריימים בכל מצב הם כחצי שנייה ב-\num{30} פריימים לשנייה; \num{32} הם יותר משתי שניות & ברירת מחדל של \num{8} פריימים; זמן הצילום יימדד בנפרד מתקציב החישוב ב-\en{TSK-1.1} \\
+חום וזיכרון בטלפון & דיפוזיה במכשיר נפסלה: פחות מ-\num{4 GB} והאטה תרמית (חלופה \num{1}) & הדיפוזיה עברה לענן; העלות המשתנה שנוצרה היא שהולידה את השער בשלוש שכבות \\
+זמן המעבד הגרפי & כ-\num{0.4} שניות לצעד: \num{8} צעדים ממלאים בדיוק את \num{4.5} השניות של \en{REQ-GEN-06} & \en{REQ-BIZ-12} מתקיימת עד כ-\num{26} צעדים; מרווח העלות, פי \num{3.3}, שמור לשכירת מעבד מהיר יותר \\
+\end{reporttable*}
+
 \section{שלב רביעי: החדשנות והערך המוסף}
 \label{sec:innovation}
 
-הפרויקט אינו משפר את מודל ההדמיה, אלא את מה שנכנס אליו (צבע מכויל ומידות מטריות) ואת מה שמממן אותו (מנוע החלפת הערך), ולכן הוא משתלב עם כל מודל הדמיה עתידי. הוא תורם ארבע תרומות מקוריות, כל אחת על משבצת ריקה במטריצת הספרות (טבלה~\ref{tab:litmatrix}):
+הפרויקט אינו משפר את מודל ההדמיה, אלא את מה שנכנס אליו (צבע מכויל ומידות מטריות) ואת מה שמממן אותו (מנוע החלפת הערך), ולכן הוא משתלב עם כל מודל הדמיה עתידי. הוא תורם חמש תרומות מקוריות, והארבע הראשונות יושבות כל אחת על משבצת ריקה במטריצת הספרות (טבלה~\ref{tab:litmatrix}):
 
 \textbf{\num{1}. העין כלוח צבעים אישי.} השימוש בלובן העין ובצבע העיניים המדווח כעוגני כיול, ובמיוחד השימוש בדיווח עצמי כהתפלגות קודמת בייסיאנית, הופך נתון שהמשתמשת יודעת בלי מכשיר מדידה למקור מידע כמותי. זו התרומה המחקרית המרכזית, והיא נבחנת בהשערות $H_{1a}$ ו-$H_{1b}$.
 
@@ -382,4 +449,4 @@ v_t(s) = \frac{d}{dt}\log\big(1+n_t(s)\big),
 
 \textbf{\num{4}. מודל עסקי כרכיב ארכיטקטוני.} מנוע החלפת הערך בשלוש שכבות הוא רכיב בזרימת הנתונים, עם דרישה משלו (\en{REQ-BIZ-12}), והוא שמאפשר הדמיה ללא תשלום ישיר בלי הפסד.
 
-\en{VITON-HD} מעוותת בגד דו-ממדי ו-\en{IDM-VTON} משלימה תמונה סטטית; \en{AURAM}, שמפרידה אור מהחזרה, יכולה להחליף את האור (סעיף~\ref{sec:roadmap}).
+\textbf{\num{5}. אי-ודאות כתוצר, לא כהערת שוליים.} הדוח מדווח התפלגות ולא נקודה, ומדרג את המדידות הבאות לפי ערך המידע שלהן (סעיפים~\ref{sec:posterior} ו-\ref{sec:unit}).

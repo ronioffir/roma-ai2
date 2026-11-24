@@ -37,10 +37,10 @@
 \end{equation}
 כאשר $\rho_k$ הוא ערך הפיקסל בערוץ $k$ מבין הערוצים האדום $R$, הירוק $G$ והכחול $B$, $E(\lambda)$ הספקטרום של מקור האור, $S(\lambda)$ ההחזרה הספקטרלית של העור, $Q_k(\lambda)$ רגישות החיישן, $\Lambda$ התחום הנראה ו-$\epsilon_k$ רעש החיישן. מכיוון שרגישויות החיישן אינן צירוף ליניארי של עקומות ההתאמה של העין, שני משטחים שנראים זהים לעין יכולים לקבל ערכים שונים במצלמה, ולהפך (מטמריזם). כדי לכמת את העיוות, הצוות בנה סימולציה ספקטרלית (\en{Monte Carlo}) של \num{4,000} סלפי סינתטיים, בארבע משפחות של מקורות אור: אור יום (\en{D65}), נורת להט (\en{A}), פלורסנט צר-פס (\en{F11}) ונורת \en{LED} זרחנית עם מדד מסירת צבע נמוך, כולן בקירוב אנליטי. לכל צילום נוספו חשיפה אוטומטית, איזון לבן של המצלמה ורעש. השגיאה נמדדה ב-\num{$\Delta E_{00}$} (\en{CIEDE2000}), שבו ערך של כ-\num{2.0} הוא בקירוב סף ההבחנה \cite{sharma2005ciede2000}; מימוש המדד נבדק מול נתוני הבדיקה שפורסמו עמו.
 
-\begin{reportfigure}{המצב המצוי בסימולציה ($n=\num{4,000}$, נתונים סינתטיים): שגיאת צבע העור, ממוצע ואחוזון \num{95}}{fig:calib}
+\begin{reportfigure}{המצב המצוי: איזון לבן גלובלי מחמיר את שגיאת העור במקום לתקן אותה (סימולציה, $n=\num{4,000}$)}{fig:calib}
 \begin{tikzpicture}
 \begin{axis}[xbar, width=11.6cm, height=3.7cm, bar width=7pt,
-  xmin=0, xmax=27, xlabel={$\Delta E_{00}$ (skin, lower is better)},
+  xmin=0, xmax=27, xlabel={\heb{שגיאת צבע העור \num{$\Delta E_{00}$} (נמוך יותר טוב יותר)}},
   ytick={0,1}, y dir=reverse, restrict y to domain=-0.5:1.5,
   yticklabels={\heb{מצלמה, ללא תיקון},\heb{איזון לבן גלובלי}},
   yticklabel style={font=\small}, xticklabel style={font=\small},
@@ -51,7 +51,7 @@
   \addplot[fill=brandaccent!85,draw=brandaccent!80!black] table[x=p95,y=idx]{figures/data/calibration_bars.csv};
   \draw[brandwarn,dashed,thick] (axis cs:2.0,-0.6) -- (axis cs:2.0,1.6);
   \node[font=\scriptsize,text=brandwarn,anchor=south west] at (axis cs:2.05,-0.55) {JND $\approx 2.0$};
-  \legend{Mean, P95}
+  \legend{\heb{ממוצע},\heb{אחוזון \num{95}}}
 \end{axis}
 \end{tikzpicture}
 \end{reportfigure}

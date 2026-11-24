@@ -76,13 +76,13 @@
 לוח הזמנים מתפרס על \num{14} שבועות של סמסטר ב' (איור~\ref{fig:gantt} וטבלה~\ref{tab:tasks}). הנתיב הקריטי (\en{Critical Path}), כלומר רצף המשימות שעיכוב באחת מהן מעכב את הפרויקט כולו, מסומן באדום. לפני כל אחת משתי אבני הדרך (\en{Milestones}) נקבע שבוע רזרבה, כי התוכנית אינה נשענת על הנחה שכל משימה תסתיים בזמן.
 
 \begin{reportfigure}{תרשים גאנט: \num{14} שבועות, הנתיב הקריטי באדום, שבועות רזרבה ושתי אבני דרך בירוק}{fig:gantt}
-\begin{tikzpicture}[x=0.68cm,y=0.42cm]
+\begin{tikzpicture}[x=0.68cm,y=0.37cm]
   \def\task#1#2#3#4{\fill[#4,rounded corners=1pt] (#2-1,-#1+0.18) rectangle (#3,-#1-0.58);}
   \foreach \w in {1,...,14} {\node[font=\scriptsize] at (\w-0.5,0.75) {\w};
      \draw[black!10] (\w,0.4) -- (\w,-13.2);}
   \draw[black!10] (0,0.4) -- (0,-13.2);
-  \node[font=\scriptsize\bfseries,anchor=east] at (-0.1,0.75) {week};
-  \foreach \i/\n in {1/TSK-1.1,2/TSK-1.2,3/TSK-2.1,4/TSK-2.2,5/TSK-3.1,6/TSK-3.2,7/TSK-4.1,8/Buffer A,9/TSK-4.2,10/TSK-4.3,11/Buffer B,12/TSK-5.1,13/TSK-5.2}
+  \node[font=\scriptsize\bfseries,anchor=east] at (-0.1,0.75) {\heb{שבוע}};
+  \foreach \i/\n in {1/TSK-1.1,2/TSK-1.2,3/TSK-2.1,4/TSK-2.2,5/TSK-3.1,6/TSK-3.2,7/TSK-4.1,8/\heb{רזרבה א'},9/TSK-4.2,10/TSK-4.3,11/\heb{רזרבה ב'},12/TSK-5.1,13/TSK-5.2}
      \node[font=\scriptsize,anchor=east] at (-0.1,-\i-0.2) {\n};
   \task{1}{1}{2}{brandwarn}   \task{2}{3}{5}{brandwarn}
   \task{3}{1}{2}{brandsecondary!75} \task{4}{3}{4}{brandsecondary!75}
@@ -92,15 +92,15 @@
   \task{9}{9}{11}{brandwarn} \task{10}{9}{10}{brandsecondary!75}
   \fill[pattern=north east lines,pattern color=brandmuted] (11,-11+0.18) rectangle (12,-11-0.58);
   \task{12}{11}{14}{brandsecondary!75} \task{13}{13}{14}{brandwarn}
-  \foreach \m/\l in {8/A,12/B} {
+  \foreach \m/\l in {8/א',12/ב'} {
     \draw[brandgreen,very thick,dashed] (\m,0.4) -- (\m,-13.2);
     \node[brandgreen,diamond,fill=brandgreen,inner sep=2.2pt] at (\m,-13.55) {};
-    \node[font=\tiny\bfseries,text=brandgreen] at (\m,-14.25) {Milestone \l};}
+    \node[font=\tiny\bfseries,text=brandgreen] at (\m,-14.25) {\heb{אבן דרך \l}};}
   \draw[-Stealth,brandwarn,thin] (2,-1.2) -- (2,-1.75); \draw[-Stealth,brandwarn,thin] (5,-2.2) -- (5.1,-6.75);
   \draw[-Stealth,brandwarn,thin] (7,-7.2) -- (8.1,-8.75); \draw[-Stealth,brandwarn,thin] (11,-9.2) -- (12.1,-12.75);
-  \fill[brandwarn] (0.2,-15.2) rectangle (0.8,-14.85); \node[font=\tiny,anchor=west] at (0.85,-15.03) {critical path};
-  \fill[brandsecondary!75] (4.0,-15.2) rectangle (4.6,-14.85); \node[font=\tiny,anchor=west] at (4.65,-15.03) {other task};
-  \fill[pattern=north east lines,pattern color=brandmuted] (7.6,-15.2) rectangle (8.2,-14.85); \node[font=\tiny,anchor=west] at (8.25,-15.03) {reserve week};
+  \fill[brandwarn] (0.2,-15.2) rectangle (0.8,-14.85); \node[font=\tiny,anchor=west] at (0.85,-15.03) {\heb{נתיב קריטי}};
+  \fill[brandsecondary!75] (4.0,-15.2) rectangle (4.6,-14.85); \node[font=\tiny,anchor=west] at (4.65,-15.03) {\heb{משימה אחרת}};
+  \fill[pattern=north east lines,pattern color=brandmuted] (7.6,-15.2) rectangle (8.2,-14.85); \node[font=\tiny,anchor=west] at (8.25,-15.03) {\heb{שבוע רזרבה}};
 \end{tikzpicture}
 \end{reportfigure}
 
@@ -123,9 +123,7 @@
 \en{TSK-5.2} & פיילוט, הדגמה והגנה & \num{13--14} & אבן דרך ב' & הגנה בוועדה \\
 \end{reporttable}
 
-\begin{examplebox}[יישום במערכת: אבני הדרך כמפגשי מנחה]
-שתי אבני הדרך הן גם מפגשי בקרה עם המנחה. באבן דרך א' מוצג אב-טיפוס שבו משתמשת מצלמת, מקבלת שלוש המלצות ופותחת הדמיה ממומנת. באבן דרך ב' מוצגים \num{12} הדרישות עם תוצאת אימות לכל אחת, ותוצאת מבחן ההשערה. כל אבן דרך מתועדת בפרוטוקול ובתג גרסה במאגר \en{roma-ai2}.
-\end{examplebox}
+שתי אבני הדרך הן גם מפגשי בקרה עם המנחה: באבן דרך א' מוצג אב-טיפוס שבו משתמשת מצלמת, מקבלת שלוש המלצות ופותחת הדמיה ממומנת, ובאבן דרך ב' מוצגות \num{12} הדרישות עם תוצאת אימות לכל אחת ותוצאת מבחן ההשערה. כל אבן דרך מתועדת בפרוטוקול ובתג גרסה במאגר \en{roma-ai2}.
 
 \section{בקרה, תקשורת וניהול תצורה}
 \label{sec:control}
@@ -148,11 +146,20 @@
 שבוע רזרבה שמנוצל לעבודה שוטפת אינו רזרבה. לכן שבועות \num{8} ו-\num{12} אינם משובצים לשום משימה בתוכנית, וכל שימוש בהם מתועד בפרוטוקול כחריגה.
 \end{warningbox}
 
-\section{מפת דרכים מעבר ל-\num{14} השבועות: הצינור המרחבי}
+\section{איך הדוח התכנס, ולאן הוא ממשיך}
 \label{sec:roadmap}
-כיוון ש-\en{AURAM} מפרידה את האור מההחזרה (סעיף~\ref{sec:arch}), היא יכולה להחליף את האור, בתשעה מקדמים של הרמוניות כדוריות \cite{ramamoorthi2001sh}:
-\begin{equation}
-E(\mathbf{n}) = \sum_{l=0}^{2}\sum_{m=-l}^{l} \hat{A}_l\, L_{lm}\, Y_{lm}(\mathbf{n}),
-\label{eq:sh}
-\end{equation}
-כאשר $E(\mathbf{n})$ היא העוצמה על משטח שהנורמל שלו $\mathbf{n}$, $Y_{lm}$ פונקציות הבסיס, $L_{lm}$ מקדמי התאורה ו-$\hat{A}_l$ מקדמי ההחלקה. החלפת $L_{lm}$ בערכים מוכנים מראה את אותו מראה "במשרד בפלורסנט", "בערב לאור נרות" או "בשמש ים-תיכונית". לצידו ייצוג נפחי דינמי של הבד, \en{4D Gaussian Splatting} \cite{wu2024gaussian4d}, לנפילה ולמתח לאורך קווי הגוף, וסוכנת סטייליסטית בלולאת חשיבה-פעולה \cite{yao2023react} שמחברת יומן ומזג אוויר לבחירת פריטים. כל אלה מחוץ ל-\num{14} השבועות: זו מפת הדרכים.
+הגרסה שלפניכם לא נכתבה פעם אחת ולוטשה: היא נשברה כמה פעמים. מאגר ה-\en{Git} וקובצי הביקורת (\en{CHANGELOG.md}, \en{report/work/red\_team\_review.md}) מתעדים כל שינוי, וטבלה~\ref{tab:evolution} מרכזת את השינויים שהפכו טענה ולא רק ניסוח.
+
+\begin{reporttable*}[\footnotesize]{יומן ההתכנסות: שש טענות שנשברו בביקורת, ומה כתוב במקומן היום}{tab:evolution}{P{3.9cm} R R}
+\headrow \hc{מה נטען בגרסה מוקדמת} & \hc{מה מצאה הביקורת} & \hc{מה כתוב היום} \\ \midrule
+חציון שגיאה \num{1.37}, מתחת ליעד & הסימולציה לא הייתה ספקטרלית והסתירה את הכשל המטמרי & חציון \num{1.86}, מעל היעד; נוסף הבזק המסך; \en{RSK-ALG-07} \\
+מבחן ההשערה: \num{$t = 30.9$} & צילומי אותה משתתפת נדגמו כבלתי תלויים, והאפקט נופח & מודל מעורב עם אפקט משתתפת ותאורה; $H_{0b}$ אינה נדחית \\
+מטריצת ההחלטה: \num{4.45} & שני ציונים לא תאמו את הסולמות המעוגנים & \num{4.30}; המשקלים הוקפאו לפני הניקוד \\
+שער של מודעה בת \num{15} שניות & אובדן משוער של \num{80\%} מהמשתמשות ברגע ההחלטה & שלוש שכבות ואינטראקציה של \num{3} שניות \\
+עלות לסשן \num{\$0.011} & סתירה בין הטבלה, הגרף והטקסט & \num{\$0.025} בכל מקום \\
+סמל מגן-עין, השם \en{AuraTwin} & הסמל שידר אבטחה, לא יופי וסגנון & מראת כיס, והשם \en{AURAM} \\
+\end{reporttable*}
+
+גם הציון של הבוחן המדמה לא עלה בקו ישר: \num{73}, אחר כך \num{83}, ואז \num{66} מבוחן חדש שקרא רק את ה-\en{PDF}. המכנה המשותף לכל השורות: בכל פעם שמספר נראה טוב מדי, נבדק המודל שייצר אותו ולא הניסוח שעטף אותו. גם התוספות של גרסה זו, ההתפלגות האחורית (סעיף~\ref{sec:posterior}) וערך המידע (סעיף~\ref{sec:unit}), נולדו מאותה שאלה.
+
+\textbf{מעבר ל-\num{14} השבועות.} כיוון ש-\en{AURAM} מפרידה את האור מההחזרה (סעיף~\ref{sec:arch}), הצעד הבא הוא להחליף את האור: תשעה מקדמים של הרמוניות כדוריות \cite{ramamoorthi2001sh} מספיקים כדי להראות את אותו מראה "במשרד בפלורסנט" או "בערב לאור נרות". אחריו ייצוג נפחי דינמי של הבד, \en{4D Gaussian Splatting} \cite{wu2024gaussian4d}, וסוכנת סטייליסטית בלולאת חשיבה-פעולה \cite{yao2023react}. כל אלה מחוץ לתחום הפרויקט: זו מפת הדרכים.

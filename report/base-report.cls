@@ -191,11 +191,11 @@
   {\color{brandsecondary}\rule{\linewidth}{0.8pt}\par}\addvspace{2pt}}
 \newcommand{\compacttoc}[1][תוכן עניינים]{%
   \chapter*{#1}\markboth{#1}{}%
-  {\footnotesize\setstretch{0.95}\setlength{\parskip}{0pt}\let\addvspace\@gobble
+  {\footnotesize\setstretch{0.92}\setlength{\parskip}{0pt}\let\addvspace\@gobble
    \@starttoc{toc}}}% v1.2.1: one page (no inter-chapter gaps)
 \newcommand{\compactlists}[1]{%
   \chapter*{רשימות איורים, טבלאות וקיצורים}\markboth{רשימות}{}%
-  {\scriptsize\setstretch{1.08}\setlength{\parskip}{0pt}% v1.2.1: one page
+  {\scriptsize\setstretch{0.95}\setlength{\parskip}{0pt}% v1.2.1: one page; v3.5: 0.95 (7 new entries)
    \let\basereport@addvspace\addvspace\let\addvspace\@gobble
    \basereport@minihead{רשימת איורים}\@starttoc{lof}%
    \basereport@minihead{רשימת טבלאות}\@starttoc{lot}%
@@ -241,7 +241,7 @@
 \newcolumntype{P}[1]{>{\raggedleft\arraybackslash}p{#1}}
 \newcolumntype{Q}[1]{>{\centering\arraybackslash}p{#1}}
 \setlength{\arrayrulewidth}{0.4pt}
-\renewcommand{\arraystretch}{1.5}    % v3.5 editorial tables: more air between rows (was 1.35)
+\renewcommand{\arraystretch}{1.4}    % v3.5 editorial tables: more air between rows (was 1.35)
 %% v3.5 table overhaul: tables span the full text block (figures keep \maxobjwidth),
 %% cells get 6 pt side padding, and a cell never breaks inside a word or after a
 %% hyphen/maqaf ("micro-" / "interaction"): a compound moves whole to the next line.

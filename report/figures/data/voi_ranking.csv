@@ -1,0 +1,7 @@
+pos,key,evppi,evppi_share_pct,var_share_pct
+6,partner_ab,0.1738,25.6,46.8
+5,cac,0.0790,11.7,29.3
+4,churn,0.0173,2.6,22.4
+3,gpu,0.0000,0.0,0.4
+2,gate_mix,0.0000,0.0,0.5
+1,subscription,0.0000,0.0,0.7

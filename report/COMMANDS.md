@@ -50,6 +50,7 @@ if a pattern repeats three times, ask the template architect to add it (Prompt C
 | `\begin{reportfigure*}{caption}{label}` | Same, non-floating. |
 | `\maxobjwidth` | 12.4 cm — maximum width of any figure. |
 | `\tableobjwidth` | `\linewidth` — width of every `reporttable` (v3.5). |
+| `\begin{mirrorbox}[title]` | AURAM layer (v3.5): signature callout with the pocket-mirror mark on the left edge. |
 | `\setpagemark{mark}` | Small signature mark centred under every page number (v3.5); the AURAM layer sets `\auratwinwatermark`. |
 
 ## Boxes (never split across pages)

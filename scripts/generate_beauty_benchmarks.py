@@ -172,9 +172,17 @@ def draw_persons(rng, n):
             "iris": rng.integers(0, 4, n), "iris_scale": rng.lognormal(0, 0.18, n)}
 
 
-def simulate_captures(rng, P, fam, internals=False):
+HW_DEFAULT = {"flash_ratio": (0.08, 0.40),   # screen-flash / ambient irradiance on the face (range)
+              "burst": 8,                    # aligned frames averaged per delta image
+              "noise_scale": 1.0}            # sensor-noise multiplier (1 = mid-range phone)
+
+
+def simulate_captures(rng, P, fam, internals=False, hw=None):
     """One capture per row of the trait dict P under illuminant family index fam (n,).
-    Returns {method: DeltaE00 array} and the true skin Lab."""
+    Returns {method: DeltaE00 array} and the true skin Lab.
+    hw (v3.5, scripts/uncertainty_voi.py) overrides the hardware assumptions of HW_DEFAULT; the
+    number and order of random draws do not depend on it, so the default stream is unchanged."""
+    hw = {**HW_DEFAULT, **(hw or {})}
     C = _ccms()
     n = fam.size
     E = np.stack([so.ILLUM[so.ILLUM_NAMES[f]] for f in fam])
@@ -216,11 +224,12 @@ def simulate_captures(rng, P, fam, internals=False):
     lg += np.log(ref_pop / obs["scl_msk"]).mean(1, keepdims=True) - lg.mean(1, keepdims=True)
     res[METHODS[3]] = gb_ciede(to_lab(obs["skin"] * np.exp(lg), C["D65"]), true_lab)
     # 5: screen-flash delta frame: dI = I_flash - I_ambient = reflectance under the KNOWN screen spectrum
-    f_abs = rng.uniform(0.08, 0.40, (n, 1))                  # screen at full white, ~30 cm, vs the room light
+    f_abs = rng.uniform(*hw["flash_ratio"], (n, 1))          # screen at full white, ~30 cm, vs the room light
     def delta(S, amb):
         clean = so.render(so.SCREEN, S) * expo * f_abs / so.render(so.SCREEN, np.ones((1, so.LAM.size)))[:, 1:2] \
             * so.render(E, np.ones((1, so.LAM.size)))[:, 1:2]
-        noise_sd = (np.sqrt(2) * 0.0015 + 0.002 * amb) / np.sqrt(8)   # aligned 8-frame burst: sensor + residual motion/flicker
+        # aligned burst (8 frames by default): sensor + residual motion/flicker
+        noise_sd = hw["noise_scale"] * (np.sqrt(2) * 0.0015 + 0.002 * amb) / np.sqrt(hw["burst"])
         return clean + rng.normal(0, 1, clean.shape) * noise_sd, noise_sd
     d_skin, nsd_skin = delta(skin, obs["skin"])
     d_scl, _ = delta(scl_msk, obs["scl_msk"])

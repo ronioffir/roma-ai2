@@ -32,14 +32,14 @@ R = P \times I, \qquad P, I \in \{1,\dots,5\}
   \foreach \k in {1,...,5} {
     \node[font=\sffamily\small\bfseries,text=brandprimary] at (\k-0.5,-0.32) {\k};
     \node[font=\sffamily\small\bfseries,text=brandprimary] at (-0.25,\k-0.5) {\k};}
-  \node[font=\sffamily\small\bfseries,text=brandprimary] at (2.5,-0.9) {Impact $I$};
-  \node[font=\sffamily\small\bfseries,text=brandprimary,rotate=90] at (-0.8,2.5) {Probability $P$};
+  \node[font=\sffamily\small\bfseries,text=brandprimary] at (2.5,-0.9) {\heb{חומרה \num{$I$}}};
+  \node[font=\sffamily\small\bfseries,text=brandprimary,rotate=90] at (-0.8,2.5) {\heb{הסתברות \num{$P$}}};
   % risks (two per cell are stacked)
   \foreach \i/\p/\n/\dy in {4/4/ALG-01/0, 3/4/GEN-02/0.08, 3/4/OPS-08/-0.21, 4/3/DAT-03/0.08,
                             4/3/ALG-07/-0.21, 5/3/BIZ-04/0, 5/2/SEC-05/0, 3/3/OPS-06/0}
     \node[rid] at (\i-0.6,\p-0.64+\dy) {\n};   % lower part of the cell; score stays top-right
   % legend
-  \foreach \y/\c/\t in {4.3/auraGarnet/{critical, $R \ge 12$}, 3.5/auraMustard/{medium, $6 \le R \le 11$}, 2.7/auraDust/{low, $R \le 5$}} {
+  \foreach \y/\c/\t in {4.3/auraGarnet/{\heb{קריטי, \num{$R \ge 12$}}}, 3.5/auraMustard/{\heb{בינוני, \num{$6 \le R \le 11$}}}, 2.7/auraDust/{\heb{נמוך, \num{$R \le 5$}}}} {
     \fill[\c] (5.35,\y-0.22) rectangle (5.65,\y+0.22);
     \node[anchor=west,font=\sffamily\footnotesize,text=brandprimary] at (5.72,\y) {\t};}
 \end{tikzpicture}

@@ -9,7 +9,8 @@ document is fixed **once** in the template, with a version bump and an entry her
 - **Cover:** the ID-number line was removed from the author box (names, department, advisor and the hypothetical
   partner remain); submission date is now 24.11.2026.
 - **Tables (template-level, `base-report.cls`):** every `reporttable` now spans the full text block
-  (`\tableobjwidth` = 15.5 cm) instead of 12.4 cm; side padding 4.5 pt → 6 pt; `\arraystretch` 1.35 → 1.5;
+  (`\tableobjwidth` = 15.5 cm) instead of 12.4 cm; side padding 4.5 pt → 6 pt; `\arraystretch` 1.35 → 1.4
+  (1.5 was tried first and cost a page once the new content was in);
   `\hyphenpenalty` and `\exhyphenpenalty` are 10000 inside tables, so a cell never breaks inside a word or after
   a hyphen (e.g. "מיקרו-" / "אינטראקציה"). Figures keep the 12.4 cm limit.
   **Note:** this deliberately departs from the 12.4 cm object width the template took from booklet §19.3.
@@ -17,8 +18,41 @@ document is fixed **once** in the template, with a version bump and an entry her
   from `\scriptsize` to `\footnotesize`.
 - **Watermark:** `\setpagemark` (base) + `\auratwinwatermark` (layer) set the pocket-mirror mark, scale 0.17 and
   45% opacity, under every page number (preliminary and body pages; the cover has no page number).
+### Added: uncertainty as the headline (passes 2-3)
+- **`scripts/uncertainty_voi.py`** (new, `--check` verifies 13 quoted values) and
+  `report/figures/data/uncertainty_summary.json` plus 8 CSVs. Synthetic data and team assumptions only.
+  - **Hierarchical Bayesian posterior** of the median colour error on the simulated 120 x 4 pilot (Gibbs sampler,
+    log scale, random participant and illuminant-family effects, residual variance per family). Tested families:
+    median 1.87, 95% credible interval 1.75-2.00, P(median <= 1.8) = 12%. A new family: 0.89-3.87, P = 47%.
+  - **Design value:** 94% of the uncertainty of the population median comes from having only four illuminant
+    families. 240 x 4 leaves the interval at +/-29% (from +/-30%); the same 480 captures as 60 x 8 give +/-22%.
+  - **Hardware sensitivity:** median error against room light (600-nit screen at 30 cm) and burst length. The
+    8-frame burst meets the target up to about 200 lux; SNR scales with flash ratio x sqrt(frames).
+    `simulate_captures()` gained an optional `hw` argument; the default random stream is unchanged, and
+    `statistical_validation.py --check` still passes.
+  - **Economics as a distribution:** 200,000 Monte Carlo draws over 12 team assumptions. LTV/CAC median 6.1,
+    90% interval 2.2-18.3, P(>= 3.8) = 78%. EVPI = $0.68 per acquired user; EVPPI ranks the partner conversion
+    A/B test first (26%), then CAC (12%), churn (3%); GPU cost is worth 0.
+  - **Constraint map:** latency caps the diffusion at 8 steps, the margin requirement only at about 26, so
+    there is a 3.3x unused cost margin.
+- **Report:** Sec. 5.3.2 (posterior, Fig. 5.5), Sec. 5.3.7 (hardware against model and economics, Fig. 5.7,
+  Table 5.7), Sec. 4.4 (LTV/CAC distribution and value of information, Fig. 4.4), Sec. 6.5 (convergence log,
+  Table 6.5, from this changelog and `report/work/red_team_review.md`), a fifth contribution in Sec. 5.4, the
+  "transparent layer" box in Sec. 1.2, and the pocket-mirror callout (`mirrorbox`) on the abstract page.
+  The abstract, Ch.8 and the open decisions now quote intervals and probabilities.
+- **Hebrew-first:** every chart label, legend and diagram node is Hebrew (architecture, Gantt, risk matrix,
+  market layers, radar, scatter, bars); keywords are Hebrew; eleven captions now state the takeaway.
+### Removed or condensed, to stay at 40 body pages
+- Ch.3: the DDPM forward-process equation (textbook), the body-reconstruction warning box (folded into the
+  paragraph), and shorter reviews of domains B-D and of the flagship limitations.
+- Ch.4: the five product paragraphs became one. Ch.5: shorter descriptions of the alternatives, one merged
+  architecture paragraph, and the closing relighting sentence. Ch.6: the spherical-harmonics equation (the
+  roadmap is now one paragraph) and the milestone example box (now a sentence).
+- Charts were made 10-20% shorter; Tables 4.1, 4.3, 5.1-5.3 moved to `\footnotesize`.
 ### Verified
-- 44 pages (4 + 40), 0 errors, 0 undefined references, 0 overfull/underfull boxes inside tables.
+- 44 pages (4 + 40), chapter starts 1/4/8/16/22/31/35/37, references 38 (50 entries). 0 errors, 0 undefined
+  references, 0 overfull boxes, 0 bad boxes inside tables (3 underfull boxes remain: two in the abbreviation
+  list, one in Sec. 3.1). Both `--check` scripts pass. Abstract about 345 words.
 
 ## [3.4] — 2026-11-23 — Pass 4: final audit fixes (prompt 12)
 Fresh-context examiner (Sonnet, PDF text only): **66/100**, 15 items. Each was verified against the source before
