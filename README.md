@@ -6,11 +6,11 @@
 
 **AURAM = Aura (personal presence, aesthetic harmony) + RAM (real-time memory of your calibration, body profile and trends)**
 
-**Multi-Modal Agentic Operating System for Self-Calibrated Biometric Beauty & Fashion Styling,
-Social Trend Mining, and Value-Exchange Generative Virtual Try-On**
+**Biometric Colour and Body-Size Calibration from Selfie Images for Beauty and Fashion
+Recommendation and Virtual Try-On**
 
 ![LuaLaTeX](https://img.shields.io/badge/LuaLaTeX-MiKTeX-1E3226)
-![Pages](https://img.shields.io/badge/pages-44%20%3D%204%20%2B%2040-C27E35)
+![Pages](https://img.shields.io/badge/pages-46%20%3D%205%20%2B%2041-C27E35)
 ![Template](https://img.shields.io/badge/template-v3.0-CCB363)
 ![QA](https://img.shields.io/badge/QA%20detector-PASS-1E3226)
 ![Readability](https://img.shields.io/badge/readability%20%26%20math-PASS-6F7D7B)

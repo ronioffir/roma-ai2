@@ -4,6 +4,34 @@ Template = `report/base-report.cls` (base layer) + `report/auratwin-report.cls` 
 Version source of truth: `VERSION`. Rule (booklet §15.6): a problem that repeats across the
 document is fixed **once** in the template, with a version bump and an entry here.
 
+## [3.7] — 2026-11-24 — Review fixes against the booklet (critical read-through)
+### Changed (report)
+- **Cover title** shortened to a descriptive one, without slogans or an unexplained acronym (booklet 2.1).
+- **Keywords** cut from 9 to 7 (booklet 2.2); the pocket-mirror ornament box left the summary page.
+- **Third person only** (booklet 11.2): the three "in our voice" boxes and the remaining first-person
+  sentences were rewritten; Sec. 6.5 (the process diary addressed to the grader) was replaced by a
+  resources table and an explicit de-scoping order. The diary itself stays here and in `report/work/`.
+- **Own words:** chapter-opening boxes and section headings no longer repeat the booklet's sentences;
+  the box title is now "מה הפרק מוכיח, ולמי".
+- **Ch.8:** figure of the three immediate actions after approval (booklet Fig. 10.1) added.
+- **Ch.4:** the regression line fitted to estimated competitor points was removed and the scatter is
+  labelled "להמחשה"; TAM, return rates, competitor facts and the try-on price now cite sources that
+  were opened on 2026-11-24 (9 new `@misc` entries). SAM, SOM, the comparison table and the unit
+  economics are still team assumptions and are labelled as such.
+### Changed (template, base-report.cls 3.7)
+- Lists of figures/tables at `\footnotesize` instead of `\scriptsize`; they now run to a second page.
+- Long URLs in the bibliography may break after letters and digits.
+### Sources
+- Automated metadata check of all 50 original entries (Crossref, arXiv, publisher pages): 32 DOIs added,
+  no field needed correction, `doran1981smart` could not be confirmed online. Reading each abstract is
+  still the authors' task; see `report/work/source_verification_checklist.md`.
+### Page map
+- 5 preliminary pages + 37 text pages + 4 reference pages = 46 PDF pages (was 4 + 37 + 3 = 44).
+### Still open (needs the authors)
+- Evidence for the TikTok/Reels reach in Sec. 4.5 (link or analytics export), or removal of the claim.
+- The cover banner image still carries the old subtitle (`report/figures/html/cover_banner.html`).
+- README screenshots in `report/figures/previews/` predate this version.
+
 ## [3.6] — 2026-11-24 — Go-to-market traction and a two-wave creator launch (prompt 14)
 Prompt 14 repeats prompt 13 and adds one section; only that section was new work.
 ### Added (Ch.4, Sec. 4.5)
