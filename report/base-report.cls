@@ -12,7 +12,7 @@
 \NeedsTeXFormat{LaTeX2e}
 \def\basereport@version{3.5}
 \def\basereport@date{2026/11/24}
-\ProvidesClass{base-report}[2026/11/24 v3.5 Hebrew/English LuaLaTeX report base class]
+\ProvidesClass{base-report}[2026/11/24 v3.7 Hebrew/English LuaLaTeX report base class]
 
 \RequirePackage{fix-cm}   % v2.0: scalable CM math fonts at 11.5 pt (0 font warnings)
 \RequirePackage{iftex}
@@ -195,7 +195,7 @@
    \@starttoc{toc}}}% v1.2.1: one page (no inter-chapter gaps)
 \newcommand{\compactlists}[1]{%
   \chapter*{רשימות איורים, טבלאות וקיצורים}\markboth{רשימות}{}%
-  {\scriptsize\setstretch{0.95}\setlength{\parskip}{0pt}% v1.2.1: one page; v3.5: 0.95 (7 new entries)
+  {\footnotesize\setstretch{1.0}\setlength{\parskip}{0pt}% v3.7: readable size; the lists may run to a second page
    \let\basereport@addvspace\addvspace\let\addvspace\@gobble
    \basereport@minihead{רשימת איורים}\@starttoc{lof}%
    \basereport@minihead{רשימת טבלאות}\@starttoc{lot}%
@@ -307,7 +307,7 @@
     before skip=9pt,after skip=9pt,
     before upper={\setstretch{1.15}\setlength{\parskip}{3pt}}}}
 %% 1. managerbox -- "Why it matters to a manager" (gold/amber header)
-\newtcolorbox{managerbox}[1][למה זה חשוב למנהל]{basereport,
+\newtcolorbox{managerbox}[1][מה הפרק מוכיח, ולמי]{basereport,
   colback=brandcream!70!white,colframe=brandaccent,coltitle=brandprimary,
   colbacktitle=brandaccent!55,title={#1},boxrule=0.8pt,toptitle=2pt,bottomtitle=2pt,
   before={\par\needspace{5\baselineskip}}}
@@ -381,6 +381,8 @@
 \RequirePackage[backend=biber,style=ieee,sorting=none,maxnames=6,minnames=3,
   doi=true,url=false,isbn=false,dashed=false,language=english,autolang=none]{biblatex}
 \DeclareBibliographyAlias{standard}{manual}   % v2.0: IEEE style has no 'standard' driver
+%% v3.7: web sources carry long URLs; let them break after digits and letters too.
+\setcounter{biburlnumpenalty}{9000}\setcounter{biburllcpenalty}{9000}\setcounter{biburlucpenalty}{9000}
 \DeclareLanguageMapping{hebrew}{english}      % v2.0: biblatex ships no Hebrew .lbx
 %% Citations are LTR units inside Hebrew sentences: "[3]", "[4]--[6]".
 \AtBeginDocument{\let\basereport@origcite\cite
