@@ -18,7 +18,7 @@
 
 שלוש החלופות נבדלות בשאלה אחת: היכן מתבצע החישוב. חלופות \num{1} ו-\num{2} הן שני קצוות, וחלופה \num{3} מפצלת את המערכת לפי אופי כל רכיב: רכיבים רגישים לפרטיות וקלים נשארים במכשיר, רכיבים זולים ומהירים עוברים לענן, והרכיב היקר מופעל רק כשהוא ממומן. טבלה~\ref{tab:alts} מסכמת את היתרון ואת המחיר של כל אחת.
 
-\begin{reporttable}{שלוש חלופות התכן, עם היתרון והמחיר של כל אחת}{tab:alts}{P{3.4cm} R R}
+\begin{reporttable}{שלוש חלופות התכן, עם היתרון והמחיר של כל אחת}{tab:alts}{P{4.6cm} R R}
 \headrow \hc{חלופה} & \hc{היתרון} & \hc{המחיר} \\ \midrule
 \num{1}: עיבוד מלא בקצה (\en{CoreML}, \en{MediaPipe}, דיפוזיה מכווצת) & אפס עלות ענן ופרטיות מרבית & התחממות, זיכרון \num{< 4 GB}, איכות הדמיה נמוכה \\
 \num{2}: ענן מונוליטי (מודל שפה רב-מודאלי ודיפוזיה כללית) & זמן פיתוח קצר והסקה עשירה & \num{\$0.12} לסשן, \num{> 9 s}, שליטה חלשה בגזרת ה-\en{SKU} \\
@@ -49,7 +49,7 @@ S_j = \sum_{i=1}^{n} w_i \cdot c_{ij}, \qquad \sum_{i=1}^{n} w_i = 1.00 .
 
 כל משקל נגזר מדרישה במפרט (טבלה~\ref{tab:weights}), כך שהמשקל משקף את חשיבות הדרישה ולא את העדפת הצוות.
 
-\begin{reporttable}{הקריטריונים, משקליהם והדרישות שמהן נגזרו}{tab:weights}{P{2.9cm} P{1.1cm} R}
+\begin{reporttable}{הקריטריונים, משקליהם והדרישות שמהן נגזרו}{tab:weights}{P{3.6cm} P{1.4cm} R}
 \headrow \hc{קריטריון} & \hc{משקל} & \hc{נימוק ודרישות מקושרות} \\ \midrule
 דיוק התאמה אישית & \num{0.25} & לב הבעיה: \en{REQ-VIS-01}, \en{REQ-BOD-03} \\
 עלות ליחידת שימוש & \num{0.20} & קיימות כלכלית: \en{REQ-BIZ-12} \\
@@ -60,7 +60,7 @@ S_j = \sum_{i=1}^{n} w_i \cdot c_{ij}, \qquad \sum_{i=1}^{n} w_i = 1.00 .
 \hlrow \textbf{סה"כ} & \textbf{\num{1.00}} & \\
 \end{reporttable}
 
-\begin{reporttable}{מטריצת החלטה משוקללת: ציון גולמי (ובסוגריים הציון המשוקלל)}{tab:pugh}{R C C C}
+\begin{reporttable}{מטריצת החלטה משוקללת: ציון גולמי (ובסוגריים הציון המשוקלל)}{tab:pugh}{P{4.8cm} C C C}
 \headrow \hc{קריטריון (משקל)} & \hc{\num{1}: קצה} & \hc{\num{2}: ענן מונוליטי} & \hc{\num{3}: היברידי} \\ \midrule
 דיוק התאמה אישית (\num{0.25}) & \num{4 (1.00)} & \num{3 (0.75)} & \num{5 (1.25)} \\
 עלות ליחידה (\num{0.20}) & \num{5 (1.00)} & \num{2 (0.40)} & \num{4 (0.80)} \\
@@ -71,7 +71,7 @@ S_j = \sum_{i=1}^{n} w_i \cdot c_{ij}, \qquad \sum_{i=1}^{n} w_i = 1.00 .
 \hlrow \textbf{ציון סופי $S_j$} & \textbf{\num{3.40}} & \textbf{\num{2.85}} & \textbf{\num{4.30}} \\
 \end{reporttable}
 
-\begin{reporttable}[\footnotesize]{סולמות מעוגנים לניקוד: מה מזכה בציון \num{5}, \num{3} ו-\num{1}}{tab:anchors}{P{1.9cm} R R R}
+\begin{reporttable}[\footnotesize]{סולמות מעוגנים לניקוד: מה מזכה בציון \num{5}, \num{3} ו-\num{1}}{tab:anchors}{P{2.3cm} R R R}
 \headrow \hc{קריטריון} & \hc{\num{5}} & \hc{\num{3}} & \hc{\num{1}} \\ \midrule
 דיוק & כיול עין וגוף מטרי מלא & כיול או גוף, לא שניהם & ללא כיול וללא מידות \\
 עלות & ללא עלות ענן משתנה & יחס הכנסה לעלות \num{1--2.4} & יחס מתחת ל-\num{1} \\
@@ -216,7 +216,7 @@ S_j = \sum_{i=1}^{n} w_i \cdot c_{ij}, \qquad \sum_{i=1}^{n} w_i = 1.00 .
 \end{tikzpicture}
 \end{reportfigure}
 
-\begin{reporttable*}[\footnotesize]{חציון שגיאת העור לפי משפחת תאורה: הכשל המטמרי של התיקון האלכסוני}{tab:illum}{R Q{1.6cm} Q{1.6cm} Q{1.6cm} Q{1.6cm}}
+\begin{reporttable*}[\footnotesize]{חציון שגיאת העור לפי משפחת תאורה: הכשל המטמרי של התיקון האלכסוני}{tab:illum}{R Q{2.1cm} Q{2.1cm} Q{2.1cm} Q{2.1cm}}
 \headrow \hc{שיטה} & \hc{\en{D65}} & \hc{\en{A}} & \hc{\en{F11}} & \hc{\en{LED}} \\ \midrule
 לובן העין, אלכסוני & \num{1.30} & \num{1.84} & \num{2.79} & \num{3.33} \\
 לובן + קשתית, אלכסוני & \num{1.18} & \num{2.09} & \num{2.77} & \num{3.30} \\
@@ -241,7 +241,7 @@ S_j = \sum_{i=1}^{n} w_i \cdot c_{ij}, \qquad \sum_{i=1}^{n} w_i = 1.00 .
 \end{equation}
 כאשר $\hat{C}_k$ הוא האומדן של מקור $k$, $\sigma_k^2$ שונות השגיאה שלו, שנאמדת ממדגם הכיול, ו-$\tau_k$ הדיוק שלו. טבלה~\ref{tab:fusion} משווה את שלוש הגישות על היקף המותן, במדגם בדיקה מדומה של \num{634} אנשים.
 
-\begin{reporttable*}{אומדן היקף המותן במדגם הבדיקה: \en{MAE}, \en{RMSE}, $R^2$ ושונות השארית (\en{cm})}{tab:fusion}{R Q{1.5cm} Q{1.5cm} Q{1.5cm} Q{1.9cm}}
+\begin{reporttable*}{אומדן היקף המותן במדגם הבדיקה: \en{MAE}, \en{RMSE}, $R^2$ ושונות השארית (\en{cm})}{tab:fusion}{R Q{1.9cm} Q{1.9cm} Q{1.9cm} Q{2.1cm}}
 \headrow \hc{מודל} & \hc{\en{MAE}} & \hc{\en{RMSE}} & \hc{$R^2$} & \hc{$\sigma^2_{\text{res}}$} \\ \midrule
 רגרסיה על משתנים מדווחים & \num{3.08} & \num{3.84} & \num{0.82} & \num{14.67} \\
 נקודות ציון בלבד (שלוש תמונות) & \num{1.47} & \num{1.80} & \num{0.96} & \num{3.21} \\

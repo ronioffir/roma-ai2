@@ -6,8 +6,8 @@
 %% Document types (class options): report (default) | proposal | spec
 %% ============================================================================
 \NeedsTeXFormat{LaTeX2e}
-\def\auratwin@version{3.0}
-\ProvidesClass{auratwin-report}[2026/11/16 v3.0 AURAM company layer]
+\def\auratwin@version{3.5}
+\ProvidesClass{auratwin-report}[2026/11/24 v3.5 AURAM company layer]
 
 \def\auratwin@doctype{report}
 \DeclareOption{report}{\def\auratwin@doctype{report}}
@@ -125,6 +125,15 @@
 \newcommand{\auratwin@typenameen}{%
   \ifdefstring{\auratwin@doctype}{proposal}{Project Proposal}{%
   \ifdefstring{\auratwin@doctype}{spec}{Specification}{Preliminary Design Report}}}
+
+%% v3.5 pocket-mirror watermark: the mark, small and at 45% opacity, sits under
+%% every page number as an editorial signature. The transparency group fades the
+%% mark as ONE object, so its overlapping shapes do not show through each other.
+\newcommand{\auratwinwatermark}[1][0.17]{%
+  \textenglish{\begin{tikzpicture}[scale=#1,baseline=0pt]
+    \begin{scope}[transparency group,opacity=0.45]\auratwin@mark\end{scope}
+  \end{tikzpicture}}}
+\setpagemark{\auratwinwatermark}
 
 %% Header / footer texts (directions are fixed inside every slot).
 \AtBeginDocument{%

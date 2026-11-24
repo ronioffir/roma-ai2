@@ -36,7 +36,7 @@ if a pattern repeats three times, ask the template architect to add it (Prompt C
 ## Tables
 | Command | Purpose |
 |---|---|
-| `\begin{reporttable}{caption}{label}{colspec}` | Floating styled table, caption above, width 12.4 cm, first column on the right. |
+| `\begin{reporttable}{caption}{label}{colspec}` | Floating styled table, caption above, full text width (`\tableobjwidth`), first column on the right. |
 | `\begin{reporttable*}{caption}{label}{colspec}` | Same, non-floating (exact position). |
 | `\headrow \hc{A} & \hc{B} \\ \midrule` | Coloured header row. |
 | `\hlrow` | Highlight a row (e.g. the proposed solution). |
@@ -48,7 +48,9 @@ if a pattern repeats three times, ask the template architect to add it (Prompt C
 |---|---|
 | `\begin{reportfigure}{caption}{label}` | Floating figure; content is LTR (TikZ/pgfplots safe); caption below. |
 | `\begin{reportfigure*}{caption}{label}` | Same, non-floating. |
-| `\maxobjwidth` | 12.4 cm — maximum width of any figure/table. |
+| `\maxobjwidth` | 12.4 cm — maximum width of any figure. |
+| `\tableobjwidth` | `\linewidth` — width of every `reporttable` (v3.5). |
+| `\setpagemark{mark}` | Small signature mark centred under every page number (v3.5); the AURAM layer sets `\auratwinwatermark`. |
 
 ## Boxes (never split across pages)
 | Environment | Meaning | Colour |

@@ -4,6 +4,22 @@ Template = `report/base-report.cls` (base layer) + `report/auratwin-report.cls` 
 Version source of truth: `VERSION`. Rule (booklet §15.6): a problem that repeats across the
 document is fixed **once** in the template, with a version bump and an entry here.
 
+## [3.5] — 2026-11-24 — Cover fixes, table overhaul, pocket-mirror watermark (prompt 13, pass 1)
+### Changed
+- **Cover:** the ID-number line was removed from the author box (names, department, advisor and the hypothetical
+  partner remain); submission date is now 24.11.2026.
+- **Tables (template-level, `base-report.cls`):** every `reporttable` now spans the full text block
+  (`\tableobjwidth` = 15.5 cm) instead of 12.4 cm; side padding 4.5 pt → 6 pt; `\arraystretch` 1.35 → 1.5;
+  `\hyphenpenalty` and `\exhyphenpenalty` are 10000 inside tables, so a cell never breaks inside a word or after
+  a hyphen (e.g. "מיקרו-" / "אינטראקציה"). Figures keep the 12.4 cm limit.
+  **Note:** this deliberately departs from the 12.4 cm object width the template took from booklet §19.3.
+- **Tables (per table):** the column ratios of all 26 tables were recalibrated to their content; Table 7.2 moved
+  from `\scriptsize` to `\footnotesize`.
+- **Watermark:** `\setpagemark` (base) + `\auratwinwatermark` (layer) set the pocket-mirror mark, scale 0.17 and
+  45% opacity, under every page number (preliminary and body pages; the cover has no page number).
+### Verified
+- 44 pages (4 + 40), 0 errors, 0 undefined references, 0 overfull/underfull boxes inside tables.
+
 ## [3.4] — 2026-11-23 — Pass 4: final audit fixes (prompt 12)
 Fresh-context examiner (Sonnet, PDF text only): **66/100**, 15 items. Each was verified against the source before
 any fix; the resolution is in `report/work/red_team_review.md` (iteration 5).

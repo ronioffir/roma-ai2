@@ -104,7 +104,7 @@ q(\mathbf{x}_t \mid \mathbf{x}_0) = \mathcal{N}\!\big(\sqrt{\bar\alpha_t}\,\math
 
 טבלה~\ref{tab:litsum} מרכזת, לכל אחד מהמקורות המרכזיים, את השיטה, את התרומה העיקרית ואת המגבלה ביחס לבעיה של \en{AURAM}. עמודת המגבלה היא החשובה: היא מתעדת את ההנחות המפשטות שהפרויקט נדרש להסיר.
 
-\begin{reporttable}[\footnotesize]{שיטה, תרומה עיקרית ומגבלה ביחס לבעיה, לפי מקור}{tab:litsum}{P{2.5cm} R R R}
+\begin{reporttable}[\footnotesize]{שיטה, תרומה עיקרית ומגבלה ביחס לבעיה, לפי מקור}{tab:litsum}{P{2.9cm} R R R}
 \headrow \hc{מקור} & \hc{שיטה} & \hc{תרומה עיקרית} & \hc{מגבלה ביחס לבעיה} \\ \midrule
 \en{FFCC} \cite{barron2017ffcc} & היסטוגרמה לוג-כרומטית ופורייה & אמידת מאיר מהירה ומדויקת & מניחה סצנה מגוונת, לא סלפי \\
 תיקון איזון לבן \cite{afifi2019wb} & תיקון לא-לינארי מבוסס דוגמאות & מתקן תמונות שאוזנו בשגיאה & אינו מנצל עוגן בגוף \\
@@ -128,7 +128,7 @@ q(\mathbf{x}_t \mid \mathbf{x}_0) = \mathcal{N}\!\big(\sqrt{\bar\alpha_t}\,\math
 
 טבלה~\ref{tab:litmatrix} מרכזת את הסקירה. השורות הן המקורות והעמודות הן שש יכולות שהפרויקט דורש. עיגול מלא מסמן יכולת שנבחנה במלואה, עיגול ריק יכולת חלקית, וקו יכולת שלא נבחנה.
 
-\begin{reporttable}[\footnotesize]{מטריצת הספרות: מקורות מול שש יכולות. המשבצות הריקות הן הפער}{tab:litmatrix}{R Q{1.08cm} Q{1.08cm} Q{1.08cm} Q{1.08cm} Q{1.08cm} Q{1.08cm}}
+\begin{reporttable}[\footnotesize]{מטריצת הספרות: מקורות מול שש יכולות. המשבצות הריקות הן הפער}{tab:litmatrix}{R Q{1.45cm} Q{1.45cm} Q{1.45cm} Q{1.45cm} Q{1.45cm} Q{1.45cm}}
 \headrow \hc{מקור} & \hc{כיול צבע} & \hc{עוגן ביומטרי} & \hc{גוף מטרי} & \hc{הדמיה} & \hc{אחזור וטרנד} & \hc{עלות ונייד} \\ \midrule
 \en{FFCC} \cite{barron2017ffcc} & \cellok & \cellno & \cellno & \cellno & \cellno & \cellpartial \\
 \en{FC4} \cite{hu2017fc4} & \cellok & \cellno & \cellno & \cellno & \cellno & \cellno \\
@@ -198,7 +198,7 @@ q(\mathbf{x}_t \mid \mathbf{x}_0) = \mathcal{N}\!\big(\sqrt{\bar\alpha_t}\,\math
 
 טבלה~\ref{tab:flagcand} מראה כיצד הוכרעה הבחירה בין המועמדים. \en{TryOnDiffusion} עומדת בשני הקריטריונים הראשונים, אך המודל והנתונים שלה אינם זמינים לציבור, ולכן אי אפשר לשחזר את תוצאותיה. \en{IDM-VTON} עומדת בשלושתם: פורסמה בכנס \en{ECCV 2024}, עוסקת ישירות בהדמיה בתמונות "מהשטח", ופרסמה קוד ומשקלים.
 
-\begin{reporttable}{המועמדים למאמר הדגל מול שלושת הקריטריונים}{tab:flagcand}{R Q{2.3cm} Q{2.75cm} Q{2.75cm}}
+\begin{reporttable}{המועמדים למאמר הדגל מול שלושת הקריטריונים}{tab:flagcand}{R Q{2.8cm} Q{3.9cm} Q{3.2cm}}
 \headrow \hc{מועמד} & \hc{במה שפיטה} & \hc{קרבה לבעיה} & \hc{חזרתיות} \\ \midrule
 \en{TryOnDiffusion} \cite{zhu2023tryondiffusion} & \en{CVPR 2023} \cellok & גבוהה \cellok & קוד ונתונים סגורים \cellno \\
 \en{StableVITON} \cite{kim2024stableviton} & \en{CVPR 2024} \cellok & גבוהה \cellok & קוד פתוח \cellok \\
@@ -259,7 +259,7 @@ q(\mathbf{x}_t \mid \mathbf{x}_0) = \mathcal{N}\!\big(\sqrt{\bar\alpha_t}\,\math
 \subsection{מה הפרויקט לוקח, משנה ומוסיף}
 הניתוח אינו מוביל לדחיית מאמר הדגל אלא לשימוש מבוקר בו. טבלה~\ref{tab:takeadd} מפרטת מה נלקח כמו שהוא, מה משתנה ומה מתווסף.
 
-\begin{reporttable}{היחס למאמר הדגל: מה נלקח, מה משתנה ומה מתווסף}{tab:takeadd}{P{1.7cm} R R}
+\begin{reporttable}{היחס למאמר הדגל: מה נלקח, מה משתנה ומה מתווסף}{tab:takeadd}{P{1.8cm} R R}
 \headrow \hc{פעולה} & \hc{רכיב} & \hc{נימוק} \\ \midrule
 לוקחים & רשת הבגד המקבילה ומנגנון תשומת הלב & הנאמנות לפרטי הבגד היא החוזקה המוכחת \\
 לוקחים & הקוד והמשקלים שפורסמו & מאפשרים שחזור בשבוע \num{3} \\

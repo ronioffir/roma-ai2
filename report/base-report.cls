@@ -10,9 +10,9 @@
 %% Version history: see ../CHANGELOG.md   Command list: COMMANDS.md
 %% ============================================================================
 \NeedsTeXFormat{LaTeX2e}
-\def\basereport@version{3.0}
-\def\basereport@date{2026/11/16}
-\ProvidesClass{base-report}[2026/11/16 v3.0 Hebrew/English LuaLaTeX report base class]
+\def\basereport@version{3.5}
+\def\basereport@date{2026/11/24}
+\ProvidesClass{base-report}[2026/11/24 v3.5 Hebrew/English LuaLaTeX report base class]
 
 \RequirePackage{fix-cm}   % v2.0: scalable CM math fonts at 11.5 pt (0 font warnings)
 \RequirePackage{iftex}
@@ -232,7 +232,8 @@
 \clubpenalty=10000 \widowpenalty=10000 \displaywidowpenalty=10000
 
 %% ======================================= STAGE 4: tables, boxes, figures --
-%% Maximum width of every table and figure: 12.4 cm (booklet 19.3).
+%% Maximum width of every figure: 12.4 cm (booklet 19.3). Since v3.5 tables use
+%% \tableobjwidth (the full text block) instead; see the table overhaul note below.
 \newlength{\maxobjwidth}\setlength{\maxobjwidth}{12.4cm}
 \newcolumntype{R}{>{\raggedleft\arraybackslash}X}   % RTL text column (first column on the right)
 \newcolumntype{L}{>{\raggedright\arraybackslash}X}
@@ -240,7 +241,14 @@
 \newcolumntype{P}[1]{>{\raggedleft\arraybackslash}p{#1}}
 \newcolumntype{Q}[1]{>{\centering\arraybackslash}p{#1}}
 \setlength{\arrayrulewidth}{0.4pt}
-\renewcommand{\arraystretch}{1.35}   % v2.0 editorial tables: generous row padding
+\renewcommand{\arraystretch}{1.5}    % v3.5 editorial tables: more air between rows (was 1.35)
+%% v3.5 table overhaul: tables span the full text block (figures keep \maxobjwidth),
+%% cells get 6 pt side padding, and a cell never breaks inside a word or after a
+%% hyphen/maqaf ("micro-" / "interaction"): a compound moves whole to the next line.
+\newcommand{\tableobjwidth}{\linewidth}
+\newcommand{\basereport@tablesetup}{%
+  \rowcolors{2}{brandzebra}{white}\setlength{\tabcolsep}{6pt}%
+  \hyphenpenalty=10000 \exhyphenpenalty=10000 \relax}
 \setlength{\heavyrulewidth}{1.1pt}\setlength{\lightrulewidth}{0.5pt}
 \setlength{\aboverulesep}{0pt}\setlength{\belowrulesep}{0pt}   % zebra/header fills touch the rules
 \providecolor{brandzebra}{gray}{0.96}
@@ -257,16 +265,16 @@
 \newenvironment{reporttable}[4][\small]{%
   \table[!htbp]\centering#1\setstretch{1.0}%
   \caption{#2}\label{#3}%
-  \rowcolors{2}{brandzebra}{white}\setlength{\tabcolsep}{4.5pt}% v2.0: zebra = Egg Nog!25
-  \tabularx{\maxobjwidth}{#4}\basereport@toprule
+  \basereport@tablesetup
+  \tabularx{\tableobjwidth}{#4}\basereport@toprule
 }{%
   \basereport@bottomrule\endtabularx\endtable}
 %% Variant without float (for use inside boxes or when exact placement is needed)
 \newenvironment{reporttable*}[4][\small]{%
   \par\needspace{8\baselineskip}\center#1\setstretch{1.0}%
   \captionsetup{hypcap=false}\captionof{table}{#2}\label{#3}%
-  \rowcolors{2}{brandzebra}{white}\setlength{\tabcolsep}{4.5pt}% v2.0: zebra = Egg Nog!25
-  \tabularx{\maxobjwidth}{#4}\basereport@toprule
+  \basereport@tablesetup
+  \tabularx{\tableobjwidth}{#4}\basereport@toprule
 }{%
   \basereport@bottomrule\endtabularx\endcenter}
 %% Header row:  \headrow \hc{A} & \hc{B} & \hc{C} \\ \midrule
@@ -335,17 +343,25 @@
 \newcommand{\setheadright}[1]{\renewcommand{\basereport@headright}{#1}}
 %% In RTL, fancyhdr's "R" slot is the reading start. Every slot sets its own
 %% direction explicitly (booklet Table 14.3: header reversed on some pages).
+%% v3.5: \setpagemark{<mark>} puts a small signature mark centred under every page
+%% number (a company layer supplies it; empty by default). The \parbox[t] keeps the
+%% page number on the footer baseline, so the mark hangs below it in the margin.
+\newcommand{\basereport@pagemark}{}
+\newcommand{\setpagemark}[1]{\renewcommand{\basereport@pagemark}{#1}}
+\newcommand{\basereport@footcentre}{%
+  \parbox[t]{6cm}{\centering\small\color{brandmuted}\basereport@pagelabel
+    \ifdefempty{\basereport@pagemark}{}{\\[1.5pt]\basereport@pagemark}}}
 \fancypagestyle{basereport}{%
   \fancyhf{}%
   \fancyhead[R]{\small\color{brandmuted}\texthebrew{\leftmark}}%
   \fancyhead[L]{\small\color{brandmuted}\basereport@headleft}%
-  \fancyfoot[C]{\small\color{brandmuted}\basereport@pagelabel}%
+  \fancyfoot[C]{\basereport@footcentre}%
   \fancyfoot[R]{\scriptsize\color{brandmuted}\basereport@headright}%
   \renewcommand{\headrulewidth}{0.4pt}%
   \renewcommand{\headrule}{{\color{brandaccent}\hrule height\headrulewidth}}%
   \renewcommand{\footrulewidth}{0pt}}
 \fancypagestyle{plain}{%
-  \fancyhf{}\fancyfoot[C]{\small\color{brandmuted}\basereport@pagelabel}%
+  \fancyhf{}\fancyfoot[C]{\basereport@footcentre}%
   \fancyfoot[R]{\scriptsize\color{brandmuted}\basereport@headright}%
   \renewcommand{\headrulewidth}{0pt}}
 %% "page N of M" reads right-to-left in Hebrew; numbers are LTR units.

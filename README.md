@@ -240,7 +240,7 @@ Times New Roman and Consolas; Python 3 with numpy, scipy, matplotlib and Pillow;
 
 ## Privacy
 
-ID numbers are masked (`000000000`) in this public copy, following the booklet (p. 6, 75).
+The cover page carries no ID numbers (removed in v3.5, prompt 13); submission date 24.11.2026.
 
 ---
 © 2026 רוני אופיר ומעיין שירי · Course methodology and booklets © Dr. Yoram Segal.
