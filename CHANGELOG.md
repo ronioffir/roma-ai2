@@ -4,6 +4,29 @@ Template = `report/base-report.cls` (base layer) + `report/auratwin-report.cls` 
 Version source of truth: `VERSION`. Rule (booklet §15.6): a problem that repeats across the
 document is fixed **once** in the template, with a version bump and an entry here.
 
+## [3.6] — 2026-11-24 — Go-to-market traction and a two-wave creator launch (prompt 14)
+Prompt 14 repeats prompt 13 and adds one section; only that section was new work.
+### Added (Ch.4, Sec. 4.5)
+- **Organic demand signal:** short videos about the extension on TikTok and Instagram Reels reached hundreds of
+  thousands of views, thousands of likes and hundreds of comments asking for the app's name or access. The
+  report states these as orders of magnitude **as observed by the team on its own accounts**; no analytics
+  export or screenshot is in the repository yet, and the text says it is not a controlled measurement
+  (a view is not a user, a comment is intent and not an install). The missing funnel step, comment to
+  install, is tied to CAC, which ranks second in the value-of-information analysis; a tracked early-access
+  link is planned before launch.
+- **Two-wave launch:** wave 1, nano/micro creators paid with a Pro subscription ($7.99 per month) for content,
+  framed also as many independent measurements of conversion; wave 2, three paid high-reach creators from the
+  advertising budget, gated on wave 1. Decision rule from the unit economics (`tier_economics()`): to keep
+  LTV/CAC above 3.8, CAC must stay at or below $3.17, so each $1,000 paid must bring at least 316 active
+  users; a Pro subscription pays for itself at the third active user a creator brings.
+- Entry strategy step 2 and the evidence table in Ch.8 now mention the launch and the demand signal.
+### Changed, to stay at 40 body pages
+- Ch.4: shorter closing sentences in Sec. 4.4 and 4.6, charts a few millimetres shorter, Table 4.5 columns
+  rebalanced, and a one-off local `\needspace` override before Fig. 4.5 (the cheap break left 38% of a page blank).
+### Verified
+- 44 pages (4 + 40), chapter starts 1/4/8/16/22/31/35/37, references 38. 0 errors, 0 undefined references,
+  0 overfull boxes, 0 bad boxes inside tables. Both `--check` scripts pass.
+
 ## [3.5] — 2026-11-24 — Cover fixes, table overhaul, pocket-mirror watermark (prompt 13, pass 1)
 ### Changed
 - **Cover:** the ID-number line was removed from the author box (names, department, advisor and the hypothetical
